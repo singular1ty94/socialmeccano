@@ -3,17 +3,7 @@ Social Mecanno - powered by Question2Answer
 
 [Question2Answer][Q2A] (Q2A) is a popular free open source Q&A platform for PHP/MySQL, used by over 14,000 sites in 40 languages.
 
-As of version 1.6.3, all development is taking place through GitHub. The collaborative development process is being managed by [Scott Vivian][1]. (Note that official releases are still distributed via the Q2A website.)
-
-Please read the [contributing page][2] for more information on how to get involved.
-
-
-
-
-Thanks and enjoy!
-
-Gideon
-
+As of version 1.6.3, all development is taking place through GitHub. This current version is maintained by Brett Orr and Samuel Hammill, for the QUT project, Social Mecanno.
 
 [Q2A]: http://www.question2answer.org/
 [1]: http://www.question2answer.org/qa/user/Scott
