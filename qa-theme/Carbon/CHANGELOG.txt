@@ -1,0 +1,15 @@
+Changelog from Snow
+
+Converted to SASS
+Added color variables
+Moved search bar to Header
+Removed additional search bar colors
+Moved account detail to left side of search bar
+Swapped order of name/profile image, changed them to sit inline
+Enlargened font size in username, colored white
+Added user rep on the header profile bar
+Moved main-nav out of the header.
+Removed Visited coloring.
+Fixed bug with userpoints when user wasn't logged in
+Removed Hover coloring on A's.
+Repositioned & resized user profile to match mockups

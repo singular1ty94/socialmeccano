@@ -1,0 +1,16 @@
+{
+    "linting.collapsed": false,
+    "themes.theme": "dark-theme",
+    "sass.enabled": false,
+    "path": {
+        "qa-theme/Carbon/qa-styles.scss": {
+            "sass.enabled": true,
+            "sass.options": {
+                "outputDir": "",
+                "includePaths": [],
+                "sourceComments": true,
+                "outputStyle": "compressed"
+            }
+        }
+    }
+}
