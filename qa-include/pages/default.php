@@ -136,7 +136,7 @@
 		$nonetitle=qa_lang_html_sub('main/no_questions_in_x', $categorytitlehtml);
 
 	} else {
-		$sometitle=qa_lang_html('main/recent_qs_as_title');
+		$sometitle='NO_TITLE'; //qa_lang_html('main/recent_qs_as_title');
 		$nonetitle=qa_lang_html('main/no_questions_found');
 	}
 

@@ -92,14 +92,14 @@ class qa_html_theme extends qa_html_theme_base
 	public function logged_in()
 	{
 		parent::logged_in();
-		if (qa_is_logged_in()) {
+		/*if (qa_is_logged_in()) {
 			$userpoints = qa_get_logged_in_points();
 			$pointshtml = $userpoints == 1
 				? qa_lang_html_sub('main/1_point', '1', '1')
 				: qa_html(number_format($userpoints))
 			;
-			$this->output('<div class="qam-logged-in-points">' . $pointshtml . '</div>');
-		}
+			//$this->output('<div class="qam-logged-in-points">' . $pointshtml . '</div>');
+		}*/
 	}
 
 	/**
@@ -190,6 +190,13 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('<div class="qam-main-nav-wrapper clearfix">');
 		$this->output('<div class="sb-toggle-left qam-menu-toggle"><i class="icon-th-list"></i></div>');
 		$this->logo();
+        
+        if(qa_is_logged_in()){
+            $this->updates();
+            $this->friends();
+            $this->groups();
+        }
+        
         $this->qam_search();      
         $this->nav_user_search();
 		$this->output('</div> <!-- END qam-main-nav-wrapper -->');
@@ -299,7 +306,7 @@ class qa_html_theme extends qa_html_theme_base
 			$this->widgets('side', 'low');
 			if (isset($this->content['sidepanel']))
 				$this->output_raw($this->content['sidepanel']);
-			$this->feed();
+			//$this->feed();
 			$this->widgets('side', 'bottom');
 			$this->output('</div>', '');
 		}
@@ -369,14 +376,14 @@ class qa_html_theme extends qa_html_theme_base
 			? ''
 			: '<img src="' . $this->rooturl . $this->icon_url . '/closed-q-view.png" class="qam-q-view-close-icon" alt="' . $closedText . '" width="24" height="24" title="' . $closedText . '">';
 
-		if (isset($this->content['title'])) {
+		/*if (isset($this->content['title'])) {
 			$this->output(
 				$imgHtml,
 				$url ? '<a href="' . $url . '">' : '',
 				$this->content['title'],
 				$url ? '</a>' : ''
 			);
-		}
+		}*/
 	}
 
 	/**
@@ -584,7 +591,7 @@ class qa_html_theme extends qa_html_theme_base
 			// display login icon and label
 			$handle = $this->content['navigation']['user']['login']['label'];
 			$toggleClass = 'qam-logged-out';
-			$auth_icon = '<i class="icon-key qam-auth-key"></i>';
+			$auth_icon = ''; //no icon thanks
             $userpoints = '';
 		}
 

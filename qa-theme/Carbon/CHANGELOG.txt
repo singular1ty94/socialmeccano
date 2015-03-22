@@ -13,3 +13,20 @@ Removed Visited coloring.
 Fixed bug with userpoints when user wasn't logged in
 Removed Hover coloring on A's.
 Repositioned & resized user profile to match mockups
+
+Removed page title in qa-theme-base (line 692)
+Removed fontello symbols for some of the main nav links
+Removed the recent feed from the side of the page (for now)
+Repositioned avatar block for questions (list view)
+Fixed styling bug with some links being white-on-white
+Fixed styling bug with avatar link hover color
+Modified avatar points display to use bulletpoint
+Removed key icon from Login button
+Fixed login-button (when logged out) to match search bar height
+Fixed styling bug for avatar links previously visited
+Removed userpoints from drop-down menu
+Removed Updates from drop-down
+Moved Updates link to main nav, erased words
+Added background-hover to the new Updates link
+!Updated fontello font!
+Added friends button to main nav

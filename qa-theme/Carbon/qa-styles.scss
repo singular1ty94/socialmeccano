@@ -29,7 +29,7 @@ $theme-hover: #f90;
 
 @font-face {
   font-family: "fontello";
-  src: url("font/fontello.eot?2559038") format("embedded-opentype"), url("font/fontello.eot?2559038#iefix") format("embedded-opentype"), url("font/fontello.woff?2559038") format("woff"), url("font/fontello.ttf?2559038") format("truetype"), url("font/fontello.svg?2559038#fontello") format("svg");
+  src: url("font/fontello.eot?20465503") format("embedded-opentype"), url("font/fontello.eot?20465503#iefix") format("embedded-opentype"), url("font/fontello.woff?20465503") format("woff"), url("font/fontello.ttf?20465503") format("truetype"), url("font/fontello.svg?20465503#fontello") format("svg");
 }
 
 
@@ -465,16 +465,17 @@ blockquote {
 
 .qa-nav-main-link{
     &:link{
+        padding:10px;
         color:white;
     }
 }
 
 .qa-nav-main-activity .qa-nav-main-link:before {
-  content: '\e804';
+  content: '';
 }
 
 .qa-nav-main-questions .qa-nav-main-link:before {
-  content: '\e80b';
+  content: '';
 }
 
 .qa-nav-main-hot .qa-nav-main-link {
@@ -488,25 +489,25 @@ blockquote {
 }
 
 .qa-nav-main-unanswered .qa-nav-main-link:before {
-  content: '\e80c';
+  content: '';
 }
 
 .qa-nav-main-tag .qa-nav-main-link:before {
-  content: '\e806';
+  content: '';
 }
 
 .qa-nav-main-categories .qa-nav-main-link:before {
-  content: '\e808';
+  content: '';
 }
 
 .qa-nav-main-user .qa-nav-main-link:before {
-  content: '\e809';
+  content: '';
 }
 
 .qa-nav-main-ask .qa-nav-main-link {
   color: white;
   &:before {
-    content: '\e801';
+    content: '';
   }
   &.qa-nav-main-selected {
     color: #54d98c;
@@ -514,7 +515,7 @@ blockquote {
 }
 
 .qa-nav-main-admin .qa-nav-main-link:before {
-  content: '\e80a';
+  content: '';
 }
 
 .qa-nav-main- .qa-nav-main-link:before {
@@ -625,7 +626,7 @@ blockquote {
   }
   &.qa-nav-sub-selected, &:visited.qa-nav-sub-selected, &:hover.qa-nav-sub-selected {
     background-color: white;
-    color: #fff;
+    color: #000;
   }
 }
 
@@ -634,6 +635,10 @@ blockquote {
   position: relative;
   float:right;
   margin-right:10px;
+}
+
+.qam-logged-out{
+    min-height: 52px !important;
 }
 
 #qam-account-toggle {
@@ -730,7 +735,7 @@ blockquote {
   padding: 10px 20px;
   border-bottom: 1px solid #2c3e50;
   &:before {
-    content: '\e80e';
+    content: '\e82b';
     font-family: "fontello";
     display: inline-block;
     width: 1em;
@@ -774,26 +779,86 @@ blockquote {
   }
 }
 
+
 .qa-nav-user-link {
   padding: 10px 0;
   display: inline-block;
 }
 
-.qa-nav-user-updates:before {
-  content: '\e812';
+.qa-updates-link{
+    display: inline-block;
+    background-color: #34495E;
+    padding: 12px;
+    margin: 0 0 0 0;  
+    
+    &:hover{
+        background-color: $theme-hover;
+    }
+}
+
+.qa-updates-link:before {
+  content: '\e800';
   font-family: "fontello";
   display: inline-block;
+  font-size: 16pt;
   width: 1em;
-  background-color: #2c3e50;
   padding: 5px;
-  margin: 0 10px 0 0;
+  margin: 0;
+  text-align: center;
+  line-height: normal;
+  border-radius: 1em;
+}
+
+.qa-friends-link{
+    display: inline-block;
+    background-color: #34495E;
+    padding: 12px;
+    margin: 0 0 0 0;  
+    
+    &:hover{
+        background-color: $theme-hover;
+    }
+}
+
+.qa-friends-link:before {
+  content: '\e81e';
+  font-family: "fontello";
+  display: inline-block;
+  font-size: 16pt;
+  width: 1em;
+  padding: 5px;
+  margin: 0;
+  text-align: center;
+  line-height: normal;
+  border-radius: 1em;
+}
+
+.qa-groups-link{
+    display: inline-block;
+    background-color: #34495E;
+    padding: 12px;
+    margin: 0 0 0 0;  
+    
+    &:hover{
+        background-color: $theme-hover;
+    }
+}
+
+.qa-groups-link:before {
+  content: '\e830';
+  font-family: "fontello";
+  display: inline-block;
+  font-size: 16pt;
+  width: 1em;
+  padding: 5px;
+  margin: 0;
   text-align: center;
   line-height: normal;
   border-radius: 1em;
 }
 
 .qa-nav-user-logout:before {
-  content: '\e813';
+  content: '\e80b';
   font-family: "fontello";
   display: inline-block;
   width: 1em;
@@ -1330,6 +1395,7 @@ h1 {
 .qa-q-item-avatar-meta {
   display: block;
   margin-top: 5px;
+  float: right;
 }
 
 .qa-q-item-avatar {
@@ -1368,6 +1434,18 @@ h1 {
       content: url('images/favorite-light-icon-15x15.png');
     }
   }
+}
+
+.qa-q-item-avatar-meta .qa-user-link{
+    &:link{
+        color: #3498DB;
+    }
+    &:visited{
+        color: #3498DB;
+    }
+    &:hover{
+        color: #206593;
+    }
 }
 
 .qa-q-item-when-data {
@@ -3087,7 +3165,7 @@ input[type="submit"], button {
   &:before {
     font-family: "fontello";
     font-size: 20px;
-    content: '\e81d';
+    content: '';
     display: inline-block;
     float: left;
     margin-right: 8px;

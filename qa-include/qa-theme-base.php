@@ -483,6 +483,33 @@ class qa_html_theme_base
 			'</div>'
 		);
 	}
+    
+    public function updates()
+    {
+        $this->output(
+           '<a href="' . qa_path_html('updates') . '" class="qa-updates-link">' .
+           '' .
+           '</a>'
+        );
+    }
+    
+    public function friends()
+    {
+        $this->output(
+           '<a href="' . qa_path_html('updates') . '" class="qa-friends-link">' .
+           '' .
+           '</a>'
+        );
+    }
+    
+    public function groups()
+    {
+        $this->output(
+           '<a href="' . qa_path_html('updates') . '" class="qa-groups-link">' .
+           '' .
+           '</a>'
+        );
+    }
 
 	public function search()
 	{
@@ -630,7 +657,7 @@ class qa_html_theme_base
 		$this->nav('cat', 1);
 		$this->widgets('side', 'low');
 		$this->output_raw(@$this->content['sidepanel']);
-		$this->feed();
+		//$this->feed();
 		$this->widgets('side', 'bottom');
 		$this->output('</div>', '');
 	}
@@ -689,10 +716,10 @@ class qa_html_theme_base
 			if (isset($favorite))
 				$this->output('<form ' . $favorite['form_tags'] . '>');
 
-			$this->output('<h1>');
+			//$this->output('<h1>');
 			$this->favorite();
-			$this->title();
-			$this->output('</h1>');
+			//$this->title();
+			//$this->output('</h1>');
 
 			if (isset($favorite)) {
 				$formhidden = isset($favorite['form_hidden']) ? $favorite['form_hidden'] : null;
@@ -1883,8 +1910,8 @@ class qa_html_theme_base
 			// You can also use $post['level'] to get the author's privilege level (as a string)
 
 			if (isset($post['who']['points'])) {
-				$post['who']['points']['prefix'] = '('.$post['who']['points']['prefix'];
-				$post['who']['points']['suffix'] .= ')';
+				$post['who']['points']['prefix'] = ' &bull; '.$post['who']['points']['prefix'];
+				$post['who']['points']['suffix'] .= '';
 				$this->output_split($post['who']['points'], $class.'-who-points');
 			}
 

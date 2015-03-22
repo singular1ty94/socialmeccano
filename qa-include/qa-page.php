@@ -695,10 +695,6 @@
 				: qa_get_one_user_html(qa_get_logged_in_handle(), false)
 			);
 
-			$qa_content['navigation']['user']['updates']=array(
-				'url' => qa_path_html('updates'),
-				'label' => qa_lang_html('main/nav_updates'),
-			);
 
 			if (!empty($userlinks['logout']))
 				$qa_content['navigation']['user']['logout']=array(
