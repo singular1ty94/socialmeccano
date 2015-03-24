@@ -29,7 +29,7 @@ $theme-hover: #f90;
 
 @font-face {
   font-family: "fontello";
-  src: url("font/fontello.eot?20465503") format("embedded-opentype"), url("font/fontello.eot?20465503#iefix") format("embedded-opentype"), url("font/fontello.woff?20465503") format("woff"), url("font/fontello.ttf?20465503") format("truetype"), url("font/fontello.svg?20465503#fontello") format("svg");
+  src: url("font/fontello.eot?13646265") format("embedded-opentype"), url("font/fontello.eot?13646265#iefix") format("embedded-opentype"), url("font/fontello.woff?13646265") format("woff"), url("font/fontello.ttf?13646265") format("truetype"), url("font/fontello.svg?13646265#fontello") format("svg");
 }
 
 
@@ -78,11 +78,11 @@ a {
     outline: 0;
   }
   &:visited {
-    color: white;
+    color: #2980b9;
     text-decoration: none;
   }
   &:hover {
-    color: white;
+    color: #2688c9;
     text-decoration: underline;
   }
 }
@@ -155,7 +155,7 @@ table {
 }
 
 th, td {
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 pre {
@@ -447,6 +447,17 @@ blockquote {
   .qa-nav-main-item {
     float: left;
     margin: 0 1px;
+      
+    a{
+        &:link{
+            color:white;
+        }
+        
+        &:visited{
+            color:white;
+        }
+    }
+      
   }
   .qa-nav-main-item-opp {
     float: right;
@@ -2179,10 +2190,94 @@ input[type="submit"], button {
   }
 }
 
-.qa-part-form-profile {
-  .qa-form-tall-image {
-    text-align: center;
-  }
+.qa-avatar-image{
+    border-radius:10px;
+}
+.qa-part-profile-form {
+    width:30%;
+    background-color: white;
+    padding: 20px;
+
+    td{
+        padding:5px;
+        border: none;
+    }
+    
+    span{
+        font-size:14px;
+    }
+    
+    #username{        
+        span{
+            font-size:12pt !important;
+            vertical-align: top;
+            color: silver;
+        }
+        
+        td{
+            padding-top: 0px;
+        }
+    }
+    
+    
+    #points{        
+        span{
+            font-size:14pt !important;
+            vertical-align: top;
+        }
+        
+        td{
+            padding-top: 0px;
+        }
+    }
+    
+    
+    #userfield-1 {
+        
+        span{
+            font-size:20pt !important;
+        }
+        
+        td{
+            padding-bottom: 0px;
+        }
+    }
+    
+    #userfield-2 span:before{
+        font-family: "fontello";
+        font-style: normal;
+        font-weight: normal;
+        speak: none;
+        display: inline-block;
+        text-decoration: inherit;
+        width: 1em;
+        margin-right: .2em;
+        text-align: center;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1em;
+        margin-left: .2em;
+        content: '\e831';
+    }
+    
+    #userfield-3 span:before{
+        font-family: "fontello";
+        font-style: normal;
+        font-weight: normal;
+        speak: none;
+        display: inline-block;
+        text-decoration: inherit;
+        width: 1em;
+        margin-right: .2em;
+        text-align: center;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1em;
+        margin-left: .2em;
+        content: '\e801';
+    }
+    
+
   .qa-form-wide-button-approve {
     background: #27ae60 none;
     &:hover, &:focus {
@@ -2206,7 +2301,7 @@ input[type="submit"], button {
       float: right;
       clear: right;
     }
-    .qa-part-form-profile {
+    .qa-part-profile-form {
       float: left;
     }
   }
@@ -2234,7 +2329,7 @@ input[type="submit"], button {
   }
 }
 
-.qa-part-form-activity {
+.qa-part-form-activity {    
   .qa-uf-user-points, .qa-uf-user-q-posts, .qa-uf-user-a-posts, .qa-uf-user-c-posts, .qa-uf-user-q-votes, .qa-uf-user-a-votes, .qa-uf-user-upvotes, .qa-uf-user-downvotes, .qa-uf-user-upvoteds, .qa-uf-user-downvoteds {
     font-size: 24px;
     font-weight: 700;

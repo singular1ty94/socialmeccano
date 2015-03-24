@@ -86,7 +86,7 @@
 		'no_blocked_users' => 'No blocked users found',
 		'no_permission' => 'You do not have permission to perform this operation',
 		'old_password' => 'Old password:',
-		'only_shown_admins' => '(only shown to admins)',
+		'only_shown_admins' => '',
 		'only_shown_editors' => '(only shown to editors and above)',
 		'only_shown_experts' => '(only shown to experts and above)',
 		'only_shown_moderators' => '(only shown to moderators and admins)',

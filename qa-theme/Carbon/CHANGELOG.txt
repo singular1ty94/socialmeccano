@@ -30,3 +30,20 @@ Moved Updates link to main nav, erased words
 Added background-hover to the new Updates link
 !Updated fontello font!
 Added friends button to main nav
+
+Added new profile-* functions to qa-theme-base
+    Expanded if selector to accomodate profile-form option in qa_content parts
+Removed duration and member type from user profile
+Started SCSS styling for new profile look
+Rounded the avatar image on profile page
+Changed font-size of elements on profile page
+Added fontello icons for elements on profile page
+Fixed some styling issues with links
+Via black magic and a blood sacrifice, added userpoints just below full name
+Padding changes, removed border etc on profile
+Repeated black magic ritual, added username (and relevant styling)
+Removed mega list of privileges from user profile page
+Removed text for 'shown only to admin'
+Removed IP address tracking on admin page
+Temporarily disabled private messaging
+Removed deprecated qa-page-*.php files

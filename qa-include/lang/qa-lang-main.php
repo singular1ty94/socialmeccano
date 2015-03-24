@@ -213,7 +213,7 @@
 		'x_liked' => '^ like',
 		'x_minutes' => '^ minutes',
 		'x_months' => '^ months',
-		'x_points' => '^ points',
+		'x_points' => '^ reputation',
 		'x_questions' => '^ questions',
 		'x_seconds' => '^ seconds',
 		'x_tags' => '^ tags',

@@ -800,6 +800,7 @@ class qa_html_theme_base
 		$partdiv = (
 			strpos($key, 'custom') === 0 ||
 			strpos($key, 'form') === 0 ||
+			strpos($key, 'profile-form') === 0 ||
 			strpos($key, 'q_list') === 0 ||
 			(strpos($key, 'q_view') === 0 && !isset($this->content['form_q_edit'])) ||
 			strpos($key, 'a_form') === 0 ||
@@ -817,6 +818,9 @@ class qa_html_theme_base
 
 		elseif (strpos($key, 'form') === 0)
 			$this->form($part);
+        
+        elseif (strpos($key, 'profile-form') === 0)
+			$this->profile_form($part);
 
 		elseif (strpos($key, 'q_list') === 0)
 			$this->q_list_and_form($part);
@@ -950,6 +954,7 @@ class qa_html_theme_base
 		if (@$form['boxed'])
 			$this->output('</div>');
 	}
+    
 
 	public function form_ok($form, $columns)
 	{
@@ -1324,7 +1329,172 @@ class qa_html_theme_base
 
 		$this->output('<'.$tag.' class="qa-form-'.$style.'-note">'.@$field['note'].'</'.$tag.'>');
 	}
+    
+    
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    //########## PROFILE FORM #######################//
+    /**
+    ** A modified form for Social Meccano.
+    ** Does not expect labels.
+    **/
+    public function profile_form($form)
+	{
+		if (!empty($form)) {
+			$this->part_title($form);
 
+			if (isset($form['tags']))
+				$this->output('<form '.$form['tags'].'>');
+
+			$this->profile_form_body($form);
+
+			if (isset($form['tags']))
+				$this->output('</form>');
+		}
+	}
+
+	public function profile_form_columns($form)
+	{
+		if (isset($form['ok']) || !empty($form['fields']) )
+			$columns = ($form['style'] == 'wide') ? 3 : 1;
+		else
+			$columns = 0;
+
+		return $columns;
+	}
+
+	public function profile_form_spacer($form, $columns)
+	{
+		$this->output(
+			'<tr>',
+			'<td colspan="'.$columns.'" class="qa-form-'.$form['style'].'-spacer">',
+			'&nbsp;',
+			'</td>',
+			'</tr>'
+		);
+	}
+
+	public function profile_form_body($form)
+	{
+
+		$columns = $this->profile_form_columns($form);
+
+		if ($columns)
+			$this->output('<table class="qa-form-'.$form['style'].'-table">');
+
+		$this->form_ok($form, $columns);
+		$this->profile_form_fields($form, $columns);
+		$this->form_buttons($form, $columns);
+
+		if ($columns)
+			$this->output('</table>');
+
+		$this->form_hidden($form);
+
+		if (@$form['boxed'])
+			$this->output('</div>');
+	}
+    
+    public function profile_form_fields($form, $columns)
+	{
+		if (!empty($form['fields'])) {
+			foreach ($form['fields'] as $key => $field) {
+				$this->set_context('field_key', $key);
+
+				if (@$field['type'] == 'blank')
+					$this->profile_form_spacer($form, $columns);
+				else
+					$this->profile_form_field_rows($form, $columns, $field);
+			}
+
+			$this->clear_context('field_key');
+		}
+	}
+
+	public function profile_form_field_rows($form, $columns, $field)
+	{
+		$style = $form['style'];
+
+		if (isset($field['style'])) { // field has different style to most of form
+			$style = $field['style'];
+			$colspan = $columns;
+			$columns = ($style == 'wide') ? 3 : 1;
+		}
+		else
+			$colspan = null;
+
+		$prefixed = (@$field['type'] == 'checkbox') && ($columns == 1) && !empty($field['label']);
+		$suffixed = (@$field['type'] == 'select' || @$field['type'] == 'number') && $columns == 1 && !empty($field['label']) && !@$field['loose'];
+		$skipdata = @$field['tight'];
+		$tworows = ($columns == 1) && (!empty($field['label'])) && (!$skipdata) &&
+			( (!($prefixed||$suffixed)) || (!empty($field['error'])) || (!empty($field['note'])) );
+
+		if (isset($field['id'])) {
+			if ($columns == 1)
+				$this->output('<tbody id="'.$field['id'].'">', '<tr>');
+			else
+				$this->output('<tr id="'.$field['id'].'">');
+		}
+		else
+			$this->output('<tr>');
+
+		//if ($columns > 1 || !empty($field['label']))
+//			$this->form_label($field, $style, $columns, $prefixed, $suffixed, $colspan);
+
+		if ($tworows) {
+			$this->output(
+				'</tr>',
+				'<tr>'
+			);
+		}
+
+		if (!$skipdata)
+			$this->form_data($field, $style, $columns, !($prefixed||$suffixed), $colspan);
+
+		$this->output('</tr>');
+
+		if ($columns == 1 && isset($field['id']))
+			$this->output('</tbody>');
+	}
+
+
+	public function profile_form_data($field, $style, $columns, $showfield, $colspan)
+	{
+		if ($showfield || (!empty($field['error'])) || (!empty($field['note']))) {
+			$this->output(
+				'<td class="qa-form-'.$style.'-data"'.(isset($colspan) ? (' colspan="'.$colspan.'"') : '').'>'
+			);
+
+			if ($showfield)
+				$this->form_field($field, $style);
+
+			if (!empty($field['error'])) {
+				if (@$field['note_force'])
+					$this->form_note($field, $style, $columns);
+
+				$this->form_error($field, $style, $columns);
+			}
+			elseif (!empty($field['note']))
+				$this->form_note($field, $style, $columns);
+
+			$this->output('</td>');
+		}
+	}
+
+
+
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
 	public function ranking($ranking)
 	{
 		$this->part_title($ranking);

@@ -1,5 +1,5 @@
 {
-    "linting.collapsed": false,
+    "linting.collapsed": true,
     "themes.theme": "dark-theme",
     "sass.enabled": false,
     "path": {
@@ -10,7 +10,8 @@
                 "includePaths": [],
                 "sourceComments": true,
                 "outputStyle": "compressed"
-            }
+            },
+            "livedev.multibrowser": false
         }
     }
 }
