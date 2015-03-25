@@ -801,12 +801,14 @@ class qa_html_theme_base
 			strpos($key, 'custom') === 0 ||
 			strpos($key, 'form') === 0 ||
 			strpos($key, 'profile-form') === 0 ||
+			strpos($key, 'activity-form') === 0 ||
 			strpos($key, 'q_list') === 0 ||
 			(strpos($key, 'q_view') === 0 && !isset($this->content['form_q_edit'])) ||
 			strpos($key, 'a_form') === 0 ||
 			strpos($key, 'a_list') === 0 ||
 			strpos($key, 'ranking') === 0 ||
 			strpos($key, 'message_list') === 0 ||
+			strpos($key, 'activity_list') === 0 ||
 			strpos($key, 'nav_list') === 0
 		);
 
@@ -821,6 +823,9 @@ class qa_html_theme_base
         
         elseif (strpos($key, 'profile-form') === 0)
 			$this->profile_form($part);
+        
+        elseif (strpos($key, 'activity-form') === 0)
+			$this->activity_form($part);
 
 		elseif (strpos($key, 'q_list') === 0)
 			$this->q_list_and_form($part);
@@ -839,6 +844,9 @@ class qa_html_theme_base
 
 		elseif (strpos($key, 'message_list') === 0)
 			$this->message_list_and_form($part);
+        
+        elseif (strpos($key, 'activity_list') === 0)
+			$this->activity_list_and_form($part);
 
 		elseif (strpos($key, 'nav_list') === 0) {
 			$this->part_title($part);
@@ -1333,12 +1341,7 @@ class qa_html_theme_base
     
     //########## PROFILE FORM #######################//
     //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
-    //########## PROFILE FORM #######################//
+
     /**
     ** A modified form for Social Meccano.
     ** Does not expect labels.
@@ -1380,7 +1383,7 @@ class qa_html_theme_base
 	}
 
 	public function profile_form_body($form)
-	{
+    {
 
 		$columns = $this->profile_form_columns($form);
 
@@ -1486,15 +1489,166 @@ class qa_html_theme_base
 		}
 	}
 
+    //################ END PROFILE FORM #################/
+    //################ END PROFILE FORM #################/
+    
+    //########## ACTIVITY FORM #######################//
+    //########## ACTIVITY FORM #######################//
+
+    /**
+    ** A modified form for Social Meccano.
+    ** Expects labels, but puts them second
+    ** Uses columns, not rows
+    **/
+    public function activity_form($form)
+	{
+		if (!empty($form)) {
+			$this->part_title($form);
+
+			if (isset($form['tags']))
+				$this->output('<form '.$form['tags'].'>');
+
+			$this->activity_form_body($form);
+
+			if (isset($form['tags']))
+				$this->output('</form>');
+		}
+	}
+
+	public function activity_form_columns($form)
+	{
+		if (isset($form['ok']) || !empty($form['fields']) )
+			$columns = ($form['style'] == 'wide') ? 3 : 1;
+		else
+			$columns = 0;
+
+		return $columns;
+	}
+
+	public function activity_form_spacer($form, $columns)
+	{
+		$this->output(
+			'<tr>',
+			'<td colspan="'.$columns.'" class="qa-form-'.$form['style'].'-spacer">',
+			'&nbsp;',
+			'</td>',
+			'</tr>'
+		);
+	}
+
+	public function activity_form_body($form)
+    {
+
+		$columns = $this->activity_form_columns($form);
+
+		if ($columns)
+			$this->output('<table class="qa-form-'.$form['style'].'-table">');
+
+		$this->form_ok($form, $columns);
+		$this->activity_form_fields($form, $columns);
+		$this->form_buttons($form, $columns);
+
+		if ($columns)
+			$this->output('</table>');
+
+		$this->form_hidden($form);
+
+		if (@$form['boxed'])
+			$this->output('</div>');
+	}
+    
+    public function activity_form_fields($form, $columns)
+	{
+		if (!empty($form['fields'])) {
+			foreach ($form['fields'] as $key => $field) {
+				$this->set_context('field_key', $key);
+
+				if (@$field['type'] == 'blank')
+					$this->activity_form_spacer($form, $columns);
+				else
+					$this->activity_form_field_rows($form, $columns, $field);
+			}
+
+			$this->clear_context('field_key');
+		}
+	}
+
+	public function activity_form_field_rows($form, $columns, $field)
+	{
+		$style = $form['style'];
+
+		if (isset($field['style'])) { // field has different style to most of form
+			$style = $field['style'];
+			$colspan = $columns;
+			$columns = ($style == 'wide') ? 3 : 1;
+		}
+		else
+			$colspan = null;
+
+		$prefixed = (@$field['type'] == 'checkbox') && ($columns == 1) && !empty($field['label']);
+		$suffixed = (@$field['type'] == 'select' || @$field['type'] == 'number') && $columns == 1 && !empty($field['label']) && !@$field['loose'];
+		$skipdata = @$field['tight'];
+		$tworows = ($columns == 1) && (!empty($field['label'])) && (!$skipdata) &&
+			( (!($prefixed||$suffixed)) || (!empty($field['error'])) || (!empty($field['note'])) );
+
+		if (isset($field['id'])) {
+			if ($columns == 1)
+				$this->output('<tbody id="'.$field['id'].'">', '<tr>');
+			//else
+				//$this->output('<tr id="'.$field['id'].'">');
+		}
+		else
+			$this->output('<tr>');
+
+		if ($tworows) {
+			$this->output(
+				'</tr>',
+				'<tr>'
+			);
+		}
+
+        
+		if (!$skipdata)
+			$this->activity_form_data($field, $style, $columns, !($prefixed||$suffixed), $colspan);          
+        
+
+		//$this->output('</tr>');
+
+        if ($columns == 1 && isset($field['id']))
+			$this->output('</tbody>');
+		
+	}
 
 
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
-    //################ END PROFILE FORM #################/
+	public function activity_form_data($field, $style, $columns, $showfield, $colspan)
+	{
+		if ($showfield || (!empty($field['error'])) || (!empty($field['note']))) {
+			$this->output(
+				'<td class="qa-form-'.$style.'-data"'.(isset($colspan) ? (' colspan="'.$colspan.'"') : '').'>'
+			);
+
+			if ($showfield){
+				$this->form_field($field, $style);
+                //Modified to output label AFTER numbers, as desired
+                $this->output(@$field['label']);
+            }
+
+			if (!empty($field['error'])) {
+				if (@$field['note_force'])
+					$this->form_note($field, $style, $columns);
+
+				$this->form_error($field, $style, $columns);
+			}
+			elseif (!empty($field['note']))
+				$this->form_note($field, $style, $columns);
+
+			$this->output('</td>');
+		}
+	}
+
+    //################ END ACTIVITY FORM #################/
+    //################ END ACTIVITY FORM #################/
+
 	public function ranking($ranking)
 	{
 		$this->part_title($ranking);
@@ -1694,6 +1848,73 @@ class qa_html_theme_base
 		}
 	}
 
+    
+    //ACTIVITY LIST ON USER PAGE
+    public function activity_list_and_form($list)
+	{
+		if (!empty($list)) {
+			$this->part_title($list);
+			$this->error(@$list['error']);
+			$this->activity_list($list);
+		}
+	}
+
+	public function activity_list($list)
+	{
+		if (isset($list['activitymessages'])) {
+			$this->output('<div class="qa-message-list" '.@$list['tags'].'>');
+
+			foreach ($list['activitymessages'] as $message)
+				$this->activity_item($message);
+
+			$this->output('</div> <!-- END qa-message-list -->', '');
+		}
+	}
+
+	public function activity_item($message)
+	{
+		$this->output('<div class="qa-activity-item">');
+		$this->activity_content($message);
+        $this->activity_tags($message, 'qa-activity');
+		$this->output('</div> <!-- END qa-message-item -->', '');
+	}
+
+	public function activity_content($message)
+	{
+		if (!empty($message['tags'])) {
+			$this->output('<div class="qa-message-content">');
+			$this->output('<a href="' . qa_q_path_html($message['postid'], $message['title']) . '">' . qa_html($message['title']) . '</a>');
+			$this->output('</div>');
+		}
+	}
+    
+    public function activity_tags($post, $class)
+	{
+		if (!empty($post['tags'])) {
+			$this->output('<div class="'.$class.'-tags">');
+			$this->activity_tag_list($post, $class);
+			$this->output('</div>');
+		}
+	}
+
+	public function activity_tag_list($post, $class)
+	{
+		$this->output('<ul class="'.$class.'-tag-list">');
+        $arr = explode(",", $post['tags']);
+
+		foreach ($arr as $taghtml)
+			$this->activity_tag_item($taghtml, $class);
+
+		$this->output('</ul>');
+	}
+    
+    public function activity_tag_item($taghtml, $class)
+	{
+		$this->output('<li class="'. $class. '-tag-item">'.
+            '<a href="?qa=tag/' . $taghtml . '">' . $taghtml . '</a></li>');
+	}
+    //////////////////////////////////////////
+    
 	public function list_vote_disabled($items)
 	{
 		$disabled = false;
@@ -2543,6 +2764,7 @@ class qa_html_theme_base
 		);
 	}
 
+    
 
 	public function q_title_list($q_list, $attrs=null)
 /*

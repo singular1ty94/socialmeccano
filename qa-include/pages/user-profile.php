@@ -45,16 +45,21 @@
 	$loginuserid = qa_get_logged_in_userid();
 	$identifier = QA_FINAL_EXTERNAL_USERS ? $userid : $handle;
 
-	list($useraccount, $userprofile, $userfields, $usermessages, $userpoints, $userlevels, $navcategories, $userrank) =
+	list($useraccount, $userprofile, $userfields, $usermessages, $questions, $userpoints, $userlevels, $navcategories, $userrank, $answerqs, $commentqs, $editqs) =
 		qa_db_select_with_pending(
 			QA_FINAL_EXTERNAL_USERS ? null : qa_db_user_account_selectspec($handle, false),
 			QA_FINAL_EXTERNAL_USERS ? null : qa_db_user_profile_selectspec($handle, false),
 			QA_FINAL_EXTERNAL_USERS ? null : qa_db_userfields_selectspec(),
 			QA_FINAL_EXTERNAL_USERS ? null : qa_db_recent_messages_selectspec(null, null, $handle, false, qa_opt_if_loaded('page_size_wall')),
+            QA_FINAL_EXTERNAL_USERS ? null : qa_db_user_recent_qs_selectspec($loginuserid, $identifier, qa_opt_if_loaded('page_size_activity')),
 			qa_db_user_points_selectspec($identifier),
 			qa_db_user_levels_selectspec($identifier, QA_FINAL_EXTERNAL_USERS, true),
 			qa_db_category_nav_selectspec(null, true),
-			qa_db_user_rank_selectspec($identifier)
+			qa_db_user_rank_selectspec($identifier),
+            qa_db_user_recent_a_qs_selectspec($loginuserid, $identifier),
+            qa_db_user_recent_c_qs_selectspec($loginuserid, $identifier),
+            qa_db_user_recent_edit_qs_selectspec($loginuserid, $identifier)
+        
 		);
 
 	if (!QA_FINAL_EXTERNAL_USERS) {
@@ -133,6 +138,18 @@
 				}
 			}
 		}
+        
+        
+    // Modified code from user-activity.php
+       $questions = qa_any_sort_and_dedupe(array_merge($questions, $answerqs, $commentqs, $editqs));
+	   $questions = array_slice($questions, 0, qa_opt('page_size_activity'));
+	   $usershtml = qa_userids_handles_html(qa_any_get_userids_handles($questions), false);
+
+       $htmldefaults = qa_post_html_defaults('Q');
+       $htmldefaults['whoview'] = false;
+       $htmldefaults['voteview'] = false;
+       $htmldefaults['avatarsize'] = 0;
+    
 	}
 
 
@@ -772,8 +789,8 @@
 
 //	Information about user activity, available also with single sign-on integration
 
-	$qa_content['form_activity'] = array(
-		'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
+	$qa_content['activity-form'] = array(
+		//'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
 
 		'style' => 'wide',
 
@@ -787,14 +804,14 @@
 				'id' => 'bonus',
 			),
 
-			'points' => array(
+			/*'points' => array(
 				'type' => 'static',
 				'label' => qa_lang_html('profile/score'),
 				'value' => (@$userpoints['points'] == 1)
 					? qa_lang_html_sub('main/1_point', '<span class="qa-uf-user-points">1</span>', '1')
 					: qa_lang_html_sub('main/x_points', '<span class="qa-uf-user-points">'.qa_html(number_format(@$userpoints['points'])).'</span>'),
 				'id' => 'points',
-			),
+			),*/
 
 			'title' => array(
 				'type' => 'static',
@@ -820,28 +837,28 @@
 	);
 
 	if ($loginlevel >= QA_USER_LEVEL_ADMIN) {
-		$qa_content['form_activity']['tags'] = 'method="post" action="'.qa_self_html().'"';
+		$qa_content['activity-form']['tags'] = 'method="post" action="'.qa_self_html().'"';
 
-		$qa_content['form_activity']['buttons'] = array(
+		$qa_content['activity-form']['buttons'] = array(
 			'setbonus' => array(
 				'tags' => 'name="dosetbonus"',
 				'label' => qa_lang_html('profile/set_bonus_button'),
 			),
 		);
 
-		$qa_content['form_activity']['hidden'] = array(
+		$qa_content['activity-form']['hidden'] = array(
 			'code' => qa_get_form_security_code('user-activity-'.$handle),
 		);
 
 	}
 	else
-		unset($qa_content['form_activity']['fields']['bonus']);
+		unset($qa_content['activity-form']['fields']['bonus']);
 
-	if (!isset($qa_content['form_activity']['fields']['title']['value']))
-		unset($qa_content['form_activity']['fields']['title']);
+	if (!isset($qa_content['activity-form']['fields']['title']['value']))
+		unset($qa_content['activity-form']['fields']['title']);
 
 	if (qa_opt('comment_on_qs') || qa_opt('comment_on_as')) { // only show comment count if comments are enabled
-		$qa_content['form_activity']['fields']['comments'] = array(
+		$qa_content['activity-form']['fields']['comments'] = array(
 			'type' => 'static',
 			'label' => qa_lang_html('profile/comments'),
 			'value' => '<span class="qa-uf-user-c-posts">'.qa_html(number_format(@$userpoints['cposts'])).'</span>',
@@ -849,6 +866,7 @@
 		);
 	}
 
+    /*
 	if (qa_opt('voting_on_qs') || qa_opt('voting_on_as')) { // only show vote record if voting is enabled
 		$votedonvalue = '';
 
@@ -871,7 +889,7 @@
 				: qa_lang_html_sub('main/x_answers', $innervalue);
 		}
 
-		$qa_content['form_activity']['fields']['votedon'] = array(
+		$qa_content['activity-form']['fields']['votedon'] = array(
 			'type' => 'static',
 			'label' => qa_lang_html('profile/voted_on'),
 			'value' => $votedonvalue,
@@ -886,7 +904,7 @@
 		$innervalue = '<span class="qa-uf-user-downvotes">'.number_format($downvotes).'</span>';
 		$votegavevalue .= ($downvotes == 1) ? qa_lang_html_sub('profile/1_down_vote', $innervalue, '1') : qa_lang_html_sub('profile/x_down_votes', $innervalue);
 
-		$qa_content['form_activity']['fields']['votegave'] = array(
+		$qa_content['activity-form']['fields']['votegave'] = array(
 			'type' => 'static',
 			'label' => qa_lang_html('profile/gave_out'),
 			'value' => $votegavevalue,
@@ -901,27 +919,28 @@
 		$votegotvalue .= (@$userpoints['downvoteds'] == 1) ? qa_lang_html_sub('profile/1_down_vote', $innervalue, '1')
 			: qa_lang_html_sub('profile/x_down_votes', $innervalue);
 
-		$qa_content['form_activity']['fields']['votegot'] = array(
+		$qa_content['activity-form']['fields']['votegot'] = array(
 			'type' => 'static',
 			'label' => qa_lang_html('profile/received'),
 			'value' => $votegotvalue,
 			'id' => 'votegot',
 		);
 	}
+    */
 
-	if (@$userpoints['points']) {
-		$qa_content['form_activity']['fields']['points']['value'] .=
+	/*if (@$userpoints['points']) {
+		$qa_content['activity-form']['fields']['points']['value'] .=
 			qa_lang_html_sub('profile/ranked_x', '<span class="qa-uf-user-rank">'.number_format($userrank).'</span>');
-	}
+	}*/
 
 	if (@$userpoints['aselects']) {
-		$qa_content['form_activity']['fields']['questions']['value'] .= ($userpoints['aselects'] == 1)
+		$qa_content['activity-form']['fields']['questions']['value'] .= ($userpoints['aselects'] == 1)
 			? qa_lang_html_sub('profile/1_with_best_chosen', '<span class="qa-uf-user-q-selects">1</span>', '1')
 			: qa_lang_html_sub('profile/x_with_best_chosen', '<span class="qa-uf-user-q-selects">'.number_format($userpoints['aselects']).'</span>');
 	}
 
 	if (@$userpoints['aselecteds']) {
-		$qa_content['form_activity']['fields']['answers']['value'] .= ($userpoints['aselecteds'] == 1)
+		$qa_content['activity-form']['fields']['answers']['value'] .= ($userpoints['aselecteds'] == 1)
 			? qa_lang_html_sub('profile/1_chosen_as_best', '<span class="qa-uf-user-a-selecteds">1</span>', '1')
 			: qa_lang_html_sub('profile/x_chosen_as_best', '<span class="qa-uf-user-a-selecteds">'.number_format($userpoints['aselecteds']).'</span>');
 	}
@@ -936,7 +955,6 @@
 
 
 //	Wall posts
-
 	if (!QA_FINAL_EXTERNAL_USERS && qa_opt('allow_user_walls')) {
 		$qa_content['message_list'] = array(
 			'title' => '<a name="wall">'.qa_lang_html_sub('profile/wall_for_x', $userhtml).'</a>',
@@ -984,6 +1002,31 @@
 		if ($useraccount['wallposts'] > count($usermessages))
 			$qa_content['message_list']['messages'][] = qa_wall_view_more_link($handle, count($usermessages));
 	}
+
+
+// Recent Activity
+		$qa_content['activity_list'] = array(
+			'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
+
+			'tags' => 'id="activitymessages"',
+
+			'form' => array(
+				'tags' => 'name="activitypost" method="post" action="'.qa_self_html().'#activity"',
+				'style' => 'tall',
+				'hidden' => array(
+					'qa_click' => '', // for simulating clicks in Javascript
+					'handle' => qa_html($useraccount['handle']),
+					'start' => 0,
+					'code' => qa_get_form_security_code('activity-'.$useraccount['handle']),
+				),
+			),
+
+			'activitymessages' => array(),
+		);
+
+		foreach ($questions as $question)
+			$qa_content['activity_list']['activitymessages'][] = ($question);
+
 
 
 //	Sub menu for navigation in user pages

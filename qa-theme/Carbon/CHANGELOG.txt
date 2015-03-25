@@ -47,3 +47,14 @@ Removed text for 'shown only to admin'
 Removed IP address tracking on admin page
 Temporarily disabled private messaging
 Removed deprecated qa-page-*.php files
+
+Removed ALL deprecated files.
+Created new activity-* functions in qa-theme-base
+Activity now displays label after the numbers, modified lang descriptions
+Modified activity form to only output in one single row
+Added new code in user-profile to generate activity list
+Added new code in qa-theme-base to support an 'activity-list'
+Modified styling to support activity-list on user profile page
+Tags are now clickable on recent activity list (profile)
+Questions are now clickable on recent activity list (profile)
+Styling changes to accomodate all of the new features

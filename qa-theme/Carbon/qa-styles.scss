@@ -1103,6 +1103,9 @@ h1 {
   background-position: center bottom;
 }
 
+
+
+
 /*------[ q-list ]------*/
 
 .qa-q-list-item {
@@ -1381,8 +1384,12 @@ h1 {
   display: block;
   a {
     color: #1a6a9b;
-    &:hover, &:active, &:focus, &:visited {
+    &:hover, &:active, &:focus {
       color: white;
+    }
+      
+    &:visited{
+        color: #0a3c5a;
     }
   }
   &:hover .qam-q-list-close-icon {
@@ -2082,6 +2089,7 @@ input[type="submit"], button {
 .qa-form-wide-label, .qa-form-wide-data, .qa-form-tall-spacer {
   border-top: 1px solid #ecf0f1;
   border-bottom: 1px solid #ecf0f1;
+    color: #7f8c8d;
 }
 
 .qa-form-tall-data {
@@ -2176,7 +2184,10 @@ input[type="submit"], button {
 .qa-part-message-list {
   padding: 20px;
   margin-bottom: 5px;
+  margin-left: 20px;
   background: #fff;
+  max-width: 30%;
+  display:inline-block;
 }
 
 .qa-template-user {
@@ -2307,7 +2318,7 @@ input[type="submit"], button {
   }
 }
 
-.qa-part-form-activity h2, .qa-part-message-list h2 {
+.qa-part-activity-form h2, .qa-part-message-list h2 {
   margin-top: 0;
 }
 
@@ -2329,9 +2340,15 @@ input[type="submit"], button {
   }
 }
 
-.qa-part-form-activity {    
+.qa-part-activity-form { 
+    margin-top: 80px;
+    width: 70%;
+    background-color: #2C3E50;
+    padding: 20px;
+    float: right;
+    text-align: center;
   .qa-uf-user-points, .qa-uf-user-q-posts, .qa-uf-user-a-posts, .qa-uf-user-c-posts, .qa-uf-user-q-votes, .qa-uf-user-a-votes, .qa-uf-user-upvotes, .qa-uf-user-downvotes, .qa-uf-user-upvoteds, .qa-uf-user-downvoteds {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 700;
   }
   .qa-uf-user-points, .qa-uf-user-q-posts, .qa-uf-user-a-posts, .qa-uf-user-c-posts, .qa-uf-user-q-votes, .qa-uf-user-a-votes {
@@ -2345,7 +2362,13 @@ input[type="submit"], button {
   }
   .qa-form-wide-static {
     color: #7f8c8d;
-    font-size: 12px;
+    font-size: 24px;
+  }
+    
+  .qa-form-wide-data{
+    width: auto;
+    color: white;
+    border: none;
   }
 }
 
@@ -2384,6 +2407,48 @@ input[type="submit"], button {
   .qa-form-light-button {
     padding: 0;
   }
+}
+
+.qa-part-activity-list{
+    display:inline-block;
+    width: 35%;
+    background-color: white;
+    float:right;
+    padding: 5px 20px 20px 20px;
+}
+
+.qa-activity-tag-list{
+    list-style: none;
+    padding: 0;
+    
+    li{
+        font-size: 11px;
+        display:inline-block;
+        padding: 5px;
+        color:white;
+        background-color: $theme-hover;
+    }
+}
+
+.qa-activity-item{
+    .qa-message-content{
+        border: none;
+    }
+    
+    a{
+        &:link,&:hover,&:visited,&:active{
+            color: #1A6A9B;
+        } 
+    }
+    
+    .qa-activity-tags{
+        a{
+            &:link,&:hover,&:visited,&:active{
+                color: white;
+            } 
+        }
+    }
+
 }
 
 /*------[ favorites ]------*/
