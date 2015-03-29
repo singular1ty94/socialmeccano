@@ -1,24 +1,30 @@
 /*
 	Theme Name: Carbon
 	Theme URI:
-	Theme Version: 1
-	Theme Date: 2015-03-21
+	Theme Version: 1.2
+	Theme Date: 2015-03-26
 	Theme Author: Brett Orr
 	Theme License: GPLv2
 */
 
 /*
 ** Variable Colors.
+** Try to use these wherever possible.
 */
 $theme-main: #2C3E50;
 $theme-alt: #34495E;
+
 $theme-hover: #f90;
+
+$sky-blue: #3498DB;
+$error-red: #e74c3c;
+$warning-yellow: #f1c40f;
 
 .qa-q-item-clear, .clearfix, .qa-nav-main-list, .qa-nav-sub, .qam-qa-list-meta-box, .qa-q-item-avatar-meta, .qa-page-links, .qa-page-links-list, .qa-template-admin .qa-message-buttons, .qam-approve-users .qa-message-item, .qa-message-item, .qa-part-q-view, .qa-q-view-buttons, .qa-part-form-q-edit, .qa-a-list-item, .qa-a-item-buttons, .qa-c-item-buttons, .qa-c-item-clear, .qam-footer-row, .qa-nav-footer-list, .qa-footer-clear {
   *zoom: 1;
 }
 
-.qa-q-item-clear:before, .clearfix:before, .qa-nav-main-list:before, .qa-nav-sub:before, .qam-qa-list-meta-box:before, .qa-q-item-avatar-meta:before, .qa-page-links:before, .qa-page-links-list:before, .qa-template-admin .qa-message-buttons:before, .qam-approve-users .qa-message-item:before, .qa-message-item:before, .qa-part-q-view:before, .qa-q-view-buttons:before, .qa-part-form-q-edit:before, .qa-a-list-item:before, .qa-a-item-buttons:before, .qa-c-item-buttons:before, .qa-c-item-clear:before, .qam-footer-row:before, .qa-nav-footer-list:before, .qa-footer-clear:before, .qa-q-item-clear:after, .clearfix:after, .qa-nav-main-list:after, .qa-nav-sub:after, .qam-qa-list-meta-box:after, .qa-q-item-avatar-meta:after, .qa-page-links:after, .qa-page-links-list:after, .qa-template-admin .qa-message-buttons:after, .qam-approve-users .qa-message-item:after, .qa-message-item:after, .qa-part-q-view:after, .qa-q-view-buttons:after, .qa-part-form-q-edit:after, .qa-a-list-item:after, .qa-a-item-buttons:after, .qa-c-item-buttons:after, .qa-c-item-clear:after, .qam-footer-row:after, .qa-nav-footer-list:after, .qa-footer-clear:after {
+.qa-q-item-clear:before, .clearfix:before, .qam-qa-list-meta-box:before, .qa-q-item-avatar-meta:before, .qa-page-links:before, .qa-page-links-list:before, .qa-template-admin .qa-message-buttons:before, .qam-approve-users .qa-message-item:before, .qa-message-item:before, .qa-part-q-view:before, .qa-q-view-buttons:before, .qa-part-form-q-edit:before, .qa-a-list-item:before, .qa-a-item-buttons:before, .qa-c-item-buttons:before, .qa-c-item-clear:before, .qam-footer-row:before, .qa-nav-footer-list:before, .qa-footer-clear:before, .qa-q-item-clear:after, .clearfix:after, .qam-qa-list-meta-box:after, .qa-q-item-avatar-meta:after, .qa-page-links:after, .qa-page-links-list:after, .qa-template-admin .qa-message-buttons:after, .qam-approve-users .qa-message-item:after, .qa-message-item:after, .qa-part-q-view:after, .qa-q-view-buttons:after, .qa-part-form-q-edit:after, .qa-a-list-item:after, .qa-a-item-buttons:after, .qa-c-item-buttons:after, .qa-c-item-clear:after, .qam-footer-row:after, .qa-nav-footer-list:after, .qa-footer-clear:after {
   content: " ";
   display: table;
 }
@@ -27,13 +33,21 @@ $theme-hover: #f90;
   clear: both;
 }
 
+/**
+** If you need to add or remove more fonts, take the .svg stored
+** in /qa-theme/Carbon/font/ and drag it to http://fontello.com/. 
+** Choose/edit the icons, then download the .zip file. In that .zip, replace
+** all font files Carbon/font with the new ones, then open the CSS file from fontello
+** and replace the font-face declaration here with the fontell one (or just copy-paste
+** the new numbers below)
+**/
 @font-face {
   font-family: "fontello";
   src: url("font/fontello.eot?13646265") format("embedded-opentype"), url("font/fontello.eot?13646265#iefix") format("embedded-opentype"), url("font/fontello.woff?13646265") format("woff"), url("font/fontello.ttf?13646265") format("truetype"), url("font/fontello.svg?13646265#fontello") format("svg");
 }
 
 
-/*------[ base css ]------*/
+//#region [ base css ]------*/
 
 html {
   font-size: 16px;
@@ -70,19 +84,19 @@ body {
 }
 
 a {
-  color: #2980b9;
+  color: $sky-blue;
   text-decoration: none;
   &:active, &:focus {
-    color: #3498db;
+    color: $sky-blue;
     text-decoration: none;
     outline: 0;
   }
   &:visited {
-    color: #2980b9;
+    color: $sky-blue;
     text-decoration: none;
   }
   &:hover {
-    color: #2688c9;
+    color: $sky-blue;
     text-decoration: underline;
   }
 }
@@ -160,7 +174,7 @@ th, td {
 
 pre {
   background-color: #e0e4e5;
-  border-left: 11px solid #3498db;
+  border-left: 11px solid $sky-blue;
   margin: 1.7em 0 1.7em 0.3em;
   overflow: auto;
   padding: 0.1em 0.5em 0.3em 0.7em;
@@ -180,7 +194,7 @@ code, samp, kbd {
 
 blockquote {
   background-color: #e0e4e5;
-  border-left: 11px solid #3498db;
+  border-left: 11px solid $sky-blue;
   padding: 1em;
   margin: 1em 0;
   overflow-x: auto;
@@ -267,13 +281,13 @@ blockquote {
 }
 
 .qa-error {
-  background: #e74c3c;
+  background: $error-red;
   position: relative;
   z-index: 999;
 }
 
 .qa-warning {
-  background: #f1c40f;
+  background: $warning-yellow;
   position: relative;
   z-index: 999;
 }
@@ -309,6 +323,42 @@ blockquote {
     border: none;
   }
 }
+
+
+//Tag Cloud Plugin
+#tag-cloud a{
+    display: inline-block;
+    padding: 5px;
+    background-color: $theme-hover;
+    margin: 3px;
+    
+    &:link,&:visited,&:hover,&:active{
+        color: white;
+    }
+}
+
+//Change the badges on the badges page.
+.qa-part-custom .badge-entry-badge{
+    margin: 5px 0 5px 0;
+    font-size: 10pt;
+}
+
+//The badges part of the profile page.
+.qa-part-form-badges-list{
+    width: 67% !important;
+    
+    span{
+        font-size: 10pt !important;
+    }
+}
+
+//Found on the users page.
+#badge-medals-widget{
+    margin-left: 6px !important;
+}
+
+
+//#endregion
 
 /*------[ main nav css ]------*/
 @media (max-width: 767px) {
@@ -481,13 +531,6 @@ blockquote {
     }
 }
 
-.qa-nav-main-activity .qa-nav-main-link:before {
-  content: '';
-}
-
-.qa-nav-main-questions .qa-nav-main-link:before {
-  content: '';
-}
 
 .qa-nav-main-hot .qa-nav-main-link {
   color: #f39c12;
@@ -499,34 +542,13 @@ blockquote {
   }
 }
 
-.qa-nav-main-unanswered .qa-nav-main-link:before {
-  content: '';
-}
-
-.qa-nav-main-tag .qa-nav-main-link:before {
-  content: '';
-}
-
-.qa-nav-main-categories .qa-nav-main-link:before {
-  content: '';
-}
-
-.qa-nav-main-user .qa-nav-main-link:before {
-  content: '';
-}
 
 .qa-nav-main-ask .qa-nav-main-link {
   color: white;
-  &:before {
-    content: '';
-  }
+
   &.qa-nav-main-selected {
     color: #54d98c;
   }
-}
-
-.qa-nav-main-admin .qa-nav-main-link:before {
-  content: '';
 }
 
 .qa-nav-main- .qa-nav-main-link:before {
@@ -544,13 +566,9 @@ blockquote {
     text-decoration: none;
     background: $theme-hover;
   }
-  &:before {
-    font-family: "fontello";
-    font-size: 24px;
-    content: '\e80d';
-  }
+
   &.qa-nav-main-selected {
-    background: #3498db;
+    background: $sky-blue;
   }
 }
 
@@ -594,15 +612,6 @@ blockquote {
   }
   .qa-nav-sub-list {
     *zoom: 1;
-    &:before {
-      content: "";
-      display: table;
-    }
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
   }
   .qa-nav-sub-item {
     width: 33.33%;
@@ -744,13 +753,13 @@ blockquote {
 .qa-logged-in {
   display: block;
   padding: 10px 20px;
-  border-bottom: 1px solid #2c3e50;
+  border-bottom: 1px solid $theme-main;
   &:before {
     content: '\e82b';
     font-family: "fontello";
     display: inline-block;
     width: 1em;
-    background-color: #2c3e50;
+    background-color: $theme-main;
     padding: 5px;
     margin: 0 10px 0 0;
     text-align: center;
@@ -761,13 +770,13 @@ blockquote {
 
 .qam-logged-in-points {
   padding: 10px 20px;
-  border-bottom: 1px solid #2c3e50;
+  border-bottom: 1px solid $theme-main;
   &:before {
     content: '\e810';
     font-family: "fontello";
     display: inline-block;
     width: 1em;
-    background-color: #2c3e50;
+    background-color: $theme-main;
     padding: 5px;
     margin: 0 10px 0 0;
     text-align: center;
@@ -784,7 +793,7 @@ blockquote {
 
 .qa-nav-user-item {
   padding: 0 20px;
-  border-bottom: 1px solid #2c3e50;
+  border-bottom: 1px solid $theme-main;
   &:last-child {
     border-bottom: none;
   }
@@ -798,7 +807,7 @@ blockquote {
 
 .qa-updates-link{
     display: inline-block;
-    background-color: #34495E;
+    background-color: $theme-alt;
     padding: 12px;
     margin: 0 0 0 0;  
     
@@ -822,7 +831,7 @@ blockquote {
 
 .qa-friends-link{
     display: inline-block;
-    background-color: #34495E;
+    background-color: $theme-alt;
     padding: 12px;
     margin: 0 0 0 0;  
     
@@ -846,7 +855,7 @@ blockquote {
 
 .qa-groups-link{
     display: inline-block;
-    background-color: #34495E;
+    background-color: $theme-alt;
     padding: 12px;
     margin: 0 0 0 0;  
     
@@ -873,7 +882,7 @@ blockquote {
   font-family: "fontello";
   display: inline-block;
   width: 1em;
-  background-color: #2c3e50;
+  background-color: $theme-main;
   padding: 5px;
   margin: 0 10px 0 0;
   text-align: center;
@@ -882,7 +891,7 @@ blockquote {
 }
 
 .qa-logged-in:hover, .qam-logged-in-points:hover, .qa-nav-user-item:hover {
-  background-color: #2c3e50;
+  background-color: $theme-main;
 }
 
 .qa-nav-user-facebook-login:hover, .qa-nav-user-register:hover {
@@ -929,7 +938,7 @@ blockquote {
 h1 {
   padding: 8px 52px 8px 20px;
   margin-bottom: 5px;
-  background: #3498db;
+  background: $sky-blue;
   color: #fff;
   margin-top: 0px;
   position: relative;
@@ -1099,7 +1108,7 @@ h1 {
 }
 
 .qa-unfavorite-button {
-  background-color: #f1c40f;
+  background-color: $warning-yellow;
   background-position: center bottom;
 }
 
@@ -1134,13 +1143,13 @@ h1 {
 }
 
 .qa-a-count {
-  background-color: #3498db;
+  background-color: $sky-blue;
   color: #fff;
   text-align: center;
 }
 
 .qa-a-count-zero {
-  background-color: #e74c3c;
+  background-color: $error-red;
 }
 
 .qa-a-count-selected {
@@ -1456,10 +1465,10 @@ h1 {
 
 .qa-q-item-avatar-meta .qa-user-link{
     &:link{
-        color: #3498DB;
+        color: $sky-blue;
     }
     &:visited{
-        color: #3498DB;
+        color: $sky-blue;
     }
     &:hover{
         color: #206593;
@@ -1556,7 +1565,7 @@ h1 {
 .qa-page-selected {
   padding: 5px 10px;
   margin-bottom: 5px;
-  background: #3498db;
+  background: $sky-blue;
   color: #fff;
   display: block;
   a {
@@ -1612,7 +1621,7 @@ h1 {
     .qa-message-who-data a {
       padding: 3px 10px;
       margin-bottom: 5px;
-      background: #e74c3c;
+      background: $error-red;
       color: #fff;
       display: inline-block;
       a {
@@ -1653,7 +1662,7 @@ h1 {
     }
   }
   .qa-user-link {
-    background-color: #e74c3c;
+    background-color: $error-red;
     display: block;
     float: left;
     color: #fff;
@@ -1673,7 +1682,7 @@ h1 {
       height: 0;
       border-top: 5px solid transparent;
       border-bottom: 5px solid transparent;
-      border-right: 5px solid #e74c3c;
+      border-right: 5px solid $error-red;
     }
     &.qa-user-favorited {
       background-image: url('images/icons/fev-star.png');
@@ -1702,7 +1711,7 @@ h1 {
       margin-top: -7px;
       border-top: 7px solid transparent;
       border-bottom: 7px solid transparent;
-      border-left: 7px solid #e74c3c;
+      border-left: 7px solid $error-red;
       -ms-transform: translate(0, 0);
       -webkit-transform: translate(0, 0);
       transform: translate(0, 0);
@@ -1714,24 +1723,11 @@ h1 {
 
 .qam-user-score-icon {
   display: inline-block;
-  padding: 2px 6px 2px 1.8em;
+  padding: 2px 6px 2px 6px;
   background-color: #2ecc71;
   color: #fff;
   position: relative;
   float: right;
-  &:before {
-    background-color: #27ae60;
-    content: '\e810';
-    font-family: "fontello";
-    display: inline-block;
-    text-align: center;
-    width: 1.5em;
-    height: 100%;
-    line-height: 1.6em;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
 }
 
 .qa-top-tags-count {
@@ -1759,7 +1755,7 @@ h1 {
 }
 
 .qa-browse-cat-nolink, .qa-browse-cat-link {
-  background-color: #e74c3c;
+  background-color: $error-red;
   display: inline-block;
   color: #fff;
   padding: 2px 0.6em;
@@ -1929,7 +1925,7 @@ input, textarea, select {
 
 input:focus, textarea:focus, select:focus {
   background-color: #fff;
-  border-color: #3498db;
+  border-color: $sky-blue;
   outline: 0;
 }
 
@@ -1987,7 +1983,7 @@ input[type="submit"], button {
   font-size: 14px;
   -webkit-transition-duration: 0s;
   transition-duration: 0s;
-  background: #3498db none;
+  background: $sky-blue none;
   color: #fff;
 }
 
@@ -2065,7 +2061,7 @@ input[type="submit"], button {
 }
 
 .qa-form-tall-button-cancel, .qa-form-wide-button-cancel {
-  background: #e74c3c none;
+  background: $error-red none;
 }
 
 .qa-form-tall-button-cancel {
@@ -2127,7 +2123,7 @@ input[type="submit"], button {
 }
 
 .qa-form-wide-error, .qa-form-tall-error {
-  color: #e74c3c;
+  color: $error-red;
 }
 
 .qa-form-tall-spacer {
@@ -2148,7 +2144,7 @@ input[type="submit"], button {
 .qa-ask-similar-title {
   padding: 10px;
   margin-bottom: 5px;
-  background: #e74c3c;
+  background: $error-red;
   color: #fff;
   margin: -10px -10px 10px -10px;
   a {
@@ -2296,7 +2292,7 @@ input[type="submit"], button {
     }
   }
   .qa-form-wide-button-block {
-    background: #e74c3c none;
+    background: $error-red none;
     &:hover, &:focus {
       background-color: #ea6153;
     }
@@ -2343,7 +2339,7 @@ input[type="submit"], button {
 .qa-part-activity-form { 
     margin-top: 80px;
     width: 70%;
-    background-color: #2C3E50;
+    background-color: $theme-main;
     padding: 20px;
     float: right;
     text-align: center;
@@ -2352,17 +2348,17 @@ input[type="submit"], button {
     font-weight: 700;
   }
   .qa-uf-user-points, .qa-uf-user-q-posts, .qa-uf-user-a-posts, .qa-uf-user-c-posts, .qa-uf-user-q-votes, .qa-uf-user-a-votes {
-    color: #3498db;
+    color: $sky-blue;
   }
   .qa-uf-user-upvotes, .qa-uf-user-upvoteds {
     color: #27ae60;
   }
   .qa-uf-user-downvotes, .qa-uf-user-downvoteds {
-    color: #e74c3c;
+    color: $error-red;
   }
   .qa-form-wide-static {
-    color: #7f8c8d;
-    font-size: 24px;
+    color: #fff;
+    font-size: 14px;
   }
     
   .qa-form-wide-data{
@@ -2493,7 +2489,7 @@ input[type="submit"], button {
 .qa-suggest-next {
   padding: 10px;
   margin-bottom: 5px;
-  background: #3498db;
+  background: $sky-blue;
   color: #fff;
   a {
     color: #fff;
@@ -2516,7 +2512,7 @@ input[type="submit"], button {
   font-size: 14px;
   -webkit-transition-duration: 0s;
   transition-duration: 0s;
-  background: #2c3e50 none center no-repeat;
+  background: $theme-main none center no-repeat;
   color: #fff;
   width: 32px;
   height: 32px;
@@ -2658,7 +2654,7 @@ input[type="submit"], button {
 .qa-view-count-data, .qa-view-count-pad {}
 
 .qam-q-view-close-icon {
-  background-color: #f1c40f;
+  background-color: $warning-yellow;
   padding: 4px;
   border-radius: 24px;
   float: left;
@@ -2744,7 +2740,7 @@ input[type="submit"], button {
   &:hover {
     padding: 10px 10px 10px 54px;
     margin-bottom: 5px;
-    background: #e74c3c;
+    background: $error-red;
     color: #fff;
     cursor: help;
     a {
@@ -2778,7 +2774,7 @@ input[type="submit"], button {
 }
 
 .qa-q-item-flags, .qa-q-view-flags, .qa-a-item-flags, .qa-c-item-flags {
-  color: #e74c3c;
+  color: $error-red;
   font-weight: bold;
   padding-left: 4px;
 }
@@ -3160,7 +3156,7 @@ input[type="submit"], button {
     background: #e67e22;
   }
   &.alizarin {
-    background: #e74c3c;
+    background: $error-red;
   }
   &.turquoise {
     background: #1abc9c;
@@ -3169,7 +3165,7 @@ input[type="submit"], button {
     background: #2ecc71;
   }
   &.peter-river {
-    background: #3498db;
+    background: $sky-blue;
   }
   &.amethyst {
     background: #9b59b6;
@@ -3228,7 +3224,7 @@ input[type="submit"], button {
     }
   }
   &:nth-child(3) {
-    background: #f1c40f;
+    background: $warning-yellow;
     &:before {
       content: '\e803';
     }
@@ -3413,7 +3409,7 @@ input[type="submit"], button {
 .qa-footer {
   padding: 10px;
   margin-bottom: 5px;
-  background: #2c3e50;
+  background: $theme-main;
   color: #fff;
   margin-bottom: 0;
   font-size: 12px;
@@ -3476,7 +3472,7 @@ input[type="submit"], button {
 .qa-ask-box {
   padding: 10px 20px;
   margin-bottom: 5px;
-  background: #3498db;
+  background: $sky-blue;
   color: #fff;
   color: #fff;
   a {
@@ -3584,7 +3580,7 @@ input[type="submit"], button {
       background-color: #e53f2e;
       border-left-color: #ea6153;
       &.active {
-        background-color: #e74c3c;
+        background-color: $error-red;
       }
     }
     &.turquoise {
@@ -3605,7 +3601,7 @@ input[type="submit"], button {
       background-color: #2791d9;
       border-left-color: #4aa3df;
       &.active {
-        background-color: #3498db;
+        background-color: $sky-blue;
       }
     }
     &.amethyst {
@@ -3615,7 +3611,7 @@ input[type="submit"], button {
         background-color: #9b59b6;
       }
     }
-    &.wet-asphalt {
+    &.carbon {
       background-color: #2f4154;
       border-left-color: #3d566e;
       &.active {
@@ -3666,7 +3662,6 @@ input[type="submit"], button {
   }
 }
 
-
 @-moz-keyframes shake {
   0% {
     transform: scale(1);
@@ -3696,7 +3691,6 @@ input[type="submit"], button {
     transform: scale(1);
   }
 }
-
 
 @-ms-keyframes shake {
   0% {
@@ -3728,7 +3722,6 @@ input[type="submit"], button {
   }
 }
 
-
 @keyframes shake {
   0% {
     transform: scale(1);
@@ -3757,211 +3750,4 @@ input[type="submit"], button {
   100% {
     transform: scale(1);
   }
-}
-
-
-/*------[ icons ]------*/
-
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  margin-left: .2em;
-}
-
-.icon-link:before {
-  content: '\e800';
-}
-
-.icon-help:before {
-  content: '\e801';
-}
-
-.icon-comment:before {
-  content: '\e802';
-}
-
-.icon-comment-alt:before {
-  content: '\e803';
-}
-
-.icon-chart-line:before {
-  content: '\e804';
-}
-
-.icon-coffee:before {
-  content: '\e805';
-}
-
-.icon-tag:before {
-  content: '\e806';
-}
-
-.icon-tags:before {
-  content: '\e807';
-}
-
-.icon-spread:before {
-  content: '\e808';
-}
-
-.icon-group:before {
-  content: '\e809';
-}
-
-.icon-wrench:before {
-  content: '\e80a';
-}
-
-.icon-article:before {
-  content: '\e80b';
-}
-
-.icon-docs:before {
-  content: '\e80c';
-}
-
-.icon-infinity:before {
-  content: '\e80d';
-}
-
-.icon-user:before {
-  content: '\e80e';
-}
-
-.icon-key:before {
-  content: '\e80f';
-}
-
-.icon-money:before {
-  content: '\e810';
-}
-
-.icon-wallet:before {
-  content: '\e811';
-}
-
-.icon-arrows-cw:before {
-  content: '\e812';
-}
-
-.icon-power:before {
-  content: '\e813';
-}
-
-.icon-th-list:before {
-  content: '\e814';
-}
-
-.icon-left-open-big:before {
-  content: '\e815';
-}
-
-.icon-right-open-big:before {
-  content: '\e816';
-}
-
-.icon-down-open-big:before {
-  content: '\e817';
-}
-
-.icon-up-open-big:before {
-  content: '\e818';
-}
-
-.icon-down-open-mini:before {
-  content: '\e819';
-}
-
-.icon-up-open-mini:before {
-  content: '\e81a';
-}
-
-.icon-right-open-mini:before {
-  content: '\e81b';
-}
-
-.icon-left-open-mini:before {
-  content: '\e81c';
-}
-
-.icon-rss:before {
-  content: '\e81d';
-}
-
-.icon-facebook:before {
-  content: '\e81e';
-}
-
-.icon-twitter:before {
-  content: '\e81f';
-}
-
-.icon-twitter-bird:before {
-  content: '\e820';
-}
-
-.icon-googleplus:before {
-  content: '\e821';
-}
-
-.icon-linkedin:before {
-  content: '\e822';
-}
-
-.icon-youtube:before {
-  content: '\e823';
-}
-
-.icon-vimeo:before {
-  content: '\e824';
-}
-
-.icon-pinterest:before {
-  content: '\e825';
-}
-
-.icon-facebook-1:before {
-  content: '\e826';
-}
-
-.icon-vimeo-1:before {
-  content: '\e827';
-}
-
-.icon-linkedin-1:before {
-  content: '\e828';
-}
-
-.icon-gplus:before {
-  content: '\e829';
-}
-
-.icon-github:before {
-  content: '\e82a';
-}
-
-.icon-wordpress:before {
-  content: '\e82b';
-}
-
-.icon-ok:before {
-  content: '\e82c';
-}
-
-.icon-ok-circled:before {
-  content: '\e82d';
-}
-
-.icon-reply:before {
-  content: '\e82e';
 }

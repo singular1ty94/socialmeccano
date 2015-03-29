@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/Q2A/Util/Metadata.php
 	Description: Some useful metadata handling stuff
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 class Q2A_Util_Metadata

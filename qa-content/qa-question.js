@@ -1,7 +1,7 @@
 /*
-	Question2Answer by Gideon Greenspan and contributors
+	Social Meccano by Brett Orr and Samuel Hammill
 
-	http://www.question2answer.org/
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 
 	File: qa-content/qa-question.js
@@ -19,7 +19,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 var qa_element_revealed=null;

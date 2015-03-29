@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-url-test.php
 	Description: Sits in an iframe and shows a green page with word 'OK'
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 	if (qa_gpc_to_string(@$_GET['param'])==QA_URL_TEST_STRING) {

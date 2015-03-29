@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-page-user-profile.php
 	Description: Controller for user profile page, including wall
@@ -16,10 +16,24 @@
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-
-	More about this license: http://www.question2answer.org/license.php
 */
 
+/*
+ *  This page accesses information regarding the specified user,
+ *  returning it in qa_content. See individual regions below.
+ *  REGIONS:
+ *      - HOUSEKEEPING
+ *      - PROCESS_EDIT
+ *      - BONUS_POINTS
+ *      - CONTENT_PREP
+ *      - BASIC_INFO
+ *      - ACTIVITY_INFO
+ *      - WALL_POSTS
+ *      - ACTIVITY_LIST
+ *      - END_HOUSEKEEPING
+ */ 
+
+#region HOUSEKEEPING
 	if (!defined('QA_VERSION')) { // don't allow this page to be requested directly from browser
 		header('Location: ../');
 		exit;
@@ -33,9 +47,7 @@
 
 //	$handle, $userhtml are already set by qa-page-user.php - also $userid if using external user integration
 
-
 //	Redirect to 'My Account' page if button clicked
-
 	if (qa_clicked('doaccount'))
 		qa_redirect('account');
 
@@ -123,8 +135,10 @@
 
 		$wallposterrorhtml = qa_wall_error_html($loginuserid, $useraccount['userid'], $useraccount['flags']);
 
-	//	This code is similar but not identical to that in to qq-page-user-wall.php
-
+  
+        /* Modified code from user-wall to get the user's wall
+         * messages and let the user delete them. More in WALL
+         */
 		$usermessages = array_slice($usermessages, 0, qa_opt('page_size_wall'));
 		$usermessages = qa_wall_posts_add_rules($usermessages, 0);
 
@@ -140,7 +154,9 @@
 		}
         
         
-    // Modified code from user-activity.php
+       /* Modified code from user-activity to get the user's recent
+        * questions etc. More in ACTIVITY_LIST
+        */
        $questions = qa_any_sort_and_dedupe(array_merge($questions, $answerqs, $commentqs, $editqs));
 	   $questions = array_slice($questions, 0, qa_opt('page_size_activity'));
 	   $usershtml = qa_userids_handles_html(qa_any_get_userids_handles($questions), false);
@@ -151,10 +167,11 @@
        $htmldefaults['avatarsize'] = 0;
     
 	}
-
-
-//	Process edit or save button for user, and other actions
-
+#endregion
+  
+#region PROCESS_EDIT
+    /* Procecsses the edit button for the user profile.
+     */
 	if (!QA_FINAL_EXTERNAL_USERS) {
 		$reloaduser = false;
 
@@ -334,9 +351,13 @@
 		}
 	}
 
+#endregion
 
-//	Process bonus setting button
-
+#region BONUS_POINTS
+    /*
+     * Processes the user (as an admin) assigning
+     * bonus points to the specified user.
+     */
 	if ( ($loginlevel >= QA_USER_LEVEL_ADMIN) && qa_clicked('dosetbonus') ) {
 		require_once QA_INCLUDE_DIR.'db/points.php';
 
@@ -351,10 +372,12 @@
 			qa_redirect(qa_request(), null, null, null, 'activity');
 		}
 	}
+#endregion
 
-
-//	Prepare content for theme
-
+#region CONTENT_PREP
+    /* Starts preparing the nested array,
+     * setting the page title and some basic stuff.
+     */
 	$qa_content = qa_content_prepare();
 
 	$qa_content['title'] = qa_lang_html_sub('profile/user_x', $userhtml);
@@ -369,14 +392,15 @@
 	}
 
 	$qa_content['script_rel'][] = 'qa-content/qa-user.js?'.QA_VERSION;
+#endregion
 
-
-//	General information about the user, only available if we're using internal user management
-
+#region BASIC_INFO
+    /*
+     * General information about the user, only available if we're using internal user management
+     * sets a top-level array of ['profile-form'] in qa_content, containing
+     * ['fields'] that can be looped through.
+     */
 	if (!QA_FINAL_EXTERNAL_USERS) {
-		//$membertime = qa_time_to_string(qa_opt('db_time') - $useraccount['created']);
-		//$joindate = qa_when_to_html($useraccount['created'], 0);
-
 		$qa_content['profile-form'] = array(
 			'tags' => 'method="post" action="'.qa_self_html().'"',
 
@@ -394,13 +418,6 @@
                 
 
 				'removeavatar' => null,
-
-				/*'duration' => array(
-					'type' => 'static',
-					'label' => qa_lang_html('users/member_for'),
-					'value' => qa_html( $membertime . ' (' . qa_lang_sub('main/since_x', $joindate['data']) . ')' ),
-					'id' => 'duration',
-				)*/
 			),
 		);
 
@@ -408,8 +425,8 @@
 			unset($qa_content['profile-form']['fields']['avatar']);
 
 
-	//	Private message link
-/*
+	   //Private message link
+        /*
 		if ( qa_opt('allow_private_messages') && isset($loginuserid) && ($loginuserid != $userid) && !($useraccount['flags'] & QA_USER_FLAGS_NO_MESSAGES) && !$userediting ) {
 			$qa_content['profile-form']['fields']['level']['value'] .= strtr(qa_lang_html('profile/send_private_message'), array(
 				'^1' => '<a href="'.qa_path_html('message/'.$handle).'">',
@@ -417,9 +434,7 @@
 			));
 		}*/
 
-
-	//	Levels editing or viewing (add category-specific levels)
-
+	   //Levels editing or viewing (add category-specific levels)
 		if ($userediting) {
 
 			if (isset($maxlevelassign)) {
@@ -534,37 +549,9 @@
 			}
 		}
 
-
-	//	Show any extra privileges due to user's level or their points
-/**
-		$showpermits = array();
-		$permitoptions = qa_get_permit_options();
-
-		foreach ($permitoptions as $permitoption) {
-			if ( // if not available to approved and email confirmed users with no points, but yes available to the user, it's something special
-				qa_permit_error($permitoption, $userid, QA_USER_LEVEL_APPROVED, QA_USER_FLAGS_EMAIL_CONFIRMED, 0) &&
-				!qa_permit_error($permitoption, $userid, $useraccount['level'], $useraccount['flags'], $userpoints['points'])
-			) {
-				if ($permitoption == 'permit_retag_cat')
-					$showpermits[] = qa_lang(qa_using_categories() ? 'profile/permit_recat' : 'profile/permit_retag');
-				else
-					$showpermits[] = qa_lang('profile/'.$permitoption); // then show it as an extra priviliege
-			}
-		}
-
-		if (count($showpermits)) {
-			$qa_content['profile-form']['fields']['permits'] = array(
-				'type' => 'static',
-				'label' => qa_lang_html('profile/extra_privileges'),
-				'value' => qa_html(implode("\n", $showpermits), true),
-				'rows' => count($showpermits),
-				'id' => 'permits',
-			);
-		}**/
-
-
-	//	Show email address only if we're an administrator
-
+	   /*
+        * Show email address if we're the admin.
+        */
 		if (($loginlevel >= QA_USER_LEVEL_ADMIN) && !qa_user_permit_error()) {
 			$doconfirms = qa_opt('confirm_user_emails') && $useraccount['level'] < QA_USER_LEVEL_EXPERT;
 			$isconfirmed = ($useraccount['flags'] & QA_USER_FLAGS_EMAIL_CONFIRMED) > 0;
@@ -581,45 +568,12 @@
 				'id' => 'email',
 			);
 		}
-
-
-	//	Show IP addresses and times for last login or write - only if we're a moderator or higher
-/**
-		if (($loginlevel >= QA_USER_LEVEL_MODERATOR) && !qa_user_permit_error()) {
-			$qa_content['profile-form']['fields']['lastlogin'] = array(
-				'type' => 'static',
-				'label' => qa_lang_html('users/last_login_label'),
-				'value' =>
-					strtr(qa_lang_html('users/x_ago_from_y'), array(
-						'^1' => qa_time_to_string(qa_opt('db_time')-$useraccount['loggedin']),
-						'^2' => qa_ip_anchor_html($useraccount['loginip']),
-					)),
-				'note' => $userediting ? null : qa_lang_html('users/only_shown_moderators'),
-				'id' => 'lastlogin',
-			);
-
-			if (isset($useraccount['written'])) {
-				$qa_content['profile-form']['fields']['lastwrite'] = array(
-					'type' => 'static',
-					'label' => qa_lang_html('users/last_write_label'),
-					'value' =>
-						strtr(qa_lang_html('users/x_ago_from_y'), array(
-							'^1' => qa_time_to_string(qa_opt('db_time')-$useraccount['written']),
-							'^2' => qa_ip_anchor_html($useraccount['writeip']),
-						)),
-					'note' => $userediting ? null : qa_lang_html('users/only_shown_moderators'),
-					'id' => 'lastwrite',
-				);
-			}
-			else
-				unset($qa_content['profile-form']['fields']['lastwrite']);
-		}**/
-
-
-	//	Show other profile fields
-
-		$fieldsediting = $fieldseditable && $userediting;
         
+        
+        /* 
+         * Show some additional fields.
+         */
+		$fieldsediting = $fieldseditable && $userediting;
 
 		foreach ($userfields as $userfield) {
 			if (($userfield['flags'] & QA_FIELD_FLAGS_LINK_URL) && !$fieldsediting)
@@ -661,7 +615,9 @@
 			);
 		}
         
-        //Add the points.
+        /*
+         * Show the user's username.
+         */
         $sha['username'] = array(
             'type' => 'static',
             'label' => qa_lang_html_sub('profile/x_user', $userhtml),
@@ -669,6 +625,9 @@
             'id' => 'username',
         );
         
+        /*
+         * Show the user's points (rep).
+         */
         $sha['points'] = array(
             'type' => 'static',
             'label' => qa_lang_html('profile/x_user'),
@@ -686,9 +645,9 @@
         }
         
 
-
-	//	Edit form or button, if appropriate
-
+        /*
+         * Edit button/form as appropriate.
+         */
 		if ($userediting) {
 			if (
 				(qa_opt('avatar_allow_gravatar') && ($useraccount['flags'] & QA_USER_FLAGS_SHOW_GRAVATAR)) ||
@@ -785,13 +744,15 @@
 		$qa_content['raw']['account'] = $useraccount; // for plugin layers to access
 		$qa_content['raw']['profile'] = $userprofile;
 	}
+#endregion
 
+#region ACTIVITY_INFO
 
-//	Information about user activity, available also with single sign-on integration
-
+    /*
+     * Returns ['activity-form'] array, which contains the 
+     * user's activity (questions, comments, answered).
+     */
 	$qa_content['activity-form'] = array(
-		//'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
-
 		'style' => 'wide',
 
 		'fields' => array(
@@ -803,15 +764,6 @@
 				'note' => qa_lang_html('users/only_shown_admins'),
 				'id' => 'bonus',
 			),
-
-			/*'points' => array(
-				'type' => 'static',
-				'label' => qa_lang_html('profile/score'),
-				'value' => (@$userpoints['points'] == 1)
-					? qa_lang_html_sub('main/1_point', '<span class="qa-uf-user-points">1</span>', '1')
-					: qa_lang_html_sub('main/x_points', '<span class="qa-uf-user-points">'.qa_html(number_format(@$userpoints['points'])).'</span>'),
-				'id' => 'points',
-			),*/
 
 			'title' => array(
 				'type' => 'static',
@@ -836,6 +788,9 @@
 		),
 	);
 
+    /*
+    * If we're the admin, place the bonus button here.
+    */
 	if ($loginlevel >= QA_USER_LEVEL_ADMIN) {
 		$qa_content['activity-form']['tags'] = 'method="post" action="'.qa_self_html().'"';
 
@@ -866,73 +821,6 @@
 		);
 	}
 
-    /*
-	if (qa_opt('voting_on_qs') || qa_opt('voting_on_as')) { // only show vote record if voting is enabled
-		$votedonvalue = '';
-
-		if (qa_opt('voting_on_qs')) {
-			$qvotes = @$userpoints['qupvotes']+@$userpoints['qdownvotes'];
-
-			$innervalue = '<span class="qa-uf-user-q-votes">'.number_format($qvotes).'</span>';
-			$votedonvalue .= ($qvotes == 1) ? qa_lang_html_sub('main/1_question', $innervalue, '1')
-				: qa_lang_html_sub('main/x_questions', $innervalue);
-
-			if (qa_opt('voting_on_as'))
-				$votedonvalue .= ', ';
-		}
-
-		if (qa_opt('voting_on_as')) {
-			$avotes = @$userpoints['aupvotes']+@$userpoints['adownvotes'];
-
-			$innervalue = '<span class="qa-uf-user-a-votes">'.number_format($avotes).'</span>';
-			$votedonvalue .= ($avotes == 1) ? qa_lang_html_sub('main/1_answer', $innervalue, '1')
-				: qa_lang_html_sub('main/x_answers', $innervalue);
-		}
-
-		$qa_content['activity-form']['fields']['votedon'] = array(
-			'type' => 'static',
-			'label' => qa_lang_html('profile/voted_on'),
-			'value' => $votedonvalue,
-			'id' => 'votedon',
-		);
-
-		$upvotes = @$userpoints['qupvotes']+@$userpoints['aupvotes'];
-		$innervalue = '<span class="qa-uf-user-upvotes">'.number_format($upvotes).'</span>';
-		$votegavevalue = (($upvotes == 1) ? qa_lang_html_sub('profile/1_up_vote', $innervalue, '1') : qa_lang_html_sub('profile/x_up_votes', $innervalue)).', ';
-
-		$downvotes = @$userpoints['qdownvotes']+@$userpoints['adownvotes'];
-		$innervalue = '<span class="qa-uf-user-downvotes">'.number_format($downvotes).'</span>';
-		$votegavevalue .= ($downvotes == 1) ? qa_lang_html_sub('profile/1_down_vote', $innervalue, '1') : qa_lang_html_sub('profile/x_down_votes', $innervalue);
-
-		$qa_content['activity-form']['fields']['votegave'] = array(
-			'type' => 'static',
-			'label' => qa_lang_html('profile/gave_out'),
-			'value' => $votegavevalue,
-			'id' => 'votegave',
-		);
-
-		$innervalue = '<span class="qa-uf-user-upvoteds">'.number_format(@$userpoints['upvoteds']).'</span>';
-		$votegotvalue = ((@$userpoints['upvoteds'] == 1) ? qa_lang_html_sub('profile/1_up_vote', $innervalue, '1')
-			: qa_lang_html_sub('profile/x_up_votes', $innervalue)).', ';
-
-		$innervalue = '<span class="qa-uf-user-downvoteds">'.number_format(@$userpoints['downvoteds']).'</span>';
-		$votegotvalue .= (@$userpoints['downvoteds'] == 1) ? qa_lang_html_sub('profile/1_down_vote', $innervalue, '1')
-			: qa_lang_html_sub('profile/x_down_votes', $innervalue);
-
-		$qa_content['activity-form']['fields']['votegot'] = array(
-			'type' => 'static',
-			'label' => qa_lang_html('profile/received'),
-			'value' => $votegotvalue,
-			'id' => 'votegot',
-		);
-	}
-    */
-
-	/*if (@$userpoints['points']) {
-		$qa_content['activity-form']['fields']['points']['value'] .=
-			qa_lang_html_sub('profile/ranked_x', '<span class="qa-uf-user-rank">'.number_format($userrank).'</span>');
-	}*/
-
 	if (@$userpoints['aselects']) {
 		$qa_content['activity-form']['fields']['questions']['value'] .= ($userpoints['aselects'] == 1)
 			? qa_lang_html_sub('profile/1_with_best_chosen', '<span class="qa-uf-user-q-selects">1</span>', '1')
@@ -952,9 +840,9 @@
 	$qa_content['raw']['userid'] = $userid;
 	$qa_content['raw']['points'] = $userpoints;
 	$qa_content['raw']['rank'] = $userrank;
+#endregion
 
-
-//	Wall posts
+#region WALL_POSTS
 	if (!QA_FINAL_EXTERNAL_USERS && qa_opt('allow_user_walls')) {
 		$qa_content['message_list'] = array(
 			'title' => '<a name="wall">'.qa_lang_html_sub('profile/wall_for_x', $userhtml).'</a>',
@@ -1002,39 +890,45 @@
 		if ($useraccount['wallposts'] > count($usermessages))
 			$qa_content['message_list']['messages'][] = qa_wall_view_more_link($handle, count($usermessages));
 	}
+#endregion
 
+#region ACTIVITY_LIST
+    /*
+     * Modified form of user-activity page. Gets the most
+     * recent user activty and returns it in an array
+     * named 'activity_list', with an internal array
+     * of 'activitymessages'
+     */
+    $qa_content['activity_list'] = array(
+        'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
 
-// Recent Activity
-		$qa_content['activity_list'] = array(
-			'title' => '<a name="activity">'.qa_lang_html_sub('profile/activity_by_x', $userhtml).'</a>',
+        'tags' => 'id="activitymessages"',
 
-			'tags' => 'id="activitymessages"',
+        'form' => array(
+            'tags' => 'name="activitypost" method="post" action="'.qa_self_html().'#activity"',
+            'style' => 'tall',
+            'hidden' => array(
+                'qa_click' => '', // for simulating clicks in Javascript
+                'handle' => qa_html($useraccount['handle']),
+                'start' => 0,
+                'code' => qa_get_form_security_code('activity-'.$useraccount['handle']),
+            ),
+        ),
 
-			'form' => array(
-				'tags' => 'name="activitypost" method="post" action="'.qa_self_html().'#activity"',
-				'style' => 'tall',
-				'hidden' => array(
-					'qa_click' => '', // for simulating clicks in Javascript
-					'handle' => qa_html($useraccount['handle']),
-					'start' => 0,
-					'code' => qa_get_form_security_code('activity-'.$useraccount['handle']),
-				),
-			),
+        'activitymessages' => array(),
+    );
 
-			'activitymessages' => array(),
-		);
+    foreach ($questions as $question){
+        $qa_content['activity_list']['activitymessages'][] = ($question);
+    }
+#endregion
 
-		foreach ($questions as $question)
-			$qa_content['activity_list']['activitymessages'][] = ($question);
-
-
-
-//	Sub menu for navigation in user pages
-
+#region END_HOUSEKEEPING
+//Sub menu for navigation in user pages
 	$ismyuser = isset($loginuserid) && $loginuserid == (QA_FINAL_EXTERNAL_USERS ? $userid : $useraccount['userid']);
 	$qa_content['navigation']['sub'] = qa_user_sub_navigation($handle, 'profile', $ismyuser);
 
-
+#endregion
 	return $qa_content;
 
 

@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-page-admin-default.php
 	Description: Controller for most admin pages which just contain options
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 	if (!defined('QA_VERSION')) { // don't allow this page to be requested directly from browser
@@ -987,7 +987,7 @@
 							'<small>'.
 							qa_html(urldecode(qa_path('123/why-do-birds-sing', null, '/', $rawoption))).
 							(($rawoption == QA_URL_FORMAT_NEAT) ? strtr(qa_lang_html('admin/neat_urls_note'), array(
-								'^1' => '<a href="http://www.question2answer.org/htaccess.php" target="_blank">',
+								'^1' => '<a href="Based on Question2Answer by Gideon Greenspan and contributorshtaccess.php" target="_blank">',
 								'^2' => '</a>',
 							)) : '').
 							'</small>';

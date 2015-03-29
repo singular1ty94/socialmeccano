@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-plugin/tag-cloud-widget/qa-tag-cloud.php
 	Description: Widget module class for tag cloud plugin
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 class qa_tag_cloud
@@ -118,7 +118,7 @@ class qa_tag_cloud
 
 		$themeobject->output(sprintf('<h2 style="margin-top: 0; padding-top: 0;">%s</h2>', qa_lang_html('main/popular_tags')));
 
-		$themeobject->output('<div style="font-size: 10px;">');
+		$themeobject->output('<div id="tag-cloud" style="font-size: 10px;">');
 
 		$maxsize = qa_opt('tag_cloud_font_size');
 		$minsize = qa_opt('tag_cloud_minimal_font_size');

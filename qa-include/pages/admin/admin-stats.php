@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-page-admin-stats.php
 	Description: Controller for admin page showing usage statistics and clean-up buttons
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 	if (!defined('QA_VERSION')) { // don't allow this page to be requested directly from browser
@@ -73,7 +73,7 @@
 			'q2a_latest' => array(
 				'label' => qa_lang_html('admin/q2a_latest_version'),
 				'type' => 'custom',
-				'html' => '<iframe src="http://www.question2answer.org/question2answer-latest.php?version='.urlencode(QA_VERSION).'&language='.urlencode(qa_opt('site_language')).
+				'html' => '<iframe src="Based on Question2Answer by Gideon Greenspan and contributorsquestion2answer-latest.php?version='.urlencode(QA_VERSION).'&language='.urlencode(qa_opt('site_language')).
 					'" width="100" height="16" style="vertical-align:middle; border:0; background:transparent;" allowTransparency="true" scrolling="no" frameborder="0"></iframe>',
 			),
 

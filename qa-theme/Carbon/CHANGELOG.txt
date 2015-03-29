@@ -1,36 +1,36 @@
-Changelog from Snow
+CHANGELOG
 
-Converted to SASS
-Added color variables
-Moved search bar to Header
-Removed additional search bar colors
-Moved account detail to left side of search bar
-Swapped order of name/profile image, changed them to sit inline
-Enlargened font size in username, colored white
-Added user rep on the header profile bar
-Moved main-nav out of the header.
-Removed Visited coloring.
-Fixed bug with userpoints when user wasn't logged in
-Removed Hover coloring on A's.
-Repositioned & resized user profile to match mockups
 
-Removed page title in qa-theme-base (line 692)
-Removed fontello symbols for some of the main nav links
-Removed the recent feed from the side of the page (for now)
-Repositioned avatar block for questions (list view)
-Fixed styling bug with some links being white-on-white
-Fixed styling bug with avatar link hover color
-Modified avatar points display to use bulletpoint
-Removed key icon from Login button
-Fixed login-button (when logged out) to match search bar height
-Fixed styling bug for avatar links previously visited
-Removed userpoints from drop-down menu
-Removed Updates from drop-down
-Moved Updates link to main nav, erased words
-Added background-hover to the new Updates link
-!Updated fontello font!
-Added friends button to main nav
-
+------------------------------------------------------------------------------------------
+Fixed alignment of badges tab on user profile
+Allowed user to hyperlink directly to badges tab from notifications
+Adjusted font size of badges on profile page
+Removed 'custom2' from array on full badges page
+Removed icon from user-score on users page
+Merged user-score with badges on users page
+Styling changes to 'chosen as x' labels on profile page
+------------------------------------------------------------------------------------------
+Removed some highly unnecessary 'content' tags in SCSS
+Added some more variables, cleared some more code in SCSS
+Changed all licensing to now attribute us, based on the Q2A
+Commented user-profile with region blocks and comment blocks!
+Added Badges Plugin, fixed some bugs in the code
+Activated Badges page
+Activated Tag Cloud widget.
+Added styling for Tag-Cloud, modified Tag-Cloud code to include #ID
+Fixed code error on Badges Page
+------------------------------------------------------------------------------------------
+Removed ALL deprecated files.
+Created new activity-* functions in qa-theme-base
+Activity now displays label after the numbers, modified lang descriptions
+Modified activity form to only output in one single row
+Added new code in user-profile to generate activity list
+Added new code in qa-theme-base to support an 'activity-list'
+Modified styling to support activity-list on user profile page
+Tags are now clickable on recent activity list (profile)
+Questions are now clickable on recent activity list (profile)
+Styling changes to accomodate all of the new features
+------------------------------------------------------------------------------------------
 Added new profile-* functions to qa-theme-base
     Expanded if selector to accomodate profile-form option in qa_content parts
 Removed duration and member type from user profile
@@ -47,14 +47,34 @@ Removed text for 'shown only to admin'
 Removed IP address tracking on admin page
 Temporarily disabled private messaging
 Removed deprecated qa-page-*.php files
-
-Removed ALL deprecated files.
-Created new activity-* functions in qa-theme-base
-Activity now displays label after the numbers, modified lang descriptions
-Modified activity form to only output in one single row
-Added new code in user-profile to generate activity list
-Added new code in qa-theme-base to support an 'activity-list'
-Modified styling to support activity-list on user profile page
-Tags are now clickable on recent activity list (profile)
-Questions are now clickable on recent activity list (profile)
-Styling changes to accomodate all of the new features
+------------------------------------------------------------------------------------------
+Removed page title in qa-theme-base (line 692)
+Removed fontello symbols for some of the main nav links
+Removed the recent feed from the side of the page (for now)
+Repositioned avatar block for questions (list view)
+Fixed styling bug with some links being white-on-white
+Fixed styling bug with avatar link hover color
+Modified avatar points display to use bulletpoint
+Removed key icon from Login button
+Fixed login-button (when logged out) to match search bar height
+Fixed styling bug for avatar links previously visited
+Removed userpoints from drop-down menu
+Removed Updates from drop-down
+Moved Updates link to main nav, erased words
+Added background-hover to the new Updates link
+!Updated fontello font!
+Added friends button to main nav
+------------------------------------------------------------------------------------------
+Converted to SASS
+Added color variables
+Moved search bar to Header
+Removed additional search bar colors
+Moved account detail to left side of search bar
+Swapped order of name/profile image, changed them to sit inline
+Enlargened font size in username, colored white
+Added user rep on the header profile bar
+Moved main-nav out of the header.
+Removed Visited coloring.
+Fixed bug with userpoints when user wasn't logged in
+Removed Hover coloring on A's.
+Repositioned & resized user profile to match mockups

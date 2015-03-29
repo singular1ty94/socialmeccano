@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-plugin/tag-cloud-widget/qa-plugin.php
 	Description: Initiates tag cloud widget plugin
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 /*
@@ -27,7 +27,7 @@
 	Plugin Version: 1.0.1
 	Plugin Date: 2011-12-06
 	Plugin Author: Question2Answer
-	Plugin Author URI: http://www.question2answer.org/
+	Plugin Author URI: Based on Question2Answer by Gideon Greenspan and contributors
 	Plugin License: GPLv2
 	Plugin Minimum Question2Answer Version: 1.4
 	Plugin Update Check URI:

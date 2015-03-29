@@ -39,7 +39,7 @@ class qa_html_theme extends qa_html_theme_base
 	private $icon_url = 'images/icons';
 
 	private $fixed_topbar = false;
-	private $welcome_widget_class = 'wet-asphalt';
+	private $welcome_widget_class = 'carbon';
 	private $ask_search_box_class = 'carbon';
 	// Size of the user avatar in the navigation bar
 	private $nav_bar_avatar_size = 32;
@@ -562,6 +562,7 @@ class qa_html_theme extends qa_html_theme_base
 	 */
 	private function qam_user_account()
 	{
+        
 		if (qa_is_logged_in()) {
 			// get logged-in user avatar
 			$handle = qa_get_logged_in_user_field('handle');

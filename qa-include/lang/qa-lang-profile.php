@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-lang-profile.php
 	Description: Language phrases for user profile page
@@ -17,7 +17,7 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
 
 	return array(
@@ -84,7 +84,7 @@
 		'x_chosen_as_best' => ' (^ chosen as best)',
 		'x_down_votes' => '^ down votes',
 		'x_up_votes' => '^ up votes',
-		'x_with_best_chosen' => ' (^ with best answer chosen)',
+		'x_with_best_chosen' => ' (^ marked with answer)',
 	);
 
 

@@ -1,7 +1,7 @@
 <?php
 /*
-	Question2Answer by Gideon Greenspan and contributors
-	http://www.question2answer.org/
+	Social Meccano by Brett Orr and Samuel Hammill
+	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-include/qa-theme-base.php
 	Description: Default theme class, broken into lots of little functions for easy overriding
@@ -17,8 +17,24 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	More about this license: http://www.question2answer.org/license.php
+	 
 */
+/*
+ *  The big mama of almost every page. Every $qa_content request
+ *  gets pushed through this file and its children, generating the
+ *  html with embedded data for your CSS to style. Pay attention to the
+ *  classes and id's coming back with the HTML tags.
+ *  REGIONS:
+ *      - HOUSEKEEPING
+ *      - PROCESS_EDIT
+ *      - BONUS_POINTS
+ *      - CONTENT_PREP
+ *      - BASIC_INFO
+ *      - ACTIVITY_INFO
+ *      - WALL_POSTS
+ *      - ACTIVITY_LIST
+ *      - END_HOUSEKEEPING
+ */ 
 
 if (!defined('QA_VERSION')) { // don't allow this page to be requested directly from browser
 	header('Location: ../');
@@ -53,10 +69,10 @@ class qa_html_theme_base
 	protected $ranking_block_layout = false;
 
 
-	public function __construct($template, $content, $rooturl, $request)
-/*
+    /*
 	Initialize the object and assign local variables
-*/
+    */
+	public function __construct($template, $content, $rooturl, $request)
 	{
 		$this->template = $template;
 		$this->content = $content;
@@ -65,16 +81,6 @@ class qa_html_theme_base
 
 		$this->isRTL = isset($content['direction']) && $content['direction'] === 'rtl';
 	}
-
-	/**
-	 * @deprecated PHP4-style constructor deprecated from 1.7; please use proper `__construct`
-	 * function instead.
-	 */
-	public function qa_html_theme_base($template, $content, $rooturl, $request)
-	{
-		self::__construct($template, $content, $rooturl, $request);
-	}
-
 
 	public function output_array($elements)
 /*
