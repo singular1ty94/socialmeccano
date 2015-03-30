@@ -40,7 +40,9 @@
 			
 			$totalawarded = 0;
 			
-			$qa_content['custom']='<em>'.qa_lang('badges/badge_list_pre').'</em><br />';
+            $heads = '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><link rel="stylesheet" href="/resources/demos/style.css"><script>$(function(){$( "#tabs" ).tabs();});</script>';
+            
+			$qa_content['custom']= $heads;
 			//$qa_content['custom2']='<table cellspacing="20">';
 			$c = 2;
 			
@@ -50,9 +52,20 @@
 				)
 			);
 			
+            //Tabs Header.            
+            $qa_content['custom'] .= '<div id="tabs">
+                <ul>
+                <li><a href="#all">All Badges</a></li>
+                <li><a href="#bronze">Bronze</a></li>
+                <li><a href="#silver">Silver</a></li>
+                <li><a href="#gold">Gold</a></li>
+                </ul>';
+            
+            
 			$count = array();
 			
 			foreach($result as $r) {
+                
 				if(qa_opt('badge_'.$r['badge_slug'].'_enabled') == '0') continue;
 				if(isset($count[$r['badge_slug']][$r['user_id']])) $count[$r['badge_slug']][$r['user_id']]++;
 				else $count[$r['badge_slug']][$r['user_id']] = 1;
@@ -62,18 +75,38 @@
 			}
             			
 
-			foreach($badges as $slug => $info) {
+            //Badge Tabs
+            $all = '<div id="all">';
+            $badgeBronze = '<div id="bronze">';
+            $badgeSilver = '<div id="silver">';
+            $badgeGold = '<div id="gold">';
+            
+            //Run through.
+            foreach($badges as $slug => $info) {                
 				if(qa_opt('badge_'.$slug.'_enabled') == '0') continue;
 				$badge_name = qa_badge_name($slug);
-				if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
-				$name = qa_opt('badge_'.$slug.'_name');
+				
+                if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
+				
+                $name = qa_opt('badge_'.$slug.'_name');
 				$var = qa_opt('badge_'.$slug.'_var');
 				$desc = qa_badge_desc_replace($slug,$var,false);
 				$type = qa_get_badge_type($info['type']);
 				$types = $type['slug']; 
 				$typen = $type['name']; 
-				$qa_content['custom'] .='<tr><td class="badge-entry"><div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';
-				$qa_content['custom'] .='<tr><td class="badge-entry"><div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';
+                
+                //Add to all
+                $all .= '<div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';
+                
+                //Add to the specific group.
+                if($types == 'bronze'){
+                    $badgeBronze .= '<div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';
+                }else if($types == 'silver'){
+                    $badgeSilver .= '<div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';                
+                }else if($types == 'gold'){
+                    $badgeGold .= '<div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';                
+                }
+                
 				
 				// source users
 
@@ -104,7 +137,13 @@
 					}
 					$qa_content['custom'.$c] .= implode(', ',$users).'</div>';
 				}
-			}
+			}            
+            
+            //Add the tabs.
+            $qa_content['custom'] .= $all .= '</div>';
+            $qa_content['custom'] .= $badgeBronze .= '</div>';
+            $qa_content['custom'] .= $badgeSilver .= '</div>';
+            $qa_content['custom'] .= $badgeGold .= '</div>';
 
 
 			if(isset($qa_content['navigation']['main']['custom-2'])){

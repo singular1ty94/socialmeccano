@@ -338,9 +338,20 @@ blockquote {
 }
 
 //Change the badges on the badges page.
-.qa-part-custom .badge-entry-badge{
-    margin: 5px 0 5px 0;
-    font-size: 10pt;
+#tabs {
+
+    a{
+        font-size: 10pt;
+    }
+    
+    .badge-entry-badge{
+        margin: 5px 0 5px 0;
+        font-size: 10pt;
+    }
+    
+    .badge-entry-desc{
+        font-size: 9pt;
+    }
 }
 
 //The badges part of the profile page.
@@ -1074,9 +1085,9 @@ h1 {
 }
 
 .qa-favoriting {
-  position: absolute;
-  right: 10px;
-  top: 5px;
+  position: relative;
+  z-index: 99;
+  float:left;
   .qa-waiting {
     position: absolute;
     left: 50%;

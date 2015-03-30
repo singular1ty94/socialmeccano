@@ -2,6 +2,10 @@ CHANGELOG
 
 
 ------------------------------------------------------------------------------------------
+Now have jQueryUI powered Tabs on Badges page, closer to mockup
+Some style changes to accomodate this tabs change
+Removed the pre message for the badges page
+------------------------------------------------------------------------------------------
 Fixed alignment of badges tab on user profile
 Allowed user to hyperlink directly to badges tab from notifications
 Adjusted font size of badges on profile page
