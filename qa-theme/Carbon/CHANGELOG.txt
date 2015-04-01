@@ -2,6 +2,14 @@ CHANGELOG
 
 
 ------------------------------------------------------------------------------------------
+Changed some logins.
+Removed dummy questions, added some legitimate questions.
+Tag Cloud shows less tags, now lets user navigate to all tags
+Turned on predictive tags and suggested questions
+Fixed positioning of favorite button/user-profile structure
+Removed 'best answer' or 'chosen as' text.
+Stamped out annoying overflow bug.
+------------------------------------------------------------------------------------------
 Now have jQueryUI powered Tabs on Badges page, closer to mockup
 Some style changes to accomodate this tabs change
 Removed the pre message for the badges page

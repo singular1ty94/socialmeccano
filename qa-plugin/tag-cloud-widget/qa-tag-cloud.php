@@ -138,7 +138,7 @@ class qa_tag_cloud
 				$themeobject->output(sprintf('<a href="%s" style="font-size: %dpx; vertical-align: baseline;">%s</a>', qa_path_html('tag/' . $tag), $size, qa_html($tag)));
 			}
 		}
-
 		$themeobject->output('</div>');
+        $themeobject->output('<br/>See <a href="?qa=tags">more tags.</a>');
 	}
 }

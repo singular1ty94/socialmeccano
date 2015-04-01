@@ -821,17 +821,17 @@
 		);
 	}
 
-	if (@$userpoints['aselects']) {
+	/*if (@$userpoints['aselects']) {
 		$qa_content['activity-form']['fields']['questions']['value'] .= ($userpoints['aselects'] == 1)
 			? qa_lang_html_sub('profile/1_with_best_chosen', '<span class="qa-uf-user-q-selects">1</span>', '1')
 			: qa_lang_html_sub('profile/x_with_best_chosen', '<span class="qa-uf-user-q-selects">'.number_format($userpoints['aselects']).'</span>');
-	}
+	}*/
 
-	if (@$userpoints['aselecteds']) {
+	/*if (@$userpoints['aselecteds']) {
 		$qa_content['activity-form']['fields']['answers']['value'] .= ($userpoints['aselecteds'] == 1)
 			? qa_lang_html_sub('profile/1_chosen_as_best', '<span class="qa-uf-user-a-selecteds">1</span>', '1')
 			: qa_lang_html_sub('profile/x_chosen_as_best', '<span class="qa-uf-user-a-selecteds">'.number_format($userpoints['aselecteds']).'</span>');
-	}
+	}*/
 
 
 
