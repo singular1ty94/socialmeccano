@@ -41,8 +41,8 @@
 									'CREATE TABLE IF NOT EXISTS ^groups ('.
 										'created_at DATETIME NOT NULL,'.
 										'id INT(11) NOT NULL AUTO_INCREMENT,'.
-										'group_name VARCHAR (64) CHARACTER SET ascii NOT NULL,'.
-										'group_description VARCHAR (64) CHARACTER SET ascii DEFAULT \'\','.
+										'group_name VARCHAR (64) NOT NULL,'.
+										'group_description VARCHAR (200) DEFAULT \'\','.
 										'avatarblobid bigint(20) unsigned DEFAULT NULL,'.
 										'group_information VARCHAR(8000) DEFAULT \'\','.
 										'tags VARCHAR(100) DEFAULT NULL,'.
@@ -65,30 +65,19 @@
 					
 					// Create group announcement table
 					qa_db_query_sub(
-									'CREATE TABLE IF NOT EXISTS ^group_announcements ('.
+									'CREATE TABLE IF NOT EXISTS ^group_posts ('.
 										'id INT(11) NOT NULL AUTO_INCREMENT,'.
 										'posted_at DATETIME NOT NULL,'.
 										'group_id INT(11) NOT NULL,'.
 										'user_id INT(11) NOT NULL,'.
-										'announcement_title VARCHAR (64) CHARACTER SET ascii NOT NULL,'.
-										'announcement_content VARCHAR (64) CHARACTER SET ascii DEFAULT \'\','.
+										'title VARCHAR (200) ,'.
+										'content VARCHAR (8000) DEFAULT NULL,'.
+										'tags VARCHAR(100) DEFAULT NULL,'.
+										'type enum("A", "D", "C") NOT NULL,'.
+										'parent_id INT(11) DEFAULT NULL,'.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);
-
-					// Create group discussion table
-					qa_db_query_sub(
-									'CREATE TABLE IF NOT EXISTS ^group_discussions ('.
-										'id INT(11) NOT NULL AUTO_INCREMENT,'.
-										'posted_at DATETIME NOT NULL,'.
-										'group_id INT(11) NOT NULL,'.
-										'user_id INT(11) NOT NULL,'.
-										'discussion_title VARCHAR (64) CHARACTER SET ascii NOT NULL,'.
-										'discussion_content VARCHAR (64) CHARACTER SET ascii DEFAULT \'\','.
-										'PRIMARY KEY (id)'.
-									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);
-								
+								);						
 				}
 				$ok = qa_lang('groups/group_admin_saved');
 			}

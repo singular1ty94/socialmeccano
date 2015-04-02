@@ -23,6 +23,31 @@
 		exit;
 	}
 	
+/*
+	Available Functions for brevity...
+	getAllGroups()
+	getMyGroups($userid)
+	addUserToGroup($userid, $groupid, $is_admin)
+	getGroupData($groupid)
+	createNewGroup($groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $userid)
+	updateGroupProfile($groupid, $groupName, $groupDescription, $groupInfo, $groupTags, $userid)
+	removeUserFromGroup($userid, $groupid)
+	makeUserGroupAdmin($userid, $groupid)
+	getMemberCount($groupid)
+	getGroupAvatar($blobid
+	getGroupAdmins($groupid)
+	getGroupMembers($groupid)
+	deleteGroup($groupid)
+	createPost($groupid, $userid, $title, $content, $tags, $type)
+	createPost($groupid, $userid, $title, $content, $tags, $type, $parentid)
+	getAllAnnoucements($groupid)
+	getAllDiscussions($groupid)
+	getRecentAnnoucements($groupid)
+	getRecentDiscussions($groupid)
+	getComments($postid)
+*/	
+
+	
 		function getAllGroups() {
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT * FROM ^groups')
@@ -112,17 +137,107 @@
 		}
 		
 		
+		// double check this
+		function getGroupAvatar($blobid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT content FROM ^blobs WHERE blobid = $',	$blobid)
+			);
+			return $result;
+		}		
 		
-		// DB TODO:
-		// 1. Delete Group (needs a few queries (clear group, users from group, groupAvatar, announcements and discussions...))
-		// 2. Add announcement
-		// 3. Add discussion
-		// 4. Add comments
-		// 5. Get Recent Announcements
-		// 6. Get Recent Discussions
-		// 7. Get group members.
-		// 8. Get a COUNT on group members
-		// 9. 
+		
+		function getGroupAdmins($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT userid, handle, avatarblobid FROM ^users '.
+				'INNER JOIN ^group_members ON ^users.userid = ^group_members.user_id WHERE group_id = $ AND is_admin = 1', $groupid)
+			);
+			return $result;
+		}
+		
+		function getGroupMembers($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT userid, handle, avatarblobid FROM ^users '.
+				'INNER JOIN ^group_members ON ^users.userid = ^group_members.user_id WHERE group_id = $ AND is_admin = 0', $groupid)
+			);
+			return $result;
+		}
+		
+		function deleteGroup($groupid) {
+			// Delete all users from group		
+			qa_db_query_sub('DELETE FROM ^group_members WHERE group_id = $)', $groupid);
+			
+			// Delete group posts (announcements, discussions, comments)
+			qa_db_query_sub('DELETE FROM ^group_posts WHERE group_id = $)', $groupid);
+			
+			// Get the blobid so we can delete it
+			$blobid = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT avatarblobid FROM ^groups WHERE id = $', $groupid)
+			);
+			
+			// Delete avatar from blobs
+			qa_db_query_sub('DELETE FROM ^blobs WHERE $blobid=#', $blobid);
+			
+			// Delete the group itself
+			qa_db_query_sub('DELETE FROM ^groups WHERE group_id = $)', $groupid);
+		}
+		
+		
+		//type is enum('A', 'D', 'C') - A=Annoucement, D=Discussion, C=Comment
+		function createPost($groupid, $userid, $title, $content, $tags, $type, $parentid) {
+			qa_db_query_sub('INSERT INTO ^group_posts (posted_at, group_id, user_id, title, content, tags, type)'.
+			'VALUES (NOW(), $, $, $, $, $, $, $)',
+			$groupid, $userid, $title, $content, $tags, $type, $parentid);
+		}
+		
+		
+		function getAllAnnoucements($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
+								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC', $groupid)
+			);
+			return $result;
+		}		
+		
+		
+		function getAllDiscussions($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
+								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC', $groupid)
+			);
+			return $result;
+		}
+		
+		
+		function getRecentAnnoucements($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
+								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
+			);
+			return $result;
+		}
+		
+		
+		function getRecentDiscussions($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
+								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
+			);
+			return $result;
+		}
+		
+		
+		function getComments($postid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
+								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+								'WHERE type = "C" AND parent_id = # ORDER BY posted_at ASC', $postid)
+			);
+			return $result;
+		}
 
 
 /*
