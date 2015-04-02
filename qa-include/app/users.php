@@ -86,6 +86,7 @@
 	*/
 		{
 			$user=qa_get_logged_in_user_cache();
+            
 
 			return @$user[$field];
 		}

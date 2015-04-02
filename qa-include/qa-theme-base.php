@@ -692,26 +692,29 @@ class qa_html_theme_base
 
 	public function main()
 	{
-		$content = $this->content;
 
-		$this->output('<div class="qa-main'.(@$this->content['hidden'] ? ' qa-main-hidden' : '').'">');
+        
+            $content = $this->content;
 
-		$this->widgets('main', 'top');
+            $this->output('<div class="qa-main'.(@$this->content['hidden'] ? ' qa-main-hidden' : '').'">');
 
-		$this->page_title_error();
+            $this->widgets('main', 'top');
 
-		$this->widgets('main', 'high');
+            $this->page_title_error();
 
-		$this->main_parts($content);
+            $this->widgets('main', 'high');
 
-		$this->widgets('main', 'low');
+            $this->main_parts($content);
 
-		$this->page_links();
-		$this->suggest_next();
+            $this->widgets('main', 'low');
 
-		$this->widgets('main', 'bottom');
+            $this->page_links();
+            $this->suggest_next();
 
-		$this->output('</div> <!-- END qa-main -->', '');
+            $this->widgets('main', 'bottom');
+
+            $this->output('</div> <!-- END qa-main -->', '');
+        
 	}
 
 	public function page_title_error()

@@ -818,7 +818,12 @@
 		if (QA_DEBUG_PERFORMANCE)
 			$qa_usage->mark('view');
 
-		qa_output_content($qa_content);
+        if(@$_GET['json'] !== null){
+            header('Content-Type: application/json');
+            echo json_encode($qa_content);
+        }else{
+            qa_output_content($qa_content);
+        }
 
 		if (QA_DEBUG_PERFORMANCE)
 			$qa_usage->mark('theme');

@@ -604,6 +604,9 @@ class qa_html_theme extends qa_html_theme_base
             $auth_icon,
 			'</div>'
 		);
+        
+        //Place data back in $qa_content
+        $this->content['avatar'] = $handle;
 	}
 
 	/**
