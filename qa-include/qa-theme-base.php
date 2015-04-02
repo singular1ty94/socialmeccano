@@ -511,7 +511,7 @@ class qa_html_theme_base
     public function groups()
     {
         $this->output(
-           '<a href="' . qa_path_html('updates') . '" class="qa-groups-link">' .
+           '<a href="' . qa_path_html('groups') . '" class="qa-groups-link">' .
            '' .
            '</a>'
         );
