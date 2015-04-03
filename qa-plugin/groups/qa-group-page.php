@@ -52,6 +52,7 @@
 			// TO DO: Check that the user is a member of the group. So they can't see all the things.
 			
 			include 'qa-group-db.php';
+			include 'qa-group-helper.php';
 			$groupProfile = getGroupData($groupid);
 			
 			
@@ -79,17 +80,18 @@
 			// Set the browser tab title for the page.
 			$qa_content['title']=$groupName;
 
-			
-            $heads = '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><link rel="stylesheet" href="/resources/demos/style.css"><script>$(function(){$( "#tabs" ).tabs();});</script>';
-            
-			
+			//Get the JQueryUI script fragment.
+            $heads = getJQueryUITabs('group-tabs');
 			$qa_content['custom']= $heads;
-			$qa_content['custom'] .= $groupName. '<br><br>';
-			$qa_content['custom2']='<table cellspacing="20">';
-			$c = 2;
-			
+            
+            //Left-hand pane.
+            $qa_content['custom'] .= getSidePane() . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label') . endSidePane();;
+            
+            //Group header.
+			$qa_content['custom'] .= getGroupHeader($groupName);
+
             //Tabs Header.            
-            $qa_content['custom'] .= '<div id="tabs">
+            $qa_content['custom'] .= '<div id="group-tabs">
                 <ul>
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#announcements">Announcements</a></li>
@@ -98,13 +100,12 @@
                 </ul>';		
 
             //group Tabs
-            $overview = '<div id="overview">Group Information<br>' . $groupInfo .'<br>
+            $overview = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><br/>
 			<br>Recent Announcements<br>
-			<br>Recent Discussions<br>
-			<br>Members: ' . $memberCount ;
-            $groupAnnoucements = '<div id="announcements">';
-            $groupDiscussions = '<div id="discussions">';
-            $groupMembers = '<div id="members">'; 
+			<br>Recent Discussions<br>';
+            $groupAnnoucements = '<div class="group-tabs" id="announcements">';
+            $groupDiscussions = '<div class="group-tabs" id="discussions">';
+            $groupMembers = '<div class="group-tabs" id="members">'; 
             
             //Add the tabs.
             $qa_content['custom'] .= $overview .= '</div>';

@@ -1,6 +1,12 @@
 CHANGELOG
 
-
+Changes to Groups code to add HTML tags
+Changes to styling to support new Groups
+Fixed bug where custom pages would crop the footer
+Changed maximum width of main div on template-plugin pages
+Massive changes to display of group-page
+Fixed groups bug for relative page URLs
+Implemented helper functions for Group pages
 ------------------------------------------------------------------------------------------
 Changed some logins.
 Removed dummy questions, added some legitimate questions.

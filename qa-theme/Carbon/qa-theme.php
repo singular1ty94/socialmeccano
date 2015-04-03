@@ -246,11 +246,10 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('</div> <!-- END main-wrapper -->');
 
 		$this->widgets('full', 'low');
-		$this->output('</div> <!-- END body-wrapper -->');
-
-		$this->footer();
+		$this->output('</div></div> <!-- END body-wrapper -->');
 
 		$this->body_suffix();
+        $this->footer();
 	}
 
 	/**

@@ -400,10 +400,11 @@ class qa_html_theme_base
 		$this->sidepanel();
 		$this->main();
 		$this->widgets('full', 'low');
-		$this->footer();
 		$this->widgets('full', 'bottom');
 
 		$this->output('</div> <!-- END body-wrapper -->');
+        
+        $this->footer();
 
 		$this->body_suffix();
 	}

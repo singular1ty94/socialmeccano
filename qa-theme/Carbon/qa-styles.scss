@@ -2183,6 +2183,11 @@ input[type="submit"], button {
   }
 }
 
+.qa-part-custom{
+    width: 100%;
+    background-color: #ECF0F1;
+}
+
 /*------[ users ]------*/
 
 .qa-template-user .qa-main {
@@ -3454,6 +3459,91 @@ input[type="submit"], button {
 .qa-nav-footer-link {
   display: block;
   font-weight: normal;
+}
+
+
+/**** {GROUPS} ****/
+.group-description{
+    font-size: 10pt;
+}
+
+.qa-group-tag-list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+        margin: 0 5px 0 0;
+        list-style: none;
+        display: inline-block;
+    }
+}
+
+.group-list-header{
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 14pt;
+}
+
+.group-list-wrapper{
+    padding: 10px;
+    margin-bottom: 10px;
+    
+    &.even{
+        background-color: #f6f6f6;
+    }
+    
+    &.odd{
+        background-color: #fff;
+    }
+}
+
+.group-header-large{
+    margin-top: 80px;
+    width: 70%;
+    float: right;
+    background-color: $theme-main;
+    padding: 20px;
+    text-align: left;
+    .group-name{
+        color:white;
+        font-size: 20pt;
+    }
+}
+
+#group-tabs{
+    font-size: 12pt;
+    width: 70%;
+    float:right;
+    
+    .group-tabs{
+        font-size: 13pt;
+    }
+    
+    .group-info{
+        font-size: 11pt;
+    }
+}
+
+.group-sidepane{
+    width: 30%;
+    float: left;
+    height: 600px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.group-member-count{
+    font-size: 22pt;
+}
+
+.group-member-count-label{
+    font-size:12pt;
+}
+
+.qa-template-plugin{
+    .qa-main{
+        width: 100%;
+    }
 }
 
 @media (max-width: 479px) {

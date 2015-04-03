@@ -38,8 +38,6 @@
 
 			return false;
 		}
-		
-
 
 		function process_request($request)
 		{
@@ -48,32 +46,43 @@
 			$qa_content['title']=qa_lang('groups/group_list_title');
 			
 			include 'qa-group-db.php';
+			include 'qa-group-helper.php';
 			
 			// TWO options here, get a list of all groups, or get a list of MY groups. (maybe we could do tabs?)
 			$groupList = getAllGroups();
 			 //$groupList = getMyGroups(1);  //TODO, get current user_id, substitute.
 			
-            $heads = '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><link rel="stylesheet" href="/resources/demos/style.css"><script>$(function(){$( "#tabs" ).tabs();});</script>';
+            $heads = getJQueryUITabs('tabs');
 			
 			$qa_content['custom']= $heads;
-			$qa_content['custom'] .= 'Group List <br>';
-			
-			
+			$qa_content['custom'] .= '<h2>Group List</h2>';
 			
 			
 			if (empty($groupList)) {
 				$groupid = createNewGroup('Test Group Pls Ignore', 'This is our test group', 14306193309127865143, 'This is our group information', 'test,PHP', 1);
 				$qa_content['custom'] .= 'No Groups Found! <br> I just made one for you to test with with id#' . $groupid;
-				$qa_content['custom'] .= '<br><a href="/group/' . $groupid . '">Take me there...</a>';
+				$qa_content['custom'] .= '<br><a href="./group/' . $groupid . '">Take me there...</a>';
 				
 			}
-			else {			
+			else {
+                //Even/odd wrapper color.
+                $wrapper = true;
+                
 				foreach ($groupList as $group) {
-					// Apologies for how atrocious this is. Just wanted a quick demo.
-					$qa_content['custom'] .= '<br><a href="/group/' . $group["id"] . '">' 
-					. $group["group_name"] . '</a> - '. $group["group_description"] . '<br>';
-					$qa_content['custom'] .= 'Tags: ' . $group["tags"];
+                    //Get our formatted tags.
+                    $taglist = getGroupTags($group["tags"]);
+                    
+                    //Start the wrapper.
+                    $qa_content['custom'] .= getGroupListWrapper($wrapper);
+                    
+					//Get the Group name.
+					$qa_content['custom'] .= getGroupListName($group["id"], $group["group_name"], $group["group_description"]);
+                    //The group tags...
+					$qa_content['custom'] .= $taglist;
 					$qa_content['custom'] .= '<br>'. $group["avatarblobid"]; //obviously we want the actual image, not the id. TODO
+                    
+                    //End the wrapper.
+                    $qa_content['custom'] .= endGroupListWrapper();
 				}
 			}
 			
