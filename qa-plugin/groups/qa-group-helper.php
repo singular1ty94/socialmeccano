@@ -87,6 +87,15 @@ function getGroupListName($id, $groupName, $groupDescr){
     return '<h3 class="group-list-header"><a href="./group/' . $id . '">' . $groupName . '</a></h3><span class="group-description">'. $groupDescr . '</span><br/>';
 }
 
+
+/*
+ * Displays an individual user profile on the members tab of a group.
+ */
+function displayGroupMember($userName, $avatarid) {
+	$avatarHTML = '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
+	return ($avatarHTML . '<br><a href="/user/' . $userName . '">' . $userName . '</a><br>');
+}
+
 /*
  * Close the group wrapper.
  */

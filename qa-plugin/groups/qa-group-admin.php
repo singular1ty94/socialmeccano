@@ -46,6 +46,8 @@
 										'avatarblobid bigint(20) unsigned DEFAULT NULL,'.
 										'group_information VARCHAR(8000) DEFAULT \'\','.
 										'tags VARCHAR(100) DEFAULT NULL,'.
+										'group_location VARCHAR (200) DEFAULT \'\','.
+										'group_website VARCHAR (200) DEFAULT \'\','.
 										'created_by INT(11) NOT NULL,'.
 										'member_approval INT(1) NOT NULL DEFAULT \'0\','.
 										'is_hidden INT(1) NOT NULL DEFAULT \'0\','.

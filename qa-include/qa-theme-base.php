@@ -503,7 +503,7 @@ class qa_html_theme_base
     public function friends()
     {
         $this->output(
-           '<a href="' . qa_path_html('updates') . '" class="qa-friends-link">' .
+           '<a href="' . qa_path_html('friends') . '" class="qa-friends-link">' .
            '' .
            '</a>'
         );

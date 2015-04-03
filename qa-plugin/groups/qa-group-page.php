@@ -46,33 +46,50 @@
 			$groupid = qa_request_part(1);
 			if (!strlen($groupid)) {
 				qa_redirect(isset($groupid) ? 'group/'.$groupid : 'groups');
-			}
-			
-			// TO DO: Check that the user is logged in.
-			// TO DO: Check that the user is a member of the group. So they can't see all the things.
+			}		
 			
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
+			
+			$userid = qa_get_logged_in_userid();
+			$currentUserIsMember = isUserGroupMember($userid, $groupid);
+			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
+			
 			$groupProfile = getGroupData($groupid);
-			
-			
+
 			// If the DB returns an empty array, group not found, so redirect to groups page
 			if (empty($groupProfile)) {
 				qa_redirect('groups');
 			}
 
 			// Set vars from DB result
-			$createdAt = $groupProfile[0]["created_at"];
-			$groupName = $groupProfile[0]["group_name"];
-			$groupDescription = $groupProfile[0]["group_description"];
-			$groupInfo = $groupProfile[0]["group_information"];
-			$groupTags = $groupProfile[0]["tags"];
-			$groupCreator = $groupProfile[0]["created_by"];
-			$groupAvatar = $groupProfile[0]["avatarblobid"];
-						
+			$createdAt = $groupProfile["created_at"];
+			$groupName = $groupProfile["group_name"];
+			$groupDescription = $groupProfile["group_description"];
+			$groupInfo = $groupProfile["group_information"];
+			$groupTags = $groupProfile["tags"];
+			$groupCreator = $groupProfile["created_by"];
+			$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $groupProfile["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/>';
+			$groupLocation = $groupProfile["group_location"];
+			$groupWebsite = $groupProfile["group_website"];
+			$memberCount = getMemberCount($groupid)["COUNT(user_id)"];
+		
+			//Overview Tab Info
+			$recentAnnouncements = getRecentAnnouncements($groupid);
+			$recentDiscussions = getRecentDiscussions($groupid);
 			
-			$memberCount = getMemberCount($groupid)[0]["COUNT(user_id)"];
+			// Announcements Tab Info
+			$announcements = getAllannouncements($groupid);
 			
+			// Discussions Tab Info
+			$discussions = getAllDiscussions($groupid);
+			
+			//Members Tab Info
+			$groupAdmins = getGroupAdmins($groupid);
+			$groupMembers = getGroupMembers($groupid);
+	
+	
+	
 			// UI Generation below this.
 			
 			$qa_content=qa_content_prepare();
@@ -85,34 +102,135 @@
 			$qa_content['custom']= $heads;
             
             //Left-hand pane.
-            $qa_content['custom'] .= getSidePane() . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label') . endSidePane();;
+            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label') . endSidePane();;
             
             //Group header.
 			$qa_content['custom'] .= getGroupHeader($groupName);
-
+			
             //Tabs Header.            
             $qa_content['custom'] .= '<div id="group-tabs">
                 <ul>
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#announcements">Announcements</a></li>
                 <li><a href="#discussions">Discussions</a></li>
-                <li><a href="#members">Members</a></li>
-                </ul>';		
+                <li><a href="#members">Members</a></li>';
+			
+			// Only display admin tab if the current user is one.			
+			if ($currentUserIsAdmin) {
+				$qa_content['custom'] .= '<li><a href="#admin">Admin Tools</a></li>';
+            }
+			
+			$qa_content['custom'] .= '</ul>';		
 
             //group Tabs
-            $overview = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><br/>
-			<br>Recent Announcements<br>
-			<br>Recent Discussions<br>';
-            $groupAnnoucements = '<div class="group-tabs" id="announcements">';
-            $groupDiscussions = '<div class="group-tabs" id="discussions">';
-            $groupMembers = '<div class="group-tabs" id="members">'; 
+			
+			/*
+			*	Overview Tab
+			*/	
+            $overviewTab = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><br/>';
+
+
+			$overviewTab .= '<br>Recent Announcements<br>';
+			foreach ($recentAnnouncements as $annoucement) {
+				$postid = $annoucement["id"];
+				$userName = $annoucement["handle"];
+				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $annoucement["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
+				$postDate= $annoucement["posted_at"];
+				$postTitle = $annoucement["title"];
+				$postContent = $annoucement["content"];
+				$postTags = $annoucement["tags"];
+				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
+
+				$overviewTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+			}
+			
+			$overviewTab .= '<br>Recent Discussions<br>';
+			foreach ($recentDiscussions as $discussion) {
+				$postid = $discussion["id"];
+				$userName = $discussion["handle"];
+				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $discussion["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
+				$postDate = $discussion["posted_at"];
+				$postTitle = $discussion["title"];
+				$postContent = $discussion["content"];
+				$postTags = $discussion["tags"];
+				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
+				
+				$overviewTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+				
+				
+			}
+			
+			
+			/*
+			*	Announcements Tab
+			*/
+            $groupAnnouncementsTab = '<div class="group-tabs" id="announcements">';
+			foreach ($announcements as $annoucement) {
+				$postid = $annoucement["id"];
+				$userName = $annoucement["handle"];
+				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $discussion["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
+				$postDate = $annoucement["posted_at"];
+				$postTitle = $annoucement["title"];
+				$postContent = $annoucement["content"];
+				$postTags = $annoucement["tags"];
+				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
+				
+				$groupAnnouncementsTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+			}
+			
+			
+			
+			/*
+			*	Discussions Tab
+			*/
+            $groupDiscussionsTab = '<div class="group-tabs" id="discussions">';
+			foreach ($discussions as $discussion) {
+				$postid = $discussion["id"];
+				$userName = $discussion["handle"];
+				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $discussion["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
+				$postDate = $discussion["posted_at"];
+				$postTitle = $discussion["title"];
+				$postContent = $discussion["content"];
+				$postTags = $discussion["tags"];
+				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
+				
+				$groupDiscussionsTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+			}
+			
+			/*
+			*	Members Tab
+			*/
+            $groupMembersTab = '<div class="group-tabs" id="members">';
+			
+			// Loop through all admins and display them at the top
+			$groupMembersTab .= 'Administrators: <br>';
+			foreach ($groupAdmins as $admin) {
+				$groupMembersTab .= displayGroupMember($admin["handle"], $admin["avatarblobid"]);
+			}
+			
+			// Loop through all group members display them next
+			$groupMembersTab .= '<br> Members: <br>';
+			foreach ($groupMembers as $member) {
+				$groupMembersTab .= displayGroupMember($member["handle"], $member["avatarblobid"]);
+			}
+
+			
+			/*
+			*	Admin Tab
+			*/
+			$groupAdminTab = '<div class="group-tabs" id="admin">';
+			
             
             //Add the tabs.
-            $qa_content['custom'] .= $overview .= '</div>';
-            $qa_content['custom'] .= $groupAnnoucements .= '</div>';
-            $qa_content['custom'] .= $groupDiscussions .= '</div>';
-            $qa_content['custom'] .= $groupMembers .= '</div>';
-
+            $qa_content['custom'] .= $overviewTab .= '</div>';
+            $qa_content['custom'] .= $groupAnnouncementsTab .= '</div>';
+            $qa_content['custom'] .= $groupDiscussionsTab .= '</div>';
+            $qa_content['custom'] .= $groupMembersTab .= '</div>';
+			
+			// Only display admin tab if the current user is one.
+			if ($currentUserIsAdmin) {
+				$qa_content['custom'] .= $groupAdminTab .= '</div>';
+            }
 			
 
 			return $qa_content;

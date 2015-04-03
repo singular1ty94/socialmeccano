@@ -48,10 +48,13 @@
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
+			$userid = qa_get_logged_in_userid();
+
+			
 			// TWO options here, get a list of all groups, or get a list of MY groups. (maybe we could do tabs?)
 			$groupList = getAllGroups();
-			 //$groupList = getMyGroups(1);  //TODO, get current user_id, substitute.
-			
+			 //$groupList = getMyGroups($userid);
+
             $heads = getJQueryUITabs('tabs');
 			
 			$qa_content['custom']= $heads;
@@ -59,28 +62,45 @@
 			
 			
 			if (empty($groupList)) {
-				$groupid = createNewGroup('Test Group Pls Ignore', 'This is our test group', 14306193309127865143, 'This is our group information', 'test,PHP', 1);
+			
+				// Simply for testing purposes
+				$myBlobid = '18056448301737554770';
+				$groupid = createNewGroup('Test Group Pls Ignore', 'This is our test group', $myBlobid, 'This is our group information', 'test,PHP', $userid);
+				createPost($groupid, $userid, 'Test Announcement One', 'We are testing this once', 'test', 'A');
+				createPost($groupid, $userid, 'Test Announcement Two', 'We are testing this twice', 'test', 'A');
+				createPost($groupid, $userid, 'Test Discussion One', 'We are testing this once', 'test', 'D');
+				createPost($groupid, $userid, 'Test Discussion Two', 'We are testing this twice', 'test', 'D');
+				addUserToGroup(2, $groupid, 0);
+				addUserToGroup(3, $groupid, 0);
 				$qa_content['custom'] .= 'No Groups Found! <br> I just made one for you to test with with id#' . $groupid;
 				$qa_content['custom'] .= '<br><a href="./group/' . $groupid . '">Take me there...</a>';
+				$groupid = createNewGroup('The Best Test Group Ever', 'This is our other test group', $myBlobid, 'This is our group information', 'test,PHP', $userid);
 				
 			}
 			else {
                 //Even/odd wrapper color.
                 $wrapper = true;
-                
+				       
 				foreach ($groupList as $group) {
+					$groupCreatedDate = $group["created_at"];
+					$groupid = $group["id"];
+					$groupName = $group["group_name"];
+					$groupDescription = $group["group_description"];
+					$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $group["avatarblobid"] . '&amp;qa_size=100" class="qa-avatar-image" alt=""/>';
+					$groupTags = $group["tags"];
+					
                     //Get our formatted tags.
-                    $taglist = getGroupTags($group["tags"]);
+                    $taglist = getGroupTags($groupTags);
                     
                     //Start the wrapper.
                     $qa_content['custom'] .= getGroupListWrapper($wrapper);
-                    
+					
 					//Get the Group name.
-					$qa_content['custom'] .= getGroupListName($group["id"], $group["group_name"], $group["group_description"]);
+					$qa_content['custom'] .= $groupAvatarHTML . getGroupListName($groupid, $groupName, $groupDescription);
                     //The group tags...
 					$qa_content['custom'] .= $taglist;
-					$qa_content['custom'] .= '<br>'. $group["avatarblobid"]; //obviously we want the actual image, not the id. TODO
-                    
+					$qa_content['custom'] .= '<br>';
+
                     //End the wrapper.
                     $qa_content['custom'] .= endGroupListWrapper();
 				}
