@@ -58,24 +58,12 @@
             $heads = getJQueryUITabs('tabs');
 			
 			$qa_content['custom']= $heads;
-			$qa_content['custom'] .= '<h2>Group List</h2>';
+			$qa_content['custom'] .= '<h2 class="group-list-header">Group List</h2>';
+			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
 			
 			if (empty($groupList)) {
-			
-				// Simply for testing purposes
-				$myBlobid = '18056448301737554770';
-				$groupid = createNewGroup('Test Group Pls Ignore', 'This is our test group', $myBlobid, 'This is our group information', 'test,PHP', $userid);
-				createPost($groupid, $userid, 'Test Announcement One', 'We are testing this once', 'test', 'A');
-				createPost($groupid, $userid, 'Test Announcement Two', 'We are testing this twice', 'test', 'A');
-				createPost($groupid, $userid, 'Test Discussion One', 'We are testing this once', 'test', 'D');
-				createPost($groupid, $userid, 'Test Discussion Two', 'We are testing this twice', 'test', 'D');
-				addUserToGroup(2, $groupid, 0);
-				addUserToGroup(3, $groupid, 0);
-				$qa_content['custom'] .= 'No Groups Found! <br> I just made one for you to test with with id#' . $groupid;
-				$qa_content['custom'] .= '<br><a href="./group/' . $groupid . '">Take me there...</a>';
-				$groupid = createNewGroup('The Best Test Group Ever', 'This is our other test group', $myBlobid, 'This is our group information', 'test,PHP', $userid);
-				
+				$qa_content['custom'] .= '<br />There\'s nothing here!<br />You can help the community grow by <a href="./group-create/">creating your own group.</a>';
 			}
 			else {
                 //Even/odd wrapper color.

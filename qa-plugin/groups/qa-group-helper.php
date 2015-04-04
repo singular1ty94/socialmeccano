@@ -42,6 +42,21 @@ function makeSidePaneFieldWithLabel($data, $dataClass, $label, $labelClass){
 }
 
 /*
+ * Makes a new row for the side pane,
+ * with the provided data.
+ */
+function makeSidePaneField($data, $dataClass){
+    return '<tr><td class="qa-form-wide-data"><span class="' . $dataClass . '">' . $data . '</span></td></tr>';
+}
+
+/*
+ * Raw output.
+ */
+function makeSidePaneRaw($html){
+    return '<tr><td class="qa-form-wide-data">' . $html . '</td></tr>';
+}
+
+/*
  * Closes the side pane.
  */
 function endSidePane(){
@@ -66,7 +81,7 @@ function getGroupTags($tags){
     //Header of the tag list.
     $taglist = '<ul class="qa-group-tag-list">';
     foreach($arr as $tag){
-        $taglist .= '<li><a href="./?qa=tag/' . $tag . '" class="qa-tag-link">' . $tag . '</a></li>';
+        $taglist .= '<li><a href="./?qa=tag/' . trim($tag) . '" class="qa-tag-link">' . trim($tag) . '</a></li>';
     }
     $taglist .= '</ul>';
     
@@ -96,6 +111,28 @@ function displayGroupMember($userName, $avatarid) {
 	return ($avatarHTML . '<br><a href="/user/' . $userName . '">' . $userName . '</a><br>');
 }
 
+//Return formatted time stamp.["prefix"]=> string(0) "" ["data"]=> string(8) "45 years" ["suffix"]=> string(4) " ago" 
+function get_time($arr){
+    return '<span>' . $arr['data'] .$arr['suffix']  . '</span>';
+}
+
+/*
+ * Displays formatted Announcement or Discussion box.
+ */
+function makeGroupPost($header, $content, $date, $avatarName, $avatarImage, $wrapper){
+    $html = '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
+    //Next, we have the header.
+    $html .= '<h6 class="group-post-header">' . $header . "</h6>";
+    //Now the content.
+    $html .= '<span class="group-post-content">' . $content . "</span>";
+    //And the avatar box.
+    $html .= '<span class="group-post-meta">' . $date . ' by ' . $avatarName . $avatarImage . "</span>";
+    //End.
+    $html .= '</div>';
+    //Return.
+    return $html;
+}
+
 /*
  * Close the group wrapper.
  */
@@ -103,6 +140,12 @@ function endGroupListWrapper(){
     return '</div>';
 }
 
+function getVex(){
+    return "<script src='../qa-theme/Carbon/js/vex.combined.min.js'></script>
+    <script>vex.defaultOptions.className = 'vex-theme-plain';</script>
+    <link rel='stylesheet' href='../qa-theme/Carbon/vex.css' />
+    <link rel='stylesheet' href='../qa-theme/Carbon/vex-theme-plain.css' />";
+}
 
 /*
 	Omit PHP closing tag to help avoid accidental output

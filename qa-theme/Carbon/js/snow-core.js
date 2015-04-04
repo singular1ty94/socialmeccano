@@ -83,5 +83,16 @@ $(document).ready(function () {
 			$('.qam-menu-toggle').removeClass('current');
 		}
 	});
+    
+    $("#delete-btn").click(function(){
+    vex.dialog.confirm({
+      message: 'Are you sure you want to delete this group? This action cannot be reversed?',
+      callback: function(value) {
+          if(value == true){
+            window.location.href = "?delete";
+          }
+      }
+    });
+});
 
 });

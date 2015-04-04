@@ -197,10 +197,10 @@
 		
 		function deleteGroup($groupid) {
 			// Delete all users from group		
-			qa_db_query_sub('DELETE FROM ^group_members WHERE group_id = $)', $groupid);
+			qa_db_query_sub('DELETE FROM ^group_members WHERE group_id = $', $groupid);
 			
 			// Delete group posts (announcements, discussions, comments)
-			qa_db_query_sub('DELETE FROM ^group_posts WHERE group_id = $)', $groupid);
+			qa_db_query_sub('DELETE FROM ^group_posts WHERE group_id = $', $groupid);
 			
 			// Get the blobid so we can delete it
 			$blobid = qa_db_read_one_assoc(
@@ -208,10 +208,10 @@
 			);
 			
 			// Delete avatar from blobs
-			qa_db_query_sub('DELETE FROM ^blobs WHERE $blobid=#', $blobid);
+			qa_db_query_sub('DELETE FROM ^blobs WHERE blobid=#', $blobid);
 			
 			// Delete the group itself
-			qa_db_query_sub('DELETE FROM ^groups WHERE group_id = $)', $groupid);
+			qa_db_query_sub('DELETE FROM ^groups WHERE id = $', $groupid);
 		}
 		
 		

@@ -1,5 +1,18 @@
 CHANGELOG
 
+
+Groups page: side pane now shows tags and description
+Large changes to styling of announcements and discussions
+Added Create Group Page
+Added trimming to tags on groups pages
+Added Avatar uploading to groups!
+Fixed database code.
+Added ability to delete groups!
+Added Vex Confirmation to deleting group
+All new groups come with a default message.
+Removed dummy group setup.
+Minor fixes.
+------------------------------------------------------------------------------------------
 Changes to Groups code to add HTML tags
 Changes to styling to support new Groups
 Fixed bug where custom pages would crop the footer

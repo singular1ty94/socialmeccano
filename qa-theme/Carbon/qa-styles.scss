@@ -3478,7 +3478,7 @@ input[type="submit"], button {
     }
 }
 
-.group-list-header{
+h3.group-list-header{
     margin-bottom: 2px;
     margin-top: 2px;
     font-size: 14pt;
@@ -3543,6 +3543,70 @@ input[type="submit"], button {
 .qa-template-plugin{
     .qa-main{
         width: 100%;
+    }
+}
+
+.group-info-field{
+    font-size:10pt;
+}
+
+.group-post{
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    
+    &.even{
+        background-color: #f6f6f6;
+    }
+    
+    &.odd{
+        background-color: #fff;
+    }
+    
+    h6{
+        font-size: 12pt;
+        color: #1A6A9B;
+        font-weight: normal;
+        margin: 10px;
+        line-height: normal;
+    }
+    
+    .group-post-content{
+        font-size: 8pt;
+        display: block;
+        margin: 0 0 0 10px;
+        padding: 0;
+    }
+    
+    .group-post-meta{
+        float:right;
+        font-size: 8pt;
+        padding: 0;
+    }
+}
+
+.qa-groups-button{
+    float: right;
+    &:link, &:visited, &:hover, &:active{
+        color: white;
+    }
+}
+
+h2.group-list-header{
+    display: inline-block;
+}
+
+.groups-delete-btn{
+    padding: 10px 15px;
+    border: 0px none;
+    font-size: 14px;
+    transition-duration: 0s;
+    background: none repeat scroll 0% 0% #3498DB;
+    color: #FFF;
+    background-color: #E74C3C;
+    
+    &:link, &:visited, &:hover, &:active{
+        color: white;
     }
 }
 

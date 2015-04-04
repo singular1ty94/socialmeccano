@@ -41,7 +41,7 @@
 
 		function process_request($request)
 		{
-		
+            		
 			// Get the group id from the page request, redirect to groups if no group is set.
 			$groupid = qa_request_part(1);
 			if (!strlen($groupid)) {
@@ -54,6 +54,12 @@
 			$userid = qa_get_logged_in_userid();
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
+            
+            //If the user is the admin, and wants to delete.
+            if($currentUserIsAdmin && @isset($_GET['delete'])){
+                deleteGroup(intval($groupid));
+                header('Location: ../?qa=groups');
+            }
 			
 			$groupProfile = getGroupData($groupid);
 
@@ -101,8 +107,12 @@
             $heads = getJQueryUITabs('group-tabs');
 			$qa_content['custom']= $heads;
             
+            //Vex.
+            $vex = getVex();
+			$qa_content['custom'] .= $vex;
+            
             //Left-hand pane.
-            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label') . endSidePane();;
+            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label') . makeSidePaneField($groupInfo, 'group-info-field') . makeSidePaneRaw(getGroupTags($groupTags)) . endSidePane();
             
             //Group header.
 			$qa_content['custom'] .= getGroupHeader($groupName);
@@ -127,37 +137,39 @@
 			/*
 			*	Overview Tab
 			*/	
-            $overviewTab = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><br/>';
+            $overviewTab = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><hr/>';
 
 
-			$overviewTab .= '<br>Recent Announcements<br>';
+			$overviewTab .= 'Recent Announcements';
+            $wrapper = true;
 			foreach ($recentAnnouncements as $annoucement) {
 				$postid = $annoucement["id"];
 				$userName = $annoucement["handle"];
 				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $annoucement["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
-				$postDate= $annoucement["posted_at"];
+				$postDate = get_time(qa_when_to_html($annoucement["posted_at"], @$options['fulldatedays']));
 				$postTitle = $annoucement["title"];
 				$postContent = $annoucement["content"];
 				$postTags = $annoucement["tags"];
 				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
 
-				$overviewTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+                $overviewTab .= makeGroupPost($postTitle, $postContent, $postDate, $userName, $userAvatarHTML, $wrapper);
+                $wrapper = !$wrapper;
+				//$overviewTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
 			}
 			
-			$overviewTab .= '<br>Recent Discussions<br>';
+			$overviewTab .= '<hr/><br>Recent Discussions<br>';
 			foreach ($recentDiscussions as $discussion) {
 				$postid = $discussion["id"];
 				$userName = $discussion["handle"];
 				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $discussion["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
-				$postDate = $discussion["posted_at"];
+				$postDate = get_time(qa_when_to_html($discussion["posted_at"], @$options['fulldatedays']));
 				$postTitle = $discussion["title"];
 				$postContent = $discussion["content"];
 				$postTags = $discussion["tags"];
 				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
 				
-				$overviewTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
-				
-				
+				$overviewTab .= makeGroupPost($postTitle, $postContent, $postDate, $userName, $userAvatarHTML, $wrapper);
+                $wrapper = !$wrapper;				
 			}
 			
 			
@@ -168,14 +180,14 @@
 			foreach ($announcements as $annoucement) {
 				$postid = $annoucement["id"];
 				$userName = $annoucement["handle"];
-				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $discussion["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
+				$userAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $annoucement["avatarblobid"] . '&amp;qa_size=50" class="qa-avatar-image" alt=""/>';
 				$postDate = $annoucement["posted_at"];
 				$postTitle = $annoucement["title"];
 				$postContent = $annoucement["content"];
 				$postTags = $annoucement["tags"];
 				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
 				
-				$groupAnnouncementsTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+				$groupAnnouncementsTab .= makeGroupPost($postTitle, $postContent, $postDate, $userName, $userAvatarHTML, $wrapper);
 			}
 			
 			
@@ -194,7 +206,7 @@
 				$postTags = $discussion["tags"];
 				$postRepliesCount = getCommentCount($postid)["COUNT(id)"];
 				
-				$groupDiscussionsTab .= '<br>' . $userName . $userAvatarHTML . $postDate . $postTitle . $postContent . $postTags . $postRepliesCount . '<br>';
+				$groupDiscussionsTab .= makeGroupPost($postTitle, $postContent, $postDate, $userName, $userAvatarHTML, $wrapper);
 			}
 			
 			/*
@@ -219,6 +231,7 @@
 			*	Admin Tab
 			*/
 			$groupAdminTab = '<div class="group-tabs" id="admin">';
+            $groupAdminTab .= '<a href="#" id="delete-btn" class="groups-delete-btn">Delete Group</a>';
 			
             
             //Add the tabs.
