@@ -131,7 +131,7 @@ function get_time($arr){
 function displayGroupPosts($postArray, $wrapper = true) {
 	$html = '';
 	foreach ($postArray as $post) {
-		$date = $postDate = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
+		$date = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
 		$postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
 		
 		$html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
