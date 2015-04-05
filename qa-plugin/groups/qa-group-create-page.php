@@ -63,6 +63,10 @@
                 $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" /><br/>';
                 $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label>';
                 $qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
+                $qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
+                $qa_content['custom'] .= '<input required id="groupLocation" name="groupLocation" type="text" /><br/>';
+                $qa_content['custom'] .= '<label for="groupWebsite">Group Website: </label>';
+                $qa_content['custom'] .= '<input required id="groupWebsite" name="groupWebsite" type="text" /><br/>';				
                 $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label>';
                 $qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';
                 $qa_content['custom'] .= '<label for="groupTags">Group Tags: </label>';
@@ -86,7 +90,7 @@
                     $blobId = qa_create_blob($imagedata, 'jpeg', null, $userid, null, qa_remote_ip_address());
                 }
                 //Make the group.
-                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupInfo'], $_POST['groupTags'], $userid);
+                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $_POST['groupTags'], $userid);
                 
                 //Add generic announcement
                 createPost($groupid, $userid, 'Welcome to ' . $_POST['groupName'], 'Welcome to your new group.', 'admin', 'A');

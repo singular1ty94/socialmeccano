@@ -106,32 +106,50 @@ function getGroupListName($id, $groupName, $groupDescr){
 /*
  * Displays an individual user profile on the members tab of a group.
  */
-function displayGroupMember($userName, $avatarid) {
+function displayGroupListMember($userName, $avatarid) {
 	$avatarHTML = '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
 	return ($avatarHTML . '<br><a href="/user/' . $userName . '">' . $userName . '</a><br>');
 }
 
+/*
+ * Displays an individual user profile next to a post.
+ */
+function displayGroupMember($userName, $avatarid) {
+	$avatarHTML = '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
+	return ('<a href="/user/' . $userName . '">' . $userName . '</a>   ' . $avatarHTML);
+}
+
 //Return formatted time stamp.["prefix"]=> string(0) "" ["data"]=> string(8) "45 years" ["suffix"]=> string(4) " ago" 
 function get_time($arr){
+	//var_dump($arr);
     return '<span>' . $arr['data'] .$arr['suffix']  . '</span>';
 }
 
 /*
  * Displays formatted Announcement or Discussion box.
  */
-function makeGroupPost($header, $content, $date, $avatarName, $avatarImage, $wrapper){
-    $html = '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
-    //Next, we have the header.
-    $html .= '<h6 class="group-post-header">' . $header . "</h6>";
-    //Now the content.
-    $html .= '<span class="group-post-content">' . $content . "</span>";
-    //And the avatar box.
-    $html .= '<span class="group-post-meta">' . $date . ' by ' . $avatarName . $avatarImage . "</span>";
-    //End.
-    $html .= '</div>';
-    //Return.
-    return $html;
+function displayGroupPosts($postArray, $wrapper = true) {
+	$html = '';
+	foreach ($postArray as $post) {
+		$date = $postDate = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
+		$postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
+		
+		$html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
+		//Next, we have the header.
+		$html .= '<h6 class="group-post-header">' . $post["title"] . "</h6>";	
+		//Now the content.
+		$html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
+		//And the avatar box.	
+		$html .= '<span class="group-post-meta">' . $date . ' by ' . displayGroupMember($post["handle"], $post["avatarblobid"]) . "</span>";
+		//End.
+		$html .= '</div>';
+		//Return.
+		$wrapper = !$wrapper;
+	
+	}
+	return $html;	
 }
+
 
 /*
  * Close the group wrapper.

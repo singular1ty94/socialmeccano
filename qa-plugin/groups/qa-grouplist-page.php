@@ -53,7 +53,8 @@
 			
 			// TWO options here, get a list of all groups, or get a list of MY groups. (maybe we could do tabs?)
 			$groupList = getAllGroups();
-			 //$groupList = getMyGroups($userid);
+			//$groupList = getMyGroups($userid);
+			//$groupList = getGroupsByTag('test');
 
             $heads = getJQueryUITabs('tabs');
 			

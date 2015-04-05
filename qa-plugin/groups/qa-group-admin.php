@@ -49,8 +49,6 @@
 										'group_location VARCHAR (200) DEFAULT \'\','.
 										'group_website VARCHAR (200) DEFAULT \'\','.
 										'created_by INT(11) NOT NULL,'.
-										'member_approval INT(1) NOT NULL DEFAULT \'0\','.
-										'is_hidden INT(1) NOT NULL DEFAULT \'0\','.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
 								);
@@ -76,10 +74,22 @@
 										'content VARCHAR (8000) DEFAULT NULL,'.
 										'tags VARCHAR(100) DEFAULT NULL,'.
 										'type enum("A", "D", "C") NOT NULL,'.
+										'is_locked INT(1) DEFAULT NULL,'.
+										'is_sticky INT(1) DEFAULT NULL,'.
+										'edited_at DATETIME DEFAULT NULL,'.
+										'editor_id INT(11) DEFAULT NULL,'.
 										'parent_id INT(11) DEFAULT NULL,'.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
 								);						
+								
+					//'member_approval INT(1) NOT NULL DEFAULT \'0\','.
+					//'is_hidden INT(1) NOT NULL DEFAULT \'0\','.			
+								
+								
+								
+								
+								
 				}
 				$ok = qa_lang('groups/group_admin_saved');
 			}

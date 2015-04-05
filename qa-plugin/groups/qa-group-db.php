@@ -49,6 +49,11 @@
 */	
 
 	
+	
+	
+	/*
+	*	Get Group List Functions
+	*/
 		function getAllGroups() {
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT * FROM ^groups')
@@ -67,8 +72,24 @@
 			);
 			return $result;
 		}
+		
+		
+		function getGroupsByTag($tag) {
+			$formattedTag = '%'.$tag.'%';
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^groups '.
+					'WHERE tags LIKE $',
+					$formattedTag
+				)
+			);
+			return $result;
+		}
+		
+		
 	
-	
+	/*
+	*	Group Member Functions
+	*/	
 		function addUserToGroup($userid, $groupid, $is_admin) {
 			qa_db_query_sub(
 				'INSERT INTO ^group_members (joined_at, group_id, user_id, is_admin)'.
@@ -77,40 +98,6 @@
 			);
 		}
 			
-
-		function createNewGroup($groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $userid) {		
-			qa_db_query_sub(
-				'INSERT INTO ^groups (created_at, group_name, group_description, avatarblobid, group_information, tags, created_by)'.
-				'VALUES (NOW(), $, $, #, $, $, $)',
-				$groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $userid
-			);
-			
-			// Add user to the group he just created.
-			$createdGroup = qa_db_last_insert_id();
-			$is_admin = 1;
-			addUserToGroup($userid, $createdGroup, $is_admin);
-			
-			return $createdGroup;
-		}	
-	
-	
-		function getGroupData($groupid) {
-			$result = qa_db_read_one_assoc(
-				qa_db_query_sub('SELECT * FROM ^groups WHERE id=$',	$groupid), true
-			);
-			return $result;
-		}
-
-
-		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupInfo, $groupTags, $userid) {		
-			qa_db_query_sub(
-				'UPDATE ^groups SET (group_name = $, group_description = $, avatarblobid = $, group_information = $, tags = $)'.
-				'WHERE id = $)',
-				$groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $groupid
-			);
-		}
-		
-		
 		function removeUserFromGroup($userid, $groupid) {
 			qa_db_query_sub(
 				'DELETE FROM ^group_members WHERE user_id = $ AND group_id = $)',
@@ -119,8 +106,8 @@
 			// TODO?: Check user is the only admin, if so, make oldest member an admin
 			// Alternatively make him choose a new admin, or just dont worry about it (lol).
 		}
-		
-		
+			
+			
 		function isUserGroupAdmin($userid, $groupid) {
 			$result = qa_db_read_one_assoc(
 				qa_db_query_sub('SELECT is_admin FROM ^group_members '.
@@ -159,18 +146,46 @@
 				'WHERE user_id = $ AND group_id = $)',
 				$userid, $groupid
 			);
+		}	
+			
+			
+	/*
+	*	Group Creation Functions
+	*/				
+		function createNewGroup($groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid) {		
+			qa_db_query_sub(
+				'INSERT INTO ^groups '.
+				'(created_at, group_name, group_description, avatarblobid, group_location, group_website, group_information, tags, created_by)'.
+				'VALUES (NOW(), $, $, #, $, $, $, $, $)',
+				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid
+			);
+			
+			// Add user to the group he just created.
+			$createdGroup = qa_db_last_insert_id();
+			$is_admin = 1;
+			addUserToGroup($userid, $createdGroup, $is_admin);
+			
+			return $createdGroup;
+		}	
+	
+
+	/*
+	*	Display Group Functions
+	*/		
+		function getGroupData($groupid) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT * FROM ^groups WHERE id=$',	$groupid), true
+			);
+			return $result;
 		}
-		
 		
 		function getMemberCount($groupid) {
 			$result = qa_db_read_one_assoc(
 				qa_db_query_sub('SELECT COUNT(user_id) FROM ^group_members WHERE group_id = $',	$groupid), true
 			);
 			return $result;
-		}
-		
-		
-		// double check this
+		}		
+
 		function getGroupAvatar($blobid) {
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT content FROM ^blobs WHERE blobid = $',	$blobid)
@@ -193,7 +208,22 @@
 				'INNER JOIN ^group_members ON ^users.userid = ^group_members.user_id WHERE group_id = $ AND is_admin = 0', $groupid)
 			);
 			return $result;
-		}
+		}		
+	
+
+	
+	/*
+	*	Group Management Functions
+	*/	
+		
+		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupInfo, $groupTags, $userid) {		
+			qa_db_query_sub(
+				'UPDATE ^groups SET (group_name = $, group_description = $, avatarblobid = $, group_information = $, tags = $)'.
+				'WHERE id = $)',
+				$groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $groupid
+			);
+		}			
+
 		
 		function deleteGroup($groupid) {
 			// Delete all users from group		
@@ -214,6 +244,11 @@
 			qa_db_query_sub('DELETE FROM ^groups WHERE id = $', $groupid);
 		}
 		
+
+
+	/*
+	*	Group Post and Comment Functions
+	*/	
 		
 		//type is enum('A', 'D', 'C') - A=announcement, D=Discussion, C=Comment
 		function createPost($groupid, $userid, $title, $content, $tags, $type, $parentid=0) {
@@ -223,10 +258,21 @@
 		}
 		
 		
+		function editPost($postid, $editorid, $title, $content, $tags) {
+		qa_db_query_sub('UPDATE ^group_posts SET (editor_id = $, edited_at = $, title = $, content = $, tags = $) WHERE id = $)'.
+			'VALUES ($, NOW(), $, $, $, $)',
+		$editorid, $title, $content, $tags, $postid);
+		}		
+
+		function deletePost($postid) {
+			qa_db_query_sub('DELETE FROM ^group_posts WHERE id = $ OR parent_id = $', $postid, $postid);
+		}
+		
+
 		function getAllAnnouncements($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC', $groupid)
 			);
 			return $result;
@@ -235,8 +281,8 @@
 		
 		function getAllDiscussions($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+								'INNER JOIN ^users ON qa_group_posts.user_id = ^users.userid '.
 								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC', $groupid)
 			);
 			return $result;
@@ -245,8 +291,8 @@
 		
 		function getRecentAnnouncements($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
 			);
 			return $result;
@@ -255,8 +301,8 @@
 		
 		function getRecentDiscussions($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
 			);
 			return $result;
@@ -265,8 +311,8 @@
 		
 		function getComments($postid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT user_id, handle, avatarblobid, posted_at, title, content, tags from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "C" AND parent_id = # ORDER BY posted_at ASC', $postid)
 			);
 			return $result;
@@ -274,13 +320,41 @@
 		
 		function getCommentCount($postid) {
 			$result = qa_db_read_one_assoc(
-				qa_db_query_sub('SELECT COUNT(id) from qa_group_posts '.
-								'INNER JOIN qa_users ON qa_group_posts.user_id = qa_users.userid '.
+				qa_db_query_sub('SELECT COUNT(id) from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "C" AND parent_id = #', $postid), true
 			);
 			return $result;
 		}
+		
+		
+		function makePostSticky($postid) {
+				qa_db_query_sub('UPDATE ^group_posts SET (is_sticky = 1) WHERE id = #', $postid);
+		}
+		
+		function makePostNotSticky($postid) {
+				qa_db_query_sub('UPDATE ^group_posts SET (is_sticky = 0) WHERE id = #', $postid);
+		}
+		
+		function makePostLocked($postid) {
+				qa_db_query_sub('UPDATE ^group_posts SET (is_locked = 1) WHERE id = #', $postid);
+		}
+		
+		function makePostUnlocked($postid) {
+				qa_db_query_sub('UPDATE ^group_posts SET (is_locked = 0) WHERE id = #', $postid);
+		}		
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 /*
 	Omit PHP closing tag to help avoid accidental output
 */
