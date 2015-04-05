@@ -1,6 +1,40 @@
 CHANGELOG
 
+------------------------------------------------------------------------------------------
+Users
+- Only logged in users can see groups, otherwise they're redirected to main page
+- Text is now shown if you are not a member of a group and tabs no longer render.
+- Users can now join groups freely.
+- Users can now leave groups freely.
 
+Groups
+- Admins can now change and update groups. (no kidding about the black magic...)
+- Text is now shown if no posts or recent posts exist (group tabs)
+- Text is now shown if no group members exist. (members tab)
+- On creation, Group Description and Group Info are now textareas, not input fields.
+- On creation, group website and location are no longer required to proceed.
+
+
+Posts
+- Sticky posts should display before regular posts in lists.
+------------------------------------------------------------------------------------------
+- Groups can be searched by tag
+- Posts can now be stickied and locked.
+- Posts can now be edited after creation.
+- Posts and their children can now be deleted.
+- DB file is now more organised.
+- Location and Website can now be set on group creation
+- Location and website now displays on group page.
+- Fixed a bug on groups page where groupInfo was displayed instead of groupDesc
+- Fixed '45 years' bug on post age. (This took longer than it should've)
+- Fixed x time ago bug. (This cost me some degree of my sanity)
+- Post age shows on Annoucements and Discussion page instead of raw date data.
+- Usernames and avatars on group posts now link to user profiles
+- makeGroupPost() renamed to displayGroupPosts()
+- Rewrote makeGroupPost() helper function and moved foreach loops.
+- Restructured code for reuse
+- Number of replies to a post are now shown.
+------------------------------------------------------------------------------------------
 Groups page: side pane now shows tags and description
 Large changes to styling of announcements and discussions
 Added Create Group Page

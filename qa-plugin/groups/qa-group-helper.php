@@ -59,16 +59,27 @@ function makeSidePaneRaw($html){
 /*
  * Closes the side pane.
  */
-function endSidePane(){
-    return '</table></div>';
+function endSidePane($currentUserIsMember){
+	$endSidePane = '</table>';
+	if ($currentUserIsMember) {
+		 $endSidePane .= '<br><a href="#" id="leave-group-btn" class="groups-delete-btn">Leave Group</a>';
+	}
+	$endSidePane .= '</div>';
+    return $endSidePane;
 }
 
 
 /*
  * Make the group page header.
  */
-function getGroupHeader($groupName){
-    return '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName . '</td></tr></table></div><br/>';
+function getGroupHeader($groupid, $groupName, $currentUserIsMember){
+	$groupHeader = '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName;
+	//if not a member display a button to join the group
+	if (!$currentUserIsMember) {
+			$groupHeader .= '<a href="./'. $groupid .'?join_group" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">+Join Group</a>'; 
+	}
+    $groupHeader .= '</td></tr></table></div><br/>';
+	return $groupHeader;
 }
 
 /*

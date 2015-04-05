@@ -100,7 +100,7 @@
 			
 		function removeUserFromGroup($userid, $groupid) {
 			qa_db_query_sub(
-				'DELETE FROM ^group_members WHERE user_id = $ AND group_id = $)',
+				'DELETE FROM ^group_members WHERE user_id = $ AND group_id = $',
 				$userid, $groupid
 			);
 			// TODO?: Check user is the only admin, if so, make oldest member an admin
@@ -216,14 +216,23 @@
 	*	Group Management Functions
 	*/	
 		
-		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupInfo, $groupTags, $userid) {		
+		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags) {		
 			qa_db_query_sub(
-				'UPDATE ^groups SET (group_name = $, group_description = $, avatarblobid = $, group_information = $, tags = $)'.
-				'WHERE id = $)',
-				$groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $groupid
-			);
-		}			
-
+				'UPDATE ^groups SET group_name = $, group_description = $, avatarblobid = #, group_location = $, group_website = $, group_information = $, tags = $ '.
+				'WHERE id = $',
+				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $groupid
+			);		
+		}
+		
+		function updateGroupProfileNoBlob($groupid, $groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags) {		
+			qa_db_query_sub(
+				'UPDATE ^groups SET group_name = $, group_description = $, group_location = $, group_website = $, group_information = $, tags = $ '.
+				'WHERE id = $',
+				$groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $groupid
+			);		
+		}
+		
+		
 		
 		function deleteGroup($groupid) {
 			// Delete all users from group		
@@ -268,12 +277,23 @@
 			qa_db_query_sub('DELETE FROM ^group_posts WHERE id = $ OR parent_id = $', $postid, $postid);
 		}
 		
+		function getPost($postid) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, '.
+								'title, content, tags, is_sticky, is_locked from ^group_posts '.
+								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
+								'WHERE id = #', $postid), true
+			);
+			return $result;	
+		}
+		
 
 		function getAllAnnouncements($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, '.
+								'title, content, tags, is_sticky, is_locked from ^group_posts '.
 								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
-								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC', $groupid)
+								'WHERE type = "A" AND group_id = # ORDER BY is_sticky DESC, posted_at DESC', $groupid)
 			);
 			return $result;
 		}		
@@ -281,9 +301,10 @@
 		
 		function getAllDiscussions($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, '.
+								'title, content, tags, is_sticky, is_locked from ^group_posts '.
 								'INNER JOIN ^users ON qa_group_posts.user_id = ^users.userid '.
-								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC', $groupid)
+								'WHERE type = "D" AND group_id = # ORDER BY is_sticky, posted_at DESC', $groupid)
 			);
 			return $result;
 		}

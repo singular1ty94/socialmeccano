@@ -55,9 +55,28 @@
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
             
+            //If the user is not logged in redirect to main.		
+            if(!isset($userid)){
+                header('Location: ../');
+            }			
+			
             //If the user is the admin, and wants to delete.
             if($currentUserIsAdmin && @isset($_GET['delete'])){
                 deleteGroup(intval($groupid));
+                header('Location: ../?qa=groups');
+            }
+			
+			//If the user wants to join the group.
+            if(!$currentUserIsMember && @isset($_GET['join_group'])){
+				$is_admin = 0;
+				AddUserToGroup(intval($userid), intval($groupid), $is_admin);
+				$currentUserIsMember = true;
+                header('Location: ../group/'.$groupid);
+            }
+			
+			//If the user wants to leave the group.
+            if($currentUserIsMember && @isset($_GET['leave_group'])){
+				removeUserFromGroup(intval($userid), intval($groupid));
                 header('Location: ../?qa=groups');
             }
 			
@@ -114,90 +133,120 @@
             //Left-hand pane.
             $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label');
             $qa_content['custom'] .= makeSidePaneField($groupDescription, 'group-desc-field') . makeSidePaneField($groupLocation, 'group-location-field');
-			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field') . makeSidePaneRaw(getGroupTags($groupTags)) . endSidePane();
+			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field') . makeSidePaneRaw(getGroupTags($groupTags));
+			
+			
+			$qa_content['custom'] .= endSidePane($currentUserIsMember);
+			
 			
             //Group header.
-			$qa_content['custom'] .= getGroupHeader($groupName);
+			$qa_content['custom'] .= getGroupHeader($groupid, $groupName, $currentUserIsMember);
+
 			
-            //Tabs Header.            
-            $qa_content['custom'] .= '<div id="group-tabs">
-                <ul>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#announcements">Announcements</a></li>
-                <li><a href="#discussions">Discussions</a></li>
-                <li><a href="#members">Members</a></li>';
-			
-			// Only display admin tab if the current user is one.			
-			if ($currentUserIsAdmin) {
-				$qa_content['custom'] .= '<li><a href="#admin">Admin Tools</a></li>';
+			//If the user is not a member END here and don't render tabs and group content.
+            if(!$currentUserIsMember){
+				$qa_content['custom'] .= "You are not a member of this group. Please join to see the group content.";
             }
+			else {
 			
-			$qa_content['custom'] .= '</ul>';		
+				//Tabs Header.            
+				$qa_content['custom'] .= '<div id="group-tabs">
+					<ul>
+					<li><a href="#overview">Overview</a></li>
+					<li><a href="#announcements">Announcements</a></li>
+					<li><a href="#discussions">Discussions</a></li>
+					<li><a href="#members">Members</a></li>';
+				
+				// Only display admin tab if the current user is one.			
+				if ($currentUserIsAdmin) {
+					$qa_content['custom'] .= '<li><a href="#admin">Admin Tools</a></li>';
+				}
+				
+				$qa_content['custom'] .= '</ul>';		
 
-            //group Tabs
-			
-			/*
-			*	Overview Tab
-			*/	
-            $overviewTab = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><hr/>';
-			
-			$overviewTab .= 'Recent Announcements';
-            $overviewTab .= displayGroupPosts($recentAnnouncements);
-			
-			$overviewTab .= '<hr/><br>Recent Discussions<br>';
-			$overviewTab .= displayGroupPosts($recentDiscussions);
-			
-			
-			/*
-			*	Announcements Tab
-			*/
-            $groupAnnouncementsTab = '<div class="group-tabs" id="announcements">';
-			$groupAnnouncementsTab .= displayGroupPosts($announcements);
+				//group Tabs
+				
+				/*
+				*	Overview Tab
+				*/	
+				$overviewTab = '<div id="overview" class="group-tabs">Group Information<br/><span class="group-info">' . $groupInfo .'</span><hr/>';
+				
+				$overviewTab .= 'Recent Announcements';
+				if (empty($recentAnnouncements)) {
+					$overviewTab .= 'No recent announcements to display.';
+				}
+				$overviewTab .= displayGroupPosts($recentAnnouncements);
+				
+				$overviewTab .= '<hr/><br>Recent Discussions<br>';
+				if (empty($recentDiscussions)) {
+					$overviewTab .= 'No recent discussions to display.';
+				}
+				$overviewTab .= displayGroupPosts($recentDiscussions);
+				
+				
+				/*
+				*	Announcements Tab
+				*/
+				$groupAnnouncementsTab = '<div class="group-tabs" id="announcements">';
+				if (empty($announcements)) {
+					$groupAnnouncementsTab .=  'No announcements to display.';
+				}
+				$groupAnnouncementsTab .= displayGroupPosts($announcements);
 
-			
-			/*
-			*	Discussions Tab
-			*/
-            $groupDiscussionsTab = '<div class="group-tabs" id="discussions">';
-            $groupDiscussionsTab .= displayGroupPosts($discussions);			
+				
+				/*
+				*	Discussions Tab
+				*/
+				$groupDiscussionsTab = '<div class="group-tabs" id="discussions">';
+				if (empty($discussions)) {
+					$groupDiscussionsTab .= '<div class="">No discussions to display.</div>';
+				}
+				$groupDiscussionsTab .= displayGroupPosts($discussions);			
 
-			
-			/*
-			*	Members Tab
-			*/
-            $groupMembersTab = '<div class="group-tabs" id="members">';
-			
-			// Loop through all admins and display them at the top
-			$groupMembersTab .= 'Administrators: <br>';
-			foreach ($groupAdmins as $admin) {
-				$groupMembersTab .= displayGroupListMember($admin["handle"], $admin["avatarblobid"]);
+				
+				/*
+				*	Members Tab
+				*/
+				$groupMembersTab = '<div class="group-tabs" id="members">';
+				
+				// Loop through all admins and display them at the top
+				$groupMembersTab .= 'Administrators: <br>';
+				foreach ($groupAdmins as $admin) {
+					$groupMembersTab .= displayGroupListMember($admin["handle"], $admin["avatarblobid"]);
+				}
+				
+				// Loop through all group members display them next
+				$groupMembersTab .= '<br> Members: <br>';
+				if (empty($groupMembers)) {
+					$groupMembersTab .= 'There are no group members to display.';
+				} else {
+					foreach ($groupMembers as $member) {
+						$groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"]);
+					}
+				}
+				
+				/*
+				*	Admin Tab
+				*/
+				$groupAdminTab = '<div class="group-tabs" id="admin"><br>';
+				$groupAdminTab .=  '<a href="../group-update/'. $groupid .'" class="qa-form-wide-button qa-form-wide-button-save">Update Group Profile</a><br><br>';
+				$groupAdminTab .= '<a href="#" id="delete-btn" class="groups-delete-btn">Delete Group</a><br><br>';
+				// TODO: Display Edit Group Button
+
+				
+
+				
+				//Add the tabs.
+				$qa_content['custom'] .= $overviewTab .= '</div>';
+				$qa_content['custom'] .= $groupAnnouncementsTab .= '</div>';
+				$qa_content['custom'] .= $groupDiscussionsTab .= '</div>';
+				$qa_content['custom'] .= $groupMembersTab .= '</div>';
+				
+				// Only display admin tab if the current user is one.
+				if ($currentUserIsAdmin) {
+					$qa_content['custom'] .= $groupAdminTab .= '</div>';
+				}
 			}
-			
-			// Loop through all group members display them next
-			$groupMembersTab .= '<br> Members: <br>';
-			foreach ($groupMembers as $member) {
-				$groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"]);
-			}
-
-			
-			/*
-			*	Admin Tab
-			*/
-			$groupAdminTab = '<div class="group-tabs" id="admin">';
-            $groupAdminTab .= '<a href="#" id="delete-btn" class="groups-delete-btn">Delete Group</a>';
-			
-            
-            //Add the tabs.
-            $qa_content['custom'] .= $overviewTab .= '</div>';
-            $qa_content['custom'] .= $groupAnnouncementsTab .= '</div>';
-            $qa_content['custom'] .= $groupDiscussionsTab .= '</div>';
-            $qa_content['custom'] .= $groupMembersTab .= '</div>';
-			
-			// Only display admin tab if the current user is one.
-			if ($currentUserIsAdmin) {
-				$qa_content['custom'] .= $groupAdminTab .= '</div>';
-            }
-			
 
 			return $qa_content;
 		}

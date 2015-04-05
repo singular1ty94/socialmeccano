@@ -44,6 +44,7 @@
 	qa_register_plugin_module('module', 'qa-group-admin.php', 'qa_group_admin', 'Group Admin');
 	qa_register_plugin_module('page', 'qa-group-page.php', 'qa_group_page', 'Group Page');
 	qa_register_plugin_module('page', 'qa-group-create-page.php', 'qa_group_create_page', 'Create Group Page');
+	qa_register_plugin_module('page', 'qa-group-update-page.php', 'qa_group_update_page', 'Create Update Page');
 	qa_register_plugin_module('page', 'qa-grouplist-page.php', 'qa_grouplist_page', 'Group List');
 	//qa_register_plugin_layer('qa-group-layer.php', 'Group Notification Layer');	
 	qa_register_plugin_phrases('qa-group-lang-default.php', 'groups');

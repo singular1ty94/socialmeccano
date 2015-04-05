@@ -95,4 +95,18 @@ $(document).ready(function () {
     });
 });
 
+    $("#leave-group-btn").click(function(){
+	vex.dialog.buttons.YES.text = 'Yes'
+	vex.dialog.buttons.NO.text = 'No'
+    vex.dialog.confirm({
+      message: 'Are you sure you want to leave this group?',
+      callback: function(value) {
+          if(value == true){
+            window.location.href = "?leave_group";
+          }
+      }
+    });
+});
+
+
 });

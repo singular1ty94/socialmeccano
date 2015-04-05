@@ -58,19 +58,21 @@
             //Did we already submit?
             if(@$_POST["groupName"] == ""){
                 //Output form.
-                $qa_content['custom'] = '<form method="post" enctype="multipart/form-data" action="group-create">';
+                $qa_content['custom'] = '<form method="post" enctype="multipart/form-data" action="group-create" id="form">';
                 $qa_content['custom'] .= '<label for="groupName">Group Name: </label>';
                 $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" /><br/>';
-                $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label>';
-                $qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
-                $qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
-                $qa_content['custom'] .= '<input required id="groupLocation" name="groupLocation" type="text" /><br/>';
+                $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label><br>';
+                //$qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
+				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupDescr" form="form" placeholder="Type a brief description here..."></textarea><br>';			
+               $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
+				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupInfo" form="form" placeholder="Type important group information here..."></textarea><br>';	
+                //$qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';                
+				$qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
+                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" /><br/>';
                 $qa_content['custom'] .= '<label for="groupWebsite">Group Website: </label>';
-                $qa_content['custom'] .= '<input required id="groupWebsite" name="groupWebsite" type="text" /><br/>';				
-                $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label>';
-                $qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';
+                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" /><br/>';
                 $qa_content['custom'] .= '<label for="groupTags">Group Tags: </label>';
-                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" /><br />';
+                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" /><br />';				
                 $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
                 $qa_content['custom'] .= '<input required id="avatar" name="avatar" type="file" /><br />';
 
