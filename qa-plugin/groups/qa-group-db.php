@@ -279,7 +279,7 @@
 		
 		function getPost($postid) {
 			$result = qa_db_read_one_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, '.
+				qa_db_query_sub('SELECT id, group_id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, '.
 								'title, content, tags, is_sticky, is_locked from ^group_posts '.
 								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE id = #', $postid), true

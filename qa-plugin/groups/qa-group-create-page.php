@@ -47,7 +47,12 @@
             
 			
 			$userid = qa_get_logged_in_userid();
-	
+			
+            //If the user is not logged in redirect to main.		
+            if(!isset($userid)){
+                header('Location: ../');
+            }	
+			
 			// UI Generation below this.
 			
 			$qa_content=qa_content_prepare();

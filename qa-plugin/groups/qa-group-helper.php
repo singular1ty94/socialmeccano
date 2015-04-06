@@ -147,7 +147,7 @@ function displayGroupPosts($postArray, $wrapper = true) {
 		
 		$html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
 		//Next, we have the header.
-		$html .= '<h6 class="group-post-header">' . $post["title"] . "</h6>";	
+		$html .= '<a href="/view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';	
 		//Now the content.
 		$html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
 		//And the avatar box.	

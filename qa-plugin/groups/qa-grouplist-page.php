@@ -49,6 +49,10 @@
 			include 'qa-group-helper.php';
 			
 			$userid = qa_get_logged_in_userid();
+            //If the user is not logged in redirect to main.		
+            if(!isset($userid)){
+                header('Location: ../');
+            }			
 
 			
 			// TWO options here, get a list of all groups, or get a list of MY groups. (maybe we could do tabs?)

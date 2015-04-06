@@ -54,16 +54,16 @@
 			$userid = qa_get_logged_in_userid();
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
 			
-			// If user isn't an admin of the group, leave the page as they aren't allowed to update the profile.
-            //if(!$currentUserIsAdmin){
-            //    header('Location: ../?qa=groups');
-            //}
+			//If user isn't an admin of the group, leave the page as they aren't allowed to update the profile.
+            if(!$currentUserIsAdmin){
+                header('Location: ../?qa=groups');
+            }
 			
 			$groupProfile = getGroupData($groupid);
-			// If the DB returns an empty array, group not found, so redirect to groups page
-			//if (empty($groupProfile)) {
-			//	qa_redirect('groups');
-			//}
+			//If the DB returns an empty array, group not found, so redirect to groups page
+			if (empty($groupProfile)) {
+				qa_redirect('groups');
+			}
 			
 		
 			// UI Generation below this.

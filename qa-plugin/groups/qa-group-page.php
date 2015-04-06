@@ -188,6 +188,13 @@
 				*	Announcements Tab
 				*/
 				$groupAnnouncementsTab = '<div class="group-tabs" id="announcements">';
+				
+				//if the user is an admin, show a create post button on the announcements tab as well
+				if ($currentUserIsAdmin) {
+					$groupAnnouncementsTab .= '<a href="../create-post/'.$groupid.'" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
+				}
+				
+				
 				if (empty($announcements)) {
 					$groupAnnouncementsTab .=  'No announcements to display.';
 				}
@@ -198,6 +205,7 @@
 				*	Discussions Tab
 				*/
 				$groupDiscussionsTab = '<div class="group-tabs" id="discussions">';
+				$groupDiscussionsTab .= '<a href="../create-post/'.$groupid.'" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
 				if (empty($discussions)) {
 					$groupDiscussionsTab .= '<div class="">No discussions to display.</div>';
 				}
