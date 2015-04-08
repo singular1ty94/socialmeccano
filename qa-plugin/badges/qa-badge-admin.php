@@ -45,117 +45,7 @@ Please log in and visit your profile:
 ^profile_url
 
 You may cancel these notices at any time by visiting your profile at the link above.';
-				case 'badges_css':
-					return '.notify-container {
-	left: 0;
-	right: 0;
-	top: 0;
-	padding: 0;
-	position: fixed;
-	width: 100%;
-	z-index: 10000;
-}
-.badge-container-badge {
-	white-space: nowrap;
-}
-.badge-notify {
-	background-color: #F6DF30;
-	color: #444444;
-	font-weight: bold;
-	width: 100%;
-	text-align: center;
-	font-family: sans-serif;
-	font-size: 14px;
-	padding: 10px 0;
-	position:relative;
-}
-.notify-close {
-	color: #735005;
-	cursor: pointer;
-	font-size: 18px;
-	line-height: 18px;
-	padding: 0 3px;
-	position: absolute;
-	right: 8px;
-	text-decoration: none;
-	top: 8px;
-}				
-#badge-form td {
-	vertical-align:top;
-}
-.badge-bronze,.badge-silver, .badge-gold {
-	margin-right:4px;
-	color: #000;
-	font-weight:bold;
-	text-align:center;
-	border-radius:4px;
-	width:120px;
-	padding: 5px 10px;
-	display: inline-block;
-}
-.badge-bronze {
-	background-color: #CB9114;
 
-	background-image: -webkit-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
-	background-image:    -moz-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114);
-	background-image:     -ms-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
-	background-image:      -o-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
-	background-image:         linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); /* standard, but currently unimplemented */
-
-	border:2px solid #6C582C;
-}				
-.badge-silver {
-	background-color: #CDCDCD;
-	background-image: -webkit-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
-	background-image:    -moz-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
-	background-image:     -ms-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
-	background-image:      -o-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
-	background-image:         linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); /* standard, but currently unimplemented */
-	border:2px solid #737373;
-}				
-.badge-gold {
-	background-color: #EEDD0F;
-	background-image: -webkit-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
-	background-image:    -moz-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
-	background-image:     -ms-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
-	background-image:      -o-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
-	background-image:         linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); /* standard, but currently unimplemented */
-	border:2px solid #7E7B2A;
-}				
-.badge-bronze-medal, .badge-silver-medal, .badge-gold-medal  {
-	font-size: 14px;
-	font-family:sans-serif;
-}
-.badge-bronze-medal {
-	color: #CB9114;
-}				
-.badge-silver-medal {
-	color: #CDCDCD;
-}				
-.badge-gold-medal {
-	color: #EEDD0F;
-}
-.badge-pointer {
-	cursor:pointer;
-}				
-.badge-desc {
-	padding-left:8px;
-}			
-.badge-count {
-	font-weight:bold;
-}			
-.badge-count-link {
-	cursor:pointer;
-	color:#992828;
-}			
-.badge-source {
-	text-align:center;
-	padding:0;
-}
-.badge-widget-entry {
-	white-space:nowrap;
-}
-';
 				default:
 					return null;
 			}
@@ -206,10 +96,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			}
 			else if (qa_clicked('badge_trigger_notify')) {
 				$qa_content['test-notify'] = 1;
-			}
-			else if (qa_clicked('badge_reset_css')) {
-				qa_opt('badges_css', $this->option_default('badges_css'));
-				$ok = 'CSS Reset';
 			}
 			else if(qa_clicked('badge_save_settings')) {
 				qa_opt('badge_active', (bool)qa_post_text('badge_active_check'));
@@ -287,7 +173,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 					qa_opt('badge_email_notify_on',(bool)qa_post_text('badge_email_notify_on'));
 					qa_opt('badge_email_subject',qa_post_text('badge_email_subject'));
 					qa_opt('badge_email_body',qa_post_text('badge_email_body'));
-					qa_opt('badges_css',qa_post_text('badges_css'));
 				}
 				$ok = qa_lang('badges/badge_admin_saved');
 			}
@@ -413,14 +298,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 				if (qa_clicked('badge_trigger_notify')) {
 					$fields['test-notify'] = 1;
 				}
-
-				$fields[] = array(
-					'label' => 'Badge css stylesheet',
-					'tags' => 'NAME="badges_css"',
-					'value' => qa_opt('badges_css'),
-					'rows' => 20,
-					'type' => 'textarea',
-				);
 				
 				$fields[] = array(
 					'type' => 'blank',
@@ -495,10 +372,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 						'label' => qa_lang('badges/badge_reset_names'),
 						'tags' => 'NAME="badge_reset_names"',
 						'note' => '<br/><em>'.qa_lang('badges/badge_reset_names_desc').'</em><br/>',
-					),
-					array(
-						'label' => qa_lang('badges/badge_reset_css'),
-						'tags' => 'NAME="badge_reset_css"',
 					),
 					array(
 						'label' => qa_lang('badges/badge_reset_values'),

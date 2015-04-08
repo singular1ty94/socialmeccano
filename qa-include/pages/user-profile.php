@@ -586,33 +586,37 @@
 
 				$valuehtml = qa_html($value, (($userfield['flags'] & QA_FIELD_FLAGS_MULTI_LINE) && !$fieldsediting));
 			}
+            
+            //Check that there is actually a value here.
+            if(strlen($valuehtml) > 0){
 
-			$label = trim(qa_user_userfield_label($userfield), ':');
-			if (strlen($label))
-				$label .= ':';
+                $label = trim(qa_user_userfield_label($userfield), ':');
+                if (strlen($label))
+                    $label .= ':';
 
-			$notehtml = null;
-			if (isset($userfield['permit']) && !$userediting) {
-				if ($userfield['permit'] <= QA_PERMIT_ADMINS)
-					$notehtml = qa_lang_html('users/only_shown_admins');
-				elseif ($userfield['permit'] <= QA_PERMIT_MODERATORS)
-					$notehtml = qa_lang_html('users/only_shown_moderators');
-				elseif ($userfield['permit'] <= QA_PERMIT_EDITORS)
-					$notehtml = qa_lang_html('users/only_shown_editors');
-				elseif ($userfield['permit'] <= QA_PERMIT_EXPERTS)
-					$notehtml = qa_lang_html('users/only_shown_experts');
-			}
+                $notehtml = null;
+                if (isset($userfield['permit']) && !$userediting) {
+                    if ($userfield['permit'] <= QA_PERMIT_ADMINS)
+                        $notehtml = qa_lang_html('users/only_shown_admins');
+                    elseif ($userfield['permit'] <= QA_PERMIT_MODERATORS)
+                        $notehtml = qa_lang_html('users/only_shown_moderators');
+                    elseif ($userfield['permit'] <= QA_PERMIT_EDITORS)
+                        $notehtml = qa_lang_html('users/only_shown_editors');
+                    elseif ($userfield['permit'] <= QA_PERMIT_EXPERTS)
+                        $notehtml = qa_lang_html('users/only_shown_experts');
+                }
 
-			$qa_content['profile-form']['fields'][$userfield['title']] = array(
-				'type' => $fieldsediting ? 'text' : 'static',
-				'label' => qa_html($label),
-				'tags' => 'name="field_'.$userfield['fieldid'].'"',
-				'value' => $valuehtml,
-				'error' => qa_html(@$errors[$userfield['fieldid']]),
-				'note' => $notehtml,
-				'rows' => ($userfield['flags'] & QA_FIELD_FLAGS_MULTI_LINE) ? 8 : null,
-				'id' => 'userfield-'.$userfield['fieldid'],
-			);
+                $qa_content['profile-form']['fields'][$userfield['title']] = array(
+                    'type' => $fieldsediting ? 'text' : 'static',
+                    'label' => qa_html($label),
+                    'tags' => 'name="field_'.$userfield['fieldid'].'"',
+                    'value' => $valuehtml,
+                    'error' => qa_html(@$errors[$userfield['fieldid']]),
+                    'note' => $notehtml,
+                    'rows' => ($userfield['flags'] & QA_FIELD_FLAGS_MULTI_LINE) ? 8 : null,
+                    'id' => 'userfield-'.$userfield['fieldid'],
+                );
+            }
 		}
         
         /*

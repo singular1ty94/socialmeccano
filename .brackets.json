@@ -12,6 +12,17 @@
                 "outputStyle": "compressed"
             },
             "livedev.multibrowser": false
+        },
+        "qa-plugin/groups/groups.scss": {
+            "sass.enabled": true,
+            "sass.options": {
+                "outputDir": "",
+                "includePaths": [],
+                "sourceComments": true,
+                "outputStyle": "compressed"
+            },
+            "livedev.multibrowser": false,
+            "linting.collapsed": true
         }
     }
 }

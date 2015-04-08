@@ -22,7 +22,7 @@
  * Generates the header link for jQueryUI tabs.
  */
 function getJQueryUITabs($id){
-    return '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><link rel="stylesheet" href="/resources/demos/style.css"><script>$(function(){$("#' . $id . '").tabs();});</script>';
+    return '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><script>$(function(){$("#' . $id . '").tabs();});</script>';
 }
 
 /*
@@ -83,6 +83,26 @@ function getGroupHeader($groupid, $groupName, $currentUserIsMember){
 }
 
 /*
+ * Make a complete group unit for the group list.
+ */
+function getGroupUnit($id, $groupName, $groupDescr, $taglist){
+    $html = '';
+    //Add the wrapper.
+    $html .= '<div class="group-unit">';
+    
+    //Add the group header, name and description.
+    $html .= getGroupListName($id, $groupName, $groupDescr);
+    
+    //Now add the tags.
+    $html .= getGroupTags($taglist);
+    
+    //Now end the wrapper.
+    $html .= '</div>';
+    return $html;
+    
+}
+
+/*
  * Make tags for Group List.
  */
 function getGroupTags($tags){
@@ -118,8 +138,12 @@ function getGroupListName($id, $groupName, $groupDescr){
  * Displays an individual user profile on the members tab of a group.
  */
 function displayGroupListMember($userName, $avatarid) {
-	$avatarHTML = '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
-	return ($avatarHTML . '<br><a href="/user/' . $userName . '">' . $userName . '</a><br>');
+    $html = '<span class="group-member-list">';
+    
+	$html .= '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
+    
+    $html .= '<a href="/user/' . $userName . '">' . $userName . '</a></span>';
+    return $html;
 }
 
 /*
@@ -168,7 +192,7 @@ function displayGroupPosts($postArray, $wrapper = true) {
 function endGroupListWrapper(){
     return '</div>';
 }
-
+ 
 function getVex(){
     return "<script src='../qa-theme/Carbon/js/vex.combined.min.js'></script>
     <script>vex.defaultOptions.className = 'vex-theme-plain';</script>

@@ -49,7 +49,7 @@
 	qa_register_plugin_module('page', 'qa-group-view-post.php', 'qa_group_view_post', 'View Post Page');
 	qa_register_plugin_module('page', 'qa-group-edit-post.php', 'qa_group_edit_post', 'Edit Post Page');	
 	qa_register_plugin_module('page', 'qa-grouplist-page.php', 'qa_grouplist_page', 'Group List');
-	//qa_register_plugin_layer('qa-group-layer.php', 'Group Notification Layer');	
+	qa_register_plugin_layer('qa-group-layer.php', 'Group Notification and Heads Layer');	
 	qa_register_plugin_phrases('qa-group-lang-default.php', 'groups');
 	
 		

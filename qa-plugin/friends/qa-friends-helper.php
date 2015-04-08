@@ -22,7 +22,7 @@
  * Generates the header link for jQueryUI tabs.
  */
 function getJQueryUITabs($id){
-    return '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><link rel="stylesheet" href="/resources/demos/style.css"><script>$(function(){$("#' . $id . '").tabs();});</script>';
+    return '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"><script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script><script>$(function(){$("#' . $id . '").tabs();});</script>';
 }
 
 /*

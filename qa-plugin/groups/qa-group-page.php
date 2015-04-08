@@ -205,7 +205,7 @@
 				*	Discussions Tab
 				*/
 				$groupDiscussionsTab = '<div class="group-tabs" id="discussions">';
-				$groupDiscussionsTab .= '<a href="../create-post/'.$groupid.'" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
+				$groupDiscussionsTab .= '<a href="../create-post/'.$groupid.'?type=d" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
 				if (empty($discussions)) {
 					$groupDiscussionsTab .= '<div class="">No discussions to display.</div>';
 				}
@@ -237,12 +237,10 @@
 				*	Admin Tab
 				*/
 				$groupAdminTab = '<div class="group-tabs" id="admin"><br>';
-				$groupAdminTab .=  '<a href="../group-update/'. $groupid .'" class="qa-form-wide-button qa-form-wide-button-save">Update Group Profile</a><br><br>';
-				$groupAdminTab .= '<a href="#" id="delete-btn" class="groups-delete-btn">Delete Group</a><br><br>';
-				// TODO: Display Edit Group Button
-
+				$groupAdminTab .= '<a href="#" id="delete-btn" class="groups-btns groups-delete-btn">Delete Group</a>';
+				//Edit Button.
+                $groupAdminTab .= '<a href="../group-update/'. $groupid .'" id="update-btn" class="groups-btns groups-update-btn">Update Group</a>';
 				
-
 				
 				//Add the tabs.
 				$qa_content['custom'] .= $overviewTab .= '</div>';

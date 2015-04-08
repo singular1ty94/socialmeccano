@@ -150,7 +150,7 @@
 					jQuery('document').ready(function() { jQuery('.notify-container').delay(".((int)qa_opt('badge_notify_time')*1000).").slideUp('fast'); });":"")."
 				</script>");
 			}
-			$this->output('<style>',qa_opt('badges_css'),'</style>');
+			$this->output('<link rel="stylesheet" href="' . qa_path_to_root() . 'qa-plugin/badges/badges.css"/>');
 		}
 
 		function body_prefix()

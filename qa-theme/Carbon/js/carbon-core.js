@@ -1,8 +1,8 @@
 /*
-	Q2A Market (c) Jatin Soni
-	http://www.q2amarket.com/
+	Brett Michael Orr
+    Based on the original snow-core by Jatin Soni
 
-	File:           js/snow-core.js
+	File:           js/carbon-core.js
 	Version:        Snow 1.4
 	Description:    JavaScript helpers for SnowFlat theme
 

@@ -81,21 +81,19 @@
 					$groupDescription = $group["group_description"];
 					$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $group["avatarblobid"] . '&amp;qa_size=100" class="qa-avatar-image" alt=""/>';
 					$groupTags = $group["tags"];
-					
-                    //Get our formatted tags.
-                    $taglist = getGroupTags($groupTags);
                     
                     //Start the wrapper.
                     $qa_content['custom'] .= getGroupListWrapper($wrapper);
 					
 					//Get the Group name.
-					$qa_content['custom'] .= $groupAvatarHTML . getGroupListName($groupid, $groupName, $groupDescription);
-                    //The group tags...
-					$qa_content['custom'] .= $taglist;
+					$qa_content['custom'] .= $groupAvatarHTML . getGroupUnit($groupid, $groupName, $groupDescription, $groupTags);
+
 					$qa_content['custom'] .= '<br>';
 
                     //End the wrapper.
                     $qa_content['custom'] .= endGroupListWrapper();
+                    //Alternate the wrapper.
+                    $wrapper = !$wrapper;
 				}
 			}
 			

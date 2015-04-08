@@ -1,6 +1,44 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+UI: Group List
+% Group meta (name, description, tags), now shows inline with image.
+% Fixed bug preventing group wrapper from alternating color.
+
+UI: Group Page
++ Location and Website icons appear on fields
+% Members are now displayed more neatly in-line.
+% Made font smaller in tab header.
+% Changed Update button.
+
+UI: User Page
+% Empty userfields no longer display.
+
+UI: General
+- Permanently disabled table row borders.
+% Permanently made table data font size smaller.
+
+General:
+- Removed some errant code with the jQueryUI heads call.
+% Got around to renmaing snow.js as carbon.js
+- Killed more <br>'s from Sam.
+
+Groups:
++ Added basic qa-group-layer to allows CSS/JS files into the header (rather than body).
++ Moved SCSS/CSS code to external file.
++ Fleshed out Create Post page.
+% Modded buttons to support query string for Create Post page.
++ BASIC support for creating a post. Some weird stuff happening.
+
+Badges:
+- Removed customizable CSS in Admin page
++ Added external CSS file to /badges page.
+
+JSON:
+% Slimmed down the JSON format. Still lots to consider...
++ JSON format now includes logged-in user data (gracefully considers log in status)
+
+------------------------------------------------------------------------------------------
 Users
 - Only logged in users can see groups, otherwise they're redirected to main page
 - Text is now shown if you are not a member of a group and tabs no longer render.

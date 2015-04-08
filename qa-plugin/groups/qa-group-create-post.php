@@ -55,16 +55,11 @@
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
 			
-
-
-			
 			//If the user is not a member redirect to groups page.
 			// If the DB returns an empty group array, redirect to groups page			
-            if(!$currentUserIsMember || empty($groupProfile)){
-				qa_redirect('groups');
-            }
-			
-			
+            //if(!$currentUserIsMember || empty($groupProfile)){
+				//qa_redirect('groups');
+            //}		
 
 			
 			// UI Generation below this.
@@ -72,17 +67,43 @@
 			$qa_content=qa_content_prepare();
 			
 			// Set the browser tab title for the page.
-			$qa_content['title']= 'Create Group';
-
-            $heads = getJQueryUITabs('group-tabs');
-			$qa_content['custom']= $heads;
+			$qa_content['title']= 'Create Post';
 			
-			$qa_content['custom'] .=  '<h3 class="group-list-header"><a href="../group/' . $groupProfile["id"] . '">' . $groupProfile["group_name"] . '</a> -> Create Post </h3>';
-			
+			$qa_content['custom'] =  '<h3 class="group-list-header"><a href="../group/' . $groupProfile["id"] . '">' . $groupProfile["group_name"] . '</a> -> Create Post </h3>';
+            
+            //Let's generate a nice set of fields.
+            //Did we already submit?
+            if(!isset($_POST["postTitle"])){
+                if(isset($_GET["type"])){
+                    //Output a form.
+                    $qa_content['custom'] = '<form method="post" action="create-post/?type=d&g_id=' . $groupid. '" id="form">';
+                    $qa_content['custom'] .= '<label for="postTitle">Post Title: </label>';
+                    $qa_content['custom'] .= '<input required id="postTitle" name="postTitle" type="text"/><br/>';		
+                   $qa_content['custom'] .= '<label for="postContent">Content: </label><br>';
+                    $qa_content['custom'] .= '<textarea required rows="4" cols="50" name="postContent" form="form"></textarea><br>';	
 
-			
+                    $qa_content['custom'] .= '<label for="postTags">Post Tags: </label>';
+                    $qa_content['custom'] .= '<input required id="postTags" name="postTags" type="text"/><br/>';
 
-			return $qa_content;
+                    $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Post"/>';
+                    $qa_content['custom'] .= '</form>';	
+                }else{
+                   header('Location: ../group/' . $groupid);
+                }
+            }else{
+                //Must've submitted already. Submit to the database.
+                if($_GET["type"] === 'D' || 
+                   $_GET["type"] === 'd'){
+                    createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $_POST["postTags"], $_GET["type"], 0);
+                    
+                    header('Location: ../../group/' . $_GET["g_id"]);
+                }else{
+                    header('Location: ../../group/' . $_GET["g_id"]);
+                }   
+                    
+            }
+
+            return $qa_content;
 		}
 	
 	};

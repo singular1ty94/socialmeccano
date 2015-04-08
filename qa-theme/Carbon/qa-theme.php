@@ -78,7 +78,7 @@ class qa_html_theme extends qa_html_theme_base
 	 */
 	public function head_script()
 	{
-		$jsUrl = $this->rooturl . $this->js_dir . '/snow-core.js?' . QA_VERSION;
+		$jsUrl = $this->rooturl . $this->js_dir . '/carbon-core.js?' . QA_VERSION;
 		$this->content['script'][] = '<script src="' . $jsUrl . '"></script>';
 
 		parent::head_script();

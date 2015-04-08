@@ -1,0 +1,268 @@
+
+/*
+** Variable Colors.
+** Try to use these wherever possible.
+*/
+$theme-main: #2C3E50;
+$theme-alt: #34495E;
+
+$theme-hover: #f90;
+
+
+.qa-groups-link{
+    display: inline-block;
+    background-color: $theme-alt;
+    padding: 12px;
+    margin: 0 0 0 0;  
+    
+    &:hover{
+        background-color: $theme-hover;
+    }
+}
+
+.qa-groups-link:before {
+  content: '\e830';
+  font-family: "fontello";
+  display: inline-block;
+  font-size: 16pt;
+  width: 1em;
+  padding: 5px;
+  margin: 0;
+  text-align: center;
+  line-height: normal;
+  border-radius: 1em;
+}
+
+/**** {GROUPS} ****/
+.group-description{
+    font-size: 10pt;
+}
+
+.qa-group-tag-list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+        margin: 0 5px 0 0;
+        list-style: none;
+        display: inline-block;
+    }
+}
+
+h3.group-list-header{
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 14pt;
+}
+
+.group-list-wrapper{
+    padding: 10px;
+    margin-bottom: 10px;
+    
+    &.even{
+        background-color: #f6f6f6;
+    }
+    
+    &.odd{
+        background-color: #fff;
+    }
+}
+
+.group-header-large{
+    margin-top: 80px;
+    width: 70%;
+    float: right;
+    background-color: $theme-main;
+    padding: 20px;
+    text-align: left;
+    .group-name{
+        color:white;
+        font-size: 20pt;
+    }
+}
+
+#group-tabs{
+    font-size: 12px;
+    width: 70%;
+    float:right;
+    
+    .group-tabs{
+        font-size: 13pt;
+    }
+    
+    .group-info{
+        font-size: 11pt;
+    }
+}
+
+.group-sidepane{
+    width: 30%;
+    float: left;
+    height: 600px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.group-member-count{
+    font-size: 22pt;
+}
+
+.group-member-count-label{
+    font-size:12pt;
+}
+
+.qa-template-plugin{
+    .qa-main{
+        width: 100%;
+    }
+}
+
+.group-info-field{
+    font-size:10pt;
+}
+
+/*
+ * Controls how members are shown in the
+ * list format.
+ */
+.group-member-list{
+    width: 50px;
+    font-size: 10px;
+    display:inline-block;
+    margin: 2px;
+    text-align: center;
+    
+    img{
+        display: inline-block;
+    }
+}
+
+/*
+ * Controls everything about individual group
+ * posts.
+ */
+.group-post{
+    display: block;
+    width: 100%;
+    min-height: 100px;
+    
+    &.even{
+        background-color: #f6f6f6;
+    }
+    
+    &.odd{
+        background-color: #fff;
+    }
+    
+    h6{
+        font-size: 12pt;
+        color: #1A6A9B;
+        font-weight: normal;
+        margin: 10px;
+        line-height: normal;
+    }
+    
+    .group-post-content{
+        font-size: 8pt;
+        display: block;
+        margin: 0 0 0 10px;
+        padding: 0;
+    }
+    
+    .group-post-meta{
+        float:right;
+        font-size: 8pt;
+        padding: 0;
+    }
+}
+
+.qa-groups-button{
+    float: right;
+    &:link, &:visited, &:hover, &:active{
+        color: white;
+    }
+}
+
+h2.group-list-header{
+    display: inline-block;
+}
+
+.groups-btns{
+    
+    &.groups-delete-btn{
+        padding: 10px 15px;
+        border: 0px none;
+        font-size: 14px;
+        transition-duration: 0s;
+        background: none repeat scroll 0% 0% #3498DB;
+        color: #FFF;
+        background-color: #E74C3C;
+        display: inline-block;
+
+        &:link, &:visited, &:hover, &:active{
+            color: white;
+        }
+    }
+
+    &.groups-update-btn{
+        padding: 10px 15px;
+        border: 0px none;
+        font-size: 14px;
+        margin-left: 10px;
+        transition-duration: 0s;
+        background: none repeat scroll 0% 0% #34db88;
+        color: #FFF;
+        background-color: #34db88;
+        display: inline-block;
+
+        &:link, &:visited, &:hover, &:active{
+            color: white;
+        }
+    }
+}
+
+/*
+ * Displays the unit of information on the
+ * the group list page (everything right of the image).
+ */
+.group-unit{
+   display: inline-block;
+   margin-left: 15px;
+}
+
+/* Displays location icon for group pages. */
+.group-location-field:before{
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+    content: '\e831';
+}
+
+/* Displays website icon for group pages. */
+.group-website-field:before{
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+    content: '\e801';
+}
+

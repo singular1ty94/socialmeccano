@@ -169,6 +169,10 @@ table {
   width: 100%;
 }
 
+.qa-form-wide-table{
+    font-size: 14px;
+}
+
 th, td {
   padding: 5px 0;
 }
@@ -336,37 +340,6 @@ blockquote {
     &:link,&:visited,&:hover,&:active{
         color: white;
     }
-}
-
-//Change the badges on the badges page.
-#tabs {
-
-    a{
-        font-size: 10pt;
-    }
-    
-    .badge-entry-badge{
-        margin: 5px 0 5px 0;
-        font-size: 10pt;
-    }
-    
-    .badge-entry-desc{
-        font-size: 9pt;
-    }
-}
-
-//The badges part of the profile page.
-.qa-part-form-badges-list{
-    width: 67% !important;
-    
-    span{
-        font-size: 10pt !important;
-    }
-}
-
-//Found on the users page.
-#badge-medals-widget{
-    margin-left: 6px !important;
 }
 
 
@@ -865,29 +838,6 @@ blockquote {
   border-radius: 1em;
 }
 
-.qa-groups-link{
-    display: inline-block;
-    background-color: $theme-alt;
-    padding: 12px;
-    margin: 0 0 0 0;  
-    
-    &:hover{
-        background-color: $theme-hover;
-    }
-}
-
-.qa-groups-link:before {
-  content: '\e830';
-  font-family: "fontello";
-  display: inline-block;
-  font-size: 16pt;
-  width: 1em;
-  padding: 5px;
-  margin: 0;
-  text-align: center;
-  line-height: normal;
-  border-radius: 1em;
-}
 
 .qa-nav-user-logout:before {
   content: '\e80b';
@@ -1611,8 +1561,6 @@ h1 {
     line-height: 2em;
   }
   .qa-q-item-avatar-meta {
-    border-top: 1px solid #ecf0f1;
-    border-bottom: 1px solid #ecf0f1;
     padding: 5px;
     margin: 10px 0;
   }
@@ -1629,7 +1577,6 @@ h1 {
     padding: 5px 0;
     margin: 10px 0;
     display: block;
-    border-top: 1px solid #ecf0f1;
     .qa-message-who-data a {
       padding: 3px 10px;
       margin-bottom: 5px;
@@ -2095,8 +2042,6 @@ input[type="submit"], button {
 }
 
 .qa-form-wide-label, .qa-form-wide-data, .qa-form-tall-spacer {
-  border-top: 1px solid #ecf0f1;
-  border-bottom: 1px solid #ecf0f1;
     color: #7f8c8d;
 }
 
@@ -3462,153 +3407,7 @@ input[type="submit"], button {
 }
 
 
-/**** {GROUPS} ****/
-.group-description{
-    font-size: 10pt;
-}
 
-.qa-group-tag-list{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    li{
-        margin: 0 5px 0 0;
-        list-style: none;
-        display: inline-block;
-    }
-}
-
-h3.group-list-header{
-    margin-bottom: 2px;
-    margin-top: 2px;
-    font-size: 14pt;
-}
-
-.group-list-wrapper{
-    padding: 10px;
-    margin-bottom: 10px;
-    
-    &.even{
-        background-color: #f6f6f6;
-    }
-    
-    &.odd{
-        background-color: #fff;
-    }
-}
-
-.group-header-large{
-    margin-top: 80px;
-    width: 70%;
-    float: right;
-    background-color: $theme-main;
-    padding: 20px;
-    text-align: left;
-    .group-name{
-        color:white;
-        font-size: 20pt;
-    }
-}
-
-#group-tabs{
-    font-size: 12pt;
-    width: 70%;
-    float:right;
-    
-    .group-tabs{
-        font-size: 13pt;
-    }
-    
-    .group-info{
-        font-size: 11pt;
-    }
-}
-
-.group-sidepane{
-    width: 30%;
-    float: left;
-    height: 600px;
-    padding: 20px;
-    background-color: #fff;
-}
-
-.group-member-count{
-    font-size: 22pt;
-}
-
-.group-member-count-label{
-    font-size:12pt;
-}
-
-.qa-template-plugin{
-    .qa-main{
-        width: 100%;
-    }
-}
-
-.group-info-field{
-    font-size:10pt;
-}
-
-.group-post{
-    display: block;
-    width: 100%;
-    min-height: 100px;
-    
-    &.even{
-        background-color: #f6f6f6;
-    }
-    
-    &.odd{
-        background-color: #fff;
-    }
-    
-    h6{
-        font-size: 12pt;
-        color: #1A6A9B;
-        font-weight: normal;
-        margin: 10px;
-        line-height: normal;
-    }
-    
-    .group-post-content{
-        font-size: 8pt;
-        display: block;
-        margin: 0 0 0 10px;
-        padding: 0;
-    }
-    
-    .group-post-meta{
-        float:right;
-        font-size: 8pt;
-        padding: 0;
-    }
-}
-
-.qa-groups-button{
-    float: right;
-    &:link, &:visited, &:hover, &:active{
-        color: white;
-    }
-}
-
-h2.group-list-header{
-    display: inline-block;
-}
-
-.groups-delete-btn{
-    padding: 10px 15px;
-    border: 0px none;
-    font-size: 14px;
-    transition-duration: 0s;
-    background: none repeat scroll 0% 0% #3498DB;
-    color: #FFF;
-    background-color: #E74C3C;
-    
-    &:link, &:visited, &:hover, &:active{
-        color: white;
-    }
-}
 
 @media (max-width: 479px) {
   .qa-nav-footer {

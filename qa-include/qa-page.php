@@ -818,9 +818,45 @@
 		if (QA_DEBUG_PERFORMANCE)
 			$qa_usage->mark('view');
 
+        /* JSON OUTPUT
+        ** Takes any of the standard list types (or
+        ** custom content).
+        ** Also attempts to get the logged-in user, and
+        ** leaves behind additional data that 
+        */
         if(@$_GET['json'] !== null){
+            $json = array();         
             header('Content-Type: application/json');
-            echo json_encode($qa_content);
+            //Unset the feed for now.
+            if(isset($qa_content['feed'])) unset($qa_content['feed']);
+            
+            //Get the content.
+            if(isset($qa_content['custom'])) $json[] = $qa_content['custom'];
+            if(isset($qa_content['form'])) $json[] = $qa_content['form'];
+            if(isset($qa_content['profile-form'])) $json[] = $qa_content['profile-form'];
+            if(isset($qa_content['activity-form'])) $json[] = $qa_content['activity-form'];
+            if(isset($qa_content['q_list'])) $json[] = $qa_content['q_list'];
+            if(isset($qa_content['q_view'])) $json[] = $qa_content['q_view'];
+            if(isset($qa_content['a_form'])) $json[] = $qa_content['a_form'];
+            if(isset($qa_content['a_list'])) $json[] = $qa_content['a_list'];
+            if(isset($qa_content['ranking'])) $json[] = $qa_content['ranking'];
+            if(isset($qa_content['message_list'])) $json[] = $qa_content['message_list'];
+            if(isset($qa_content['activity_list'])) $json[] = $qa_content['activity_list'];
+            if(isset($qa_content['nav_list'])) $json[] = $qa_content['nav_list'];
+            
+            //Logged in user.
+            if (qa_is_logged_in()) {
+                // get logged-in user data
+                $avatar = array();
+                $avatar['username'] = qa_get_logged_in_user_field('handle');
+                $avatar['email'] = qa_get_logged_in_user_field('email');
+                $avatar['blobid'] = qa_get_logged_in_user_field('avatarblobid');
+
+                $json[] = $avatar;
+            }
+            
+            
+            echo json_encode($json);
         }else{
             qa_output_content($qa_content);
         }
