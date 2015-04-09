@@ -43,6 +43,7 @@
 			//Includes.
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
+			include '.\qa-include\plugins\qa-viewer-basic.php';
             
 			$userid = qa_get_logged_in_userid();
 			//If the user is not logged in redirect to main.		
@@ -55,11 +56,8 @@
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
 			
-			//If the user is not a member redirect to groups page.
-			// If the DB returns an empty group array, redirect to groups page			
-            //if(!$currentUserIsMember || empty($groupProfile)){
-				//qa_redirect('groups');
-            //}		
+	
+		
 
 			
 			// UI Generation below this.
@@ -74,6 +72,12 @@
             //Let's generate a nice set of fields.
             //Did we already submit?
             if(!isset($_POST["postTitle"])){
+			
+				//If the user is not a member redirect to groups page.
+				// If the DB returns an empty group array, redirect to groups page		
+				if(!$currentUserIsMember || empty($groupProfile)){
+					qa_redirect('groups');
+				}
                 if(isset($_GET["type"])){
                     //Output a form.
                     $qa_content['custom'] = '<form method="post" action="create-post/?type=d&g_id=' . $groupid. '" id="form">';
@@ -94,8 +98,11 @@
                 //Must've submitted already. Submit to the database.
                 if($_GET["type"] === 'D' || 
                    $_GET["type"] === 'd'){
-                    createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $_POST["postTags"], $_GET["type"], 0);
-                    
+				   
+				   // Double check that the user is a member of the group
+				   	if (isUserGroupMember($userid, $groupid = $_GET["g_id"])) {
+						createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $_POST["postTags"], $_GET["type"], 0);
+                    }
                     header('Location: ../../group/' . $_GET["g_id"]);
                 }else{
                     header('Location: ../../group/' . $_GET["g_id"]);

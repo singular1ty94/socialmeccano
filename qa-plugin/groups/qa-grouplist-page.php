@@ -44,7 +44,8 @@
 			$qa_content=qa_content_prepare();
 
 			$qa_content['title']=qa_lang('groups/group_list_title');
-			
+
+			include '.\qa-include\app\posts.php';		
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
@@ -77,11 +78,11 @@
 				foreach ($groupList as $group) {
 					$groupCreatedDate = $group["created_at"];
 					$groupid = $group["id"];
-					$groupName = $group["group_name"];
-					$groupDescription = $group["group_description"];
+					$groupName = qa_post_content_to_text($group["group_name"], 'html');
+					$groupDescription = qa_post_content_to_text($group["group_description"], 'html');
 					$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $group["avatarblobid"] . '&amp;qa_size=100" class="qa-avatar-image" alt=""/>';
-					$groupTags = $group["tags"];
-                    
+					$groupTags = qa_post_content_to_text($group["tags"], 'html');
+										
                     //Start the wrapper.
                     $qa_content['custom'] .= getGroupListWrapper($wrapper);
 					
@@ -96,7 +97,6 @@
                     $wrapper = !$wrapper;
 				}
 			}
-			
 			
 			return $qa_content;
 		}

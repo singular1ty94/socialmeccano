@@ -502,20 +502,24 @@ class qa_html_theme_base
     
     public function friends()
     {
-        $this->output(
-           '<a href="' . qa_path_html('friends') . '" class="qa-friends-link">' .
-           '' .
-           '</a>'
-        );
+		if (qa_opt('friends_active')) {
+			$this->output(
+			   '<a href="' . qa_path_html('friends') . '" class="qa-friends-link">' .
+			   '' .
+			   '</a>'
+			);
+		}
     }
     
     public function groups()
     {
-        $this->output(
-           '<a href="' . qa_path_html('groups') . '" class="qa-groups-link">' .
-           '' .
-           '</a>'
-        );
+		if (qa_opt('group_active')) {
+			$this->output(
+			   '<a href="' . qa_path_html('groups') . '" class="qa-groups-link">' .
+			   '' .
+			   '</a>'
+			);
+		}
     }
 
 	public function search()

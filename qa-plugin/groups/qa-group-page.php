@@ -48,8 +48,11 @@
 				qa_redirect(isset($groupid) ? 'group/'.$groupid : 'groups');
 			}		
 			
+			include '.\qa-include\app\posts.php';
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
+			
+			$viewer=qa_load_viewer('', '');
 			
 			$userid = qa_get_logged_in_userid();
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
@@ -89,15 +92,28 @@
 
 			// Set vars from DB result
 			$createdAt = $groupProfile["created_at"];
-			$groupName = $groupProfile["group_name"];
-			$groupDescription = $groupProfile["group_description"];
-			$groupInfo = $groupProfile["group_information"];
-			$groupTags = $groupProfile["tags"];
+			$groupName = qa_post_content_to_text($groupProfile["group_name"], 'html');
+			$groupDescription = qa_post_content_to_text($groupProfile["group_description"], 'html');
+			$groupInfo = $viewer->get_html($groupProfile["group_information"], '', array(
+				'blockwordspreg' => @$options['blockwordspreg'] = 1,
+				'showurllinks' => @$options['showurllinks'] = 1,
+				'linksnewwindow' => @$options['linksnewwindow'] = 1,
+			));
+			$groupTags= qa_post_content_to_text($groupProfile["tags"], 'html');
 			$groupCreator = $groupProfile["created_by"];
 			$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $groupProfile["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/>';
-			$groupLocation = $groupProfile["group_location"];
-			$groupWebsite = $groupProfile["group_website"];
+			$groupLocation = qa_post_content_to_text($groupProfile["group_location"], 'html');
+			$groupWebsite  = $viewer->get_html($groupProfile["group_website"], '', array(
+				'blockwordspreg' => @$options['blockwordspreg'] = 0,
+				'showurllinks' => @$options['showurllinks'] = 1,
+				'linksnewwindow' => @$options['linksnewwindow'] = 1,
+			));
+			
+			
 			$memberCount = getMemberCount($groupid)["COUNT(user_id)"];
+		
+			
+		
 		
 			//Overview Tab Info
 			$recentAnnouncements = getRecentAnnouncements($groupid);

@@ -169,9 +169,22 @@ function displayGroupPosts($postArray, $wrapper = true) {
 		$date = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
 		$postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
 		
+		$viewer=qa_load_viewer('', '');
+		$post["title"] = $viewer->get_html($post["title"], '', array(
+			'blockwordspreg' => @$options['blockwordspreg'],
+			'showurllinks' => @$options['showurllinks'] = 1,
+			'linksnewwindow' => @$options['linksnewwindow'] = 1,
+		));
+		$post["content"] = $viewer->get_html($post["content"], '', array(
+			'blockwordspreg' => @$options['blockwordspreg'],
+			'showurllinks' => @$options['showurllinks'] = 1,
+			'linksnewwindow' => @$options['linksnewwindow'] = 1,
+		));
+		
+		
 		$html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
 		//Next, we have the header.
-		$html .= '<a href="/view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';	
+		$html .= '<a href="/view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';
 		//Now the content.
 		$html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
 		//And the avatar box.	
@@ -199,6 +212,7 @@ function getVex(){
     <link rel='stylesheet' href='../qa-theme/Carbon/vex.css' />
     <link rel='stylesheet' href='../qa-theme/Carbon/vex-theme-plain.css' />";
 }
+
 
 /*
 	Omit PHP closing tag to help avoid accidental output
