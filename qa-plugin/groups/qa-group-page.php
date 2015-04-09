@@ -48,7 +48,7 @@
 				qa_redirect(isset($groupid) ? 'group/'.$groupid : 'groups');
 			}		
 			
-			include '.\qa-include\app\posts.php';
+			include '././qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
