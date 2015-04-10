@@ -45,7 +45,7 @@
 
 			$qa_content['title']=qa_lang('groups/group_list_title');
 
-			include '././qa-include/app/posts.php';		
+			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			

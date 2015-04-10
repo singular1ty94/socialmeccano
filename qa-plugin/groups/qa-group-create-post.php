@@ -43,7 +43,7 @@
 			//Includes.
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
-			include '.\qa-include\plugins\qa-viewer-basic.php';
+			include './qa-include/plugins/qa-viewer-basic.php';
             
 			$userid = qa_get_logged_in_userid();
 			//If the user is not logged in redirect to main.		
