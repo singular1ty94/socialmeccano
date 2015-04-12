@@ -80,7 +80,7 @@
 				}
                 if(isset($_GET["type"])){
                     //Output a form.
-                    $qa_content['custom'] = '<form method="post" action="create-post/?type='.$_GET["type"] . ' &g_id=' . $groupid. '" id="form">';
+                    $qa_content['custom'] = '<form method="post" action="create-post/?type='.$_GET["type"] . '&g_id=' . $groupid. '" id="form">';
                     $qa_content['custom'] .= '<label for="postTitle">Post Title: </label>';
                     $qa_content['custom'] .= '<input required id="postTitle" name="postTitle" type="text"/><br/>';		
                    $qa_content['custom'] .= '<label for="postContent">Content: </label><br>';
