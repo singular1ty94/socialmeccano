@@ -261,8 +261,8 @@
 		
 		//type is enum('A', 'D', 'C') - A=announcement, D=Discussion, C=Comment
 		function createPost($groupid, $userid, $title, $content, $tags, $type, $parentid=0) {
-			qa_db_query_sub('INSERT INTO ^group_posts (posted_at, group_id, user_id, title, content, tags, type, parent_id) '.
-			'VALUES (NOW(), $, $, $, $, $, $, $)',
+			qa_db_query_sub('INSERT INTO ^group_posts (posted_at, group_id, user_id, title, content, tags, type, parent_id, is_sticky, is_locked) '.
+			'VALUES (NOW(), $, $, $, $, $, $, $, 0, 0)',
 			$groupid, $userid, $title, $content, $tags, $type, $parentid);
 		}
 		
@@ -312,7 +312,7 @@
 		
 		function getRecentAnnouncements($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags, is_sticky, is_locked from ^group_posts '.
 								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "A" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
 			);
@@ -322,7 +322,7 @@
 		
 		function getRecentDiscussions($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags from ^group_posts '.
+				qa_db_query_sub('SELECT id, user_id, handle, avatarblobid, UNIX_TIMESTAMP(posted_at) AS posted_at, title, content, tags, is_sticky, is_locked from ^group_posts '.
 								'INNER JOIN ^users ON ^group_posts.user_id = ^users.userid '.
 								'WHERE type = "D" AND group_id = # ORDER BY posted_at DESC LIMIT 2', $groupid)
 			);
@@ -350,27 +350,20 @@
 		
 		
 		function makePostSticky($postid) {
-				qa_db_query_sub('UPDATE ^group_posts SET (is_sticky = 1) WHERE id = #', $postid);
+				qa_db_query_sub('UPDATE ^group_posts SET is_sticky = 1 WHERE id = #', $postid);
 		}
 		
 		function makePostNotSticky($postid) {
-				qa_db_query_sub('UPDATE ^group_posts SET (is_sticky = 0) WHERE id = #', $postid);
+				qa_db_query_sub('UPDATE ^group_posts SET is_sticky = 0 WHERE id = #', $postid);
 		}
 		
 		function makePostLocked($postid) {
-				qa_db_query_sub('UPDATE ^group_posts SET (is_locked = 1) WHERE id = #', $postid);
+				qa_db_query_sub('UPDATE ^group_posts SET is_locked = 1 WHERE id = #', $postid);
 		}
 		
 		function makePostUnlocked($postid) {
-				qa_db_query_sub('UPDATE ^group_posts SET (is_locked = 0) WHERE id = #', $postid);
-		}		
-
-		
-		
-		
-		
-		
-		
+				qa_db_query_sub('UPDATE ^group_posts SET is_locked = 0 WHERE id = #', $postid);
+		}
 		
 		
 		

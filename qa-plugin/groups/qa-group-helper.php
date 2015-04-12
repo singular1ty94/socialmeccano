@@ -166,36 +166,96 @@ function get_time($arr){
 function displayGroupPosts($postArray, $wrapper = true) {
 	$html = '';
 	foreach ($postArray as $post) {
-		$date = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
-		$postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
-		
-		$viewer=qa_load_viewer('', '');
-		$post["title"] = $viewer->get_html($post["title"], '', array(
-			'blockwordspreg' => @$options['blockwordspreg'],
-			'showurllinks' => @$options['showurllinks'] = 1,
-			'linksnewwindow' => @$options['linksnewwindow'] = 1,
-		));
-		$post["content"] = $viewer->get_html($post["content"], '', array(
-			'blockwordspreg' => @$options['blockwordspreg'],
-			'showurllinks' => @$options['showurllinks'] = 1,
-			'linksnewwindow' => @$options['linksnewwindow'] = 1,
-		));
-		
-		
-		$html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
-		//Next, we have the header.
-		$html .= '<a href="/view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';
-		//Now the content.
-		$html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
-		//And the avatar box.	
-		$html .= '<span class="group-post-meta">' . $date . ' by ' . displayGroupMember($post["handle"], $post["avatarblobid"]) . "</span>";
-		//End.
-		$html .= '</div>';
-		//Return.
-		$wrapper = !$wrapper;
+        if(@$post['is_sticky'] == '0'){
+            $date = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
+            $postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
+
+            $viewer=qa_load_viewer('', '');
+            $post["title"] = $viewer->get_html($post["title"], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'] = 1,
+                'linksnewwindow' => @$options['linksnewwindow'] = 1,
+            ));
+            $post["content"] = $viewer->get_html($post["content"], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'] = 1,
+                'linksnewwindow' => @$options['linksnewwindow'] = 1,
+            ));
+
+
+            $html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
+            //Next, we have the header
+            if(@$post['is_locked'] == '1'){
+                $html .= '<img class="group-locked" src="../qa-plugin/groups/images/tiny_padlock.png" />';
+            }
+            $html .= '<a href="../view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';
+            //Now the content.
+            $html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
+            //And the avatar box.	
+            $html .= '<span class="group-post-meta">' . $date . ' by ' . displayGroupMember($post["handle"], $post["avatarblobid"]) . "</span>";
+            //End.
+            $html .= '</div>';
+            //Return.
+            $wrapper = !$wrapper;
+        }
 	
 	}
 	return $html;	
+}
+
+/*
+ * Displays STICKIED discussionsor annoucements.
+ */
+function displayStickyPosts($postArray, $wrapper = true) {
+	$html = '';
+	foreach ($postArray as $post) {
+        if(@$post['is_sticky'] == '1'){
+            $date = get_time(qa_when_to_html($post["posted_at"], @$options['fulldatedays']));
+            $postRepliesCount = getCommentCount($post["id"])["COUNT(id)"];
+
+            $viewer=qa_load_viewer('', '');
+            $post["title"] = $viewer->get_html($post["title"], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'] = 1,
+                'linksnewwindow' => @$options['linksnewwindow'] = 1,
+            ));
+            $post["content"] = $viewer->get_html($post["content"], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'] = 1,
+                'linksnewwindow' => @$options['linksnewwindow'] = 1,
+            ));
+
+
+            $html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.
+            //Next, we have the header.
+            if(@$post['is_locked'] == '1'){
+                $html .= '<img class="group-locked" src="../qa-plugin/groups/images/tiny_padlock.png" />';
+            }
+            $html .= '<a href="../view-post/' . $post["id"] . '"><h6 class="group-post-header">' . $post["title"]  . "</h6>"  . '</a>';
+            //Now the content.
+            $html .= '<span class="group-post-content">' . $post["content"] . ' (Replies: ' . $postRepliesCount . ')' . "</span>";		
+            //And the avatar box.	
+            $html .= '<span class="group-post-meta">' . $date . ' by ' . displayGroupMember($post["handle"], $post["avatarblobid"]) . "</span>";
+            //End.
+            $html .= '</div>';
+            //Return.
+            $wrapper = !$wrapper;
+        }
+	
+	}
+	return $html;	
+}
+
+/*
+** A utility function to check if we have any pinned posts.
+*/
+function hasPinned($postArray){
+    foreach ($postArray as $post) {
+        if(@$post['is_sticky'] == '1'){
+            return true;
+        }
+    }
+    return false;
 }
 
 

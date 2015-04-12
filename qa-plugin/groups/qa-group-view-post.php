@@ -59,8 +59,6 @@
 			$groupProfile = getGroupData($groupid);
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
-
-			var_dump($postContent);
 			
 			
 			//If the user is not a member redirect to groups page.
@@ -68,14 +66,43 @@
             if(!$currentUserIsMember || empty($groupProfile)){
 				qa_redirect('groups');
             }
-			
-			
-			
-
 	
 			// UI Generation below this.
 			
 			$qa_content=qa_content_prepare();
+            
+            //Check to see if we are the admin, and if we had any commands.
+            if($currentUserIsAdmin){
+                if(isset($_GET['lock'])){
+                    //Lock the discussion.
+                    makePostLocked($postContent['id']);
+                    header('Location: ../view-post/' . $postContent['id']);
+                }
+                
+                if(isset($_GET['sticky'])){
+                    //Sticky the discussion.
+                    makePostSticky($postContent['id']);
+                    header('Location: ../view-post/' . $postContent['id']);
+                }
+                
+                if(isset($_GET['unlock'])){
+                    //Unlock the discussion.
+                    makePostUnlocked($postContent['id']);
+                    header('Location: ../view-post/' . $postContent['id']);
+                }
+                
+                if(isset($_GET['unsticky'])){
+                    //Unsticky the discussion.
+                    makePostNotSticky($postContent['id']);
+                    header('Location: ../view-post/' . $postContent['id']);
+                }
+                
+                if(isset($_GET['delete'])){
+                    //Delete the discussion.
+                    deletePost($postContent['id']);
+                    header('Location: ../group/' . $groupid['id']);
+                }
+            }
 			
 			// Set the browser tab title for the page.
 			$qa_content['title']= $postContent['title'];
@@ -83,7 +110,43 @@
             $heads = getJQueryUITabs('group-tabs');
 			$qa_content['custom']= $heads;
 			
-			$qa_content['custom'] .=  '<h3 class="group-list-header"><a href="../group/' . $groupProfile["id"] . '">' . $groupProfile["group_name"] . '</a> -> '.$postContent['title'].' </h3>';	
+			$qa_content['custom'] .=  '<div class="view-post-wrapper"><h3 class="group-list-header"><a href="../group/' . $groupProfile["id"] . '">' . $groupProfile["group_name"] . '</a> -> '.$postContent['title'].' </h3>';
+            
+            $qa_content['custom'] .= '<div class="group-post-icons">';
+            
+            if(@$postContent['is_sticky'] == '1'){
+                $qa_content['custom'] .= '<img src="../qa-plugin/groups/images/pin.png" />';
+            }
+            if(@$postContent['is_locked'] == '1'){
+                $qa_content['custom'] .= '<img src="../qa-plugin/groups/images/padlock.png" />';
+            }
+            $qa_content['custom'] .= '</div></div>';
+            
+            $qa_content['custom'] .= '<div class="group-view-content">' . $postContent['content'] .  ' </div>';
+            //Get the date this was posted at.
+            $date = get_time(qa_when_to_html($postContent["posted_at"], @$options['fulldatedays']));
+            
+            $qa_content['custom'] .= '<div class="group-post-avatar-meta">';
+            $qa_content['custom'] .= $date . ' by ' . $postContent['handle'];
+            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $postContent["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/></div>'; 
+            
+            $qa_content['custom'] .= getGroupTags($postContent['tags']);
+            
+            //Provisions for Admin.
+            if($currentUserIsAdmin){
+                if(!isset($postContent['is_locked']) || @$postContent['is_locked'] == '0'){
+                    $qa_content['custom'] .= '<a href="?lock" class="groups-btns groups-lock-btn">Lock Discussion</a>';
+                }else{
+                    $qa_content['custom'] .= '<a href="?unlock" class="groups-btns groups-lock-btn">Unlock Discussion</a>';
+                }
+                if(!isset($postContent['is_sticky']) || @$postContent['is_sticky'] == '0'){
+                    $qa_content['custom'] .= '<a href="?sticky" class="groups-sticky-btn groups-btns">Sticky Discussion</a>';
+                }else{
+                    $qa_content['custom'] .= '<a href="?unsticky" class="groups-sticky-btn groups-btns">Unsticky Discussion</a>';
+                }
+                
+                $qa_content['custom'] .= '<a href="?delete" class="groups-delete-btn groups-btns">Delete Thread</a>';
+            }
 
 			return $qa_content;
 		}

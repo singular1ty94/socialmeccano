@@ -160,6 +160,13 @@ h3.group-list-header{
         font-weight: normal;
         margin: 10px;
         line-height: normal;
+        vertical-align: middle;
+        display:inline-block;
+        margin-left: 2px;
+    }
+    
+    .group-locked{
+        vertical-align: middle;
     }
     
     .group-post-content{
@@ -167,6 +174,7 @@ h3.group-list-header{
         display: block;
         margin: 0 0 0 10px;
         padding: 0;
+        width: 100%;
     }
     
     .group-post-meta{
@@ -174,6 +182,53 @@ h3.group-list-header{
         font-size: 8pt;
         padding: 0;
     }
+}
+
+.group-post-icons{
+    float:right;
+    display: inline-block;
+}
+
+.view-post-wrapper{
+    width:700px;
+}
+
+h2.group-sticky{
+    font-size: 12pt;
+    color: $theme-main;
+    display:inline-block;
+    vertical-align: middle;
+    margin-left:5px;
+}
+
+img.group-sticky{
+    vertical-align: middle;
+}
+
+/*
+** For the view post page.
+*/
+.group-post-avatar-meta{
+    font-size: 12px;
+    float: right;
+    width: 470px;
+    img{
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+        margin-left: 10px;
+    }
+    
+    span{
+        font-size: 12px;
+    }
+}
+
+.group-view-content{
+    padding: 10px;
+    font-size: 11pt;
+    background-color: #f6f6f6;
+    width: 700px;
 }
 
 .qa-groups-button{
@@ -187,7 +242,14 @@ h2.group-list-header{
     display: inline-block;
 }
 
+.view-post-wrapper .group-list-header{
+    display: inline-block;
+}
+
+
 .groups-btns{
+    
+    margin-right: 5px;
     
     &.groups-delete-btn{
         padding: 10px 15px;
@@ -203,6 +265,36 @@ h2.group-list-header{
             color: white;
         }
     }
+    
+    &.groups-sticky-btn{
+        padding: 10px 15px;
+        border: 0px none;
+        font-size: 14px;
+        transition-duration: 0s;
+        background: none repeat scroll 0% 0% #27AE60;
+        color: #FFF;
+        background-color: #27AE60;
+        display: inline-block;
+
+        &:link, &:visited, &:hover, &:active{
+            color: white;
+        }
+    }
+    
+    &.groups-lock-btn{
+        padding: 10px 15px;
+        border: 0px none;
+        font-size: 14px;
+        transition-duration: 0s;
+        background: none repeat scroll 0% 0% #3498DB;
+        color: #FFF;
+        background-color: #3498DB;
+        display: inline-block;
+
+        &:link, &:visited, &:hover, &:active{
+            color: white;
+        }
+    }
 
     &.groups-update-btn{
         padding: 10px 15px;
@@ -210,9 +302,9 @@ h2.group-list-header{
         font-size: 14px;
         margin-left: 10px;
         transition-duration: 0s;
-        background: none repeat scroll 0% 0% #34db88;
+        background: none repeat scroll 0% 0% #27AE60;
         color: #FFF;
-        background-color: #34db88;
+        background-color: #27AE60;
         display: inline-block;
 
         &:link, &:visited, &:hover, &:active{

@@ -207,7 +207,7 @@
 				
 				//if the user is an admin, show a create post button on the announcements tab as well
 				if ($currentUserIsAdmin) {
-					$groupAnnouncementsTab .= '<a href="../create-post/'.$groupid.'" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
+					$groupAnnouncementsTab .= '<a href="../create-post/'.$groupid.'?type=a" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
 				}
 				
 				
@@ -224,8 +224,14 @@
 				$groupDiscussionsTab .= '<a href="../create-post/'.$groupid.'?type=d" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Post</a>';
 				if (empty($discussions)) {
 					$groupDiscussionsTab .= '<div class="">No discussions to display.</div>';
-				}
-				$groupDiscussionsTab .= displayGroupPosts($discussions);			
+				}else{
+                    if(hasPinned($discussions)){
+                        $groupDiscussionsTab .= '<img class="group-sticky" src="../qa-plugin/groups/images/pin.png" /><h2 class="group-sticky">Pinned Discussions</h2>';
+                        $groupDiscussionsTab .= displayStickyPosts($discussions);	
+                    }
+                    $groupDiscussionsTab .= '<h2 class="group-sticky">Discussions</h2>';
+                    $groupDiscussionsTab .= displayGroupPosts($discussions);	
+                }
 
 				
 				/*

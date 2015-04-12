@@ -80,7 +80,7 @@
 				}
                 if(isset($_GET["type"])){
                     //Output a form.
-                    $qa_content['custom'] = '<form method="post" action="create-post/?type=d&g_id=' . $groupid. '" id="form">';
+                    $qa_content['custom'] = '<form method="post" action="create-post/?type='.$_GET["type"] . ' &g_id=' . $groupid. '" id="form">';
                     $qa_content['custom'] .= '<label for="postTitle">Post Title: </label>';
                     $qa_content['custom'] .= '<input required id="postTitle" name="postTitle" type="text"/><br/>';		
                    $qa_content['custom'] .= '<label for="postContent">Content: </label><br>';
@@ -97,7 +97,9 @@
             }else{
                 //Must've submitted already. Submit to the database.
                 if($_GET["type"] === 'D' || 
-                   $_GET["type"] === 'd'){
+                   $_GET["type"] === 'd' ||
+                   $_GET["type"] === 'A' || 
+                   $_GET["type"] === 'a'){
 				   
 				   // Double check that the user is a member of the group
 				   	if (isUserGroupMember($userid, $groupid = $_GET["g_id"])) {

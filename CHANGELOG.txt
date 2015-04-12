@@ -1,6 +1,30 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+Group
+% Fixed relative URL issues with viewing posts
+% Fixed graphical bug on Discussions tab
+% Fixed another graphical bug
++ Implemented display of Pinned/Sticky posts (rather than the existing order_by)
++ Implemented display of Locked posts
++ Ensured that posts/sticky header cannot be displayed when list is empty
++ Added check for empty pinned list
+
+Database
++ All new posts are now set to is_locked and is_sticky as 0 (removes ambiguous isset logic)
++ Recent discussions/announcements now include stickiness/lockedness (required to be displayed)
+
+Create Post
+% Fixed bug where all posts would be discussions
++ Provided support for making new announcements (no extra features, Sam please add anything you need)
+
+View Post
++ Added Post Content, Avatar Meta, Provisions for Sticky/Locked icons, Post Tags
++ Added Locked and Sticky buttons
++ Fixed display of locked/sticky icons
++ Added admin ability to delete post (NO UI CONFIRMATION BOX YET)
+
+------------------------------------------------------------------------------------------
 UI: Group List
 % Group meta (name, description, tags), now shows inline with image.
 % Fixed bug preventing group wrapper from alternating color.
