@@ -82,12 +82,12 @@
                     //Output a form.
                     $qa_content['custom'] = '<form method="post" action="create-post/?type='.$_GET["type"] . '&g_id=' . $groupid. '" id="form">';
                     $qa_content['custom'] .= '<label for="postTitle">Post Title: </label>';
-                    $qa_content['custom'] .= '<input required id="postTitle" name="postTitle" type="text"/><br/>';		
-                   $qa_content['custom'] .= '<label for="postContent">Content: </label><br>';
-                    $qa_content['custom'] .= '<textarea required rows="4" cols="50" name="postContent" form="form"></textarea><br>';	
+                    $qa_content['custom'] .= '<input required id="postTitle" name="postTitle" type="text" maxlength="200" size="68"/><br/>';		
+                    $qa_content['custom'] .= '<label for="postContent">Content: </label><br>';
+                    $qa_content['custom'] .= '<textarea required rows="12" cols="75" name="postContent" form="form" maxlength="8000"></textarea><br>';	
 
                     $qa_content['custom'] .= '<label for="postTags">Post Tags: </label>';
-                    $qa_content['custom'] .= '<input required id="postTags" name="postTags" type="text"/><br/>';
+                    $qa_content['custom'] .= '<input required id="postTags" name="postTags" type="text" maxlength="100" size="32"/><br/>';
 
                     $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Post"/>';
                     $qa_content['custom'] .= '</form>';	
@@ -103,7 +103,13 @@
 				   
 				   // Double check that the user is a member of the group
 				   	if (isUserGroupMember($userid, $groupid = $_GET["g_id"])) {
-						createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $_POST["postTags"], $_GET["type"], 0);
+						require_once QA_INCLUDE_DIR.'./app/format.php';	
+						require_once QA_INCLUDE_DIR.'./app/posts.php';
+
+						$tags = qa_string_to_words($_POST['postTags'], $tolowercase=true, $delimiters=false, $splitideographs=true, $splithyphens=false);
+						$tags = qa_post_tags_to_tagstring($tags);
+						
+						createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $tags, $_GET["type"], 0);
                     }
                     header('Location: ../../group/' . $_GET["g_id"]);
                 }else{

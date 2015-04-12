@@ -44,7 +44,7 @@
 			//Includes.
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
-            
+
 			
 			$userid = qa_get_logged_in_userid();
 			
@@ -65,19 +65,19 @@
                 //Output form.
                 $qa_content['custom'] = '<form method="post" enctype="multipart/form-data" action="group-create" id="form">';
                 $qa_content['custom'] .= '<label for="groupName">Group Name: </label>';
-                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" /><br/>';
+                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" maxlength="64" size="60"/><br/>';
                 $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label><br>';
                 //$qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
-				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupDescr" form="form" placeholder="Type a brief description here..."></textarea><br>';			
-               $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
-				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupInfo" form="form" placeholder="Type important group information here..."></textarea><br>';	
+				$qa_content['custom'] .= '<textarea required rows="3" cols="70" name="groupDescr" form="form" maxlength="200" placeholder="Type a brief description here..."></textarea><br>';			
+                $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
+				$qa_content['custom'] .= '<textarea required rows="5" cols="70" name="groupInfo" form="form" maxlength="8000" placeholder="Type important group information here..."></textarea><br>';	
                 //$qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';                
 				$qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
-                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" /><br/>';
+                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" maxlength="50" size="58"/><br/>';
                 $qa_content['custom'] .= '<label for="groupWebsite">Group Website: </label>';
-                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" /><br/>';
+                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" maxlength="100"/ size="58"><br/>';
                 $qa_content['custom'] .= '<label for="groupTags">Group Tags: </label>';
-                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" /><br />';				
+                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" maxlength="100" size="32"/><br />';				
                 $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
                 $qa_content['custom'] .= '<input required id="avatar" name="avatar" type="file" /><br />';
 
@@ -97,7 +97,14 @@
                     $blobId = qa_create_blob($imagedata, 'jpeg', null, $userid, null, qa_remote_ip_address());
                 }
                 //Make the group.
-                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $_POST['groupTags'], $userid);
+				require_once QA_INCLUDE_DIR.'./app/format.php';	
+				require_once QA_INCLUDE_DIR.'./app/posts.php';
+
+				$tags = qa_string_to_words($_POST['groupTags'], $tolowercase=true, $delimiters=false, $splitideographs=true, $splithyphens=false);
+				$tags = qa_post_tags_to_tagstring($tags);
+
+				
+                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $tags, $userid);
                 
                 //Add generic announcement
                 createPost($groupid, $userid, 'Welcome to ' . $_POST['groupName'], 'Welcome to your new group.', 'admin', 'A');

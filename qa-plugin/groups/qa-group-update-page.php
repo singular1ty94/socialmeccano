@@ -82,7 +82,7 @@
                 $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label><br>';
                 //$qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
 				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupDescr" form="form">'. $groupProfile["group_description"] .'</textarea><br>';			
-               $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
+                $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
 				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupInfo" form="form">'. $groupProfile["group_information"] .'</textarea><br>';	
                 //$qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';                
 				$qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';

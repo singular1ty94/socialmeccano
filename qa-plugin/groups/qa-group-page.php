@@ -95,7 +95,7 @@
 			$groupName = qa_post_content_to_text($groupProfile["group_name"], 'html');
 			$groupDescription = qa_post_content_to_text($groupProfile["group_description"], 'html');
 			$groupInfo = $viewer->get_html($groupProfile["group_information"], '', array(
-				'blockwordspreg' => @$options['blockwordspreg'] = 1,
+				'blockwordspreg' => @$options['blockwordspreg'],
 				'showurllinks' => @$options['showurllinks'] = 1,
 				'linksnewwindow' => @$options['linksnewwindow'] = 1,
 			));
@@ -104,7 +104,7 @@
 			$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $groupProfile["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/>';
 			$groupLocation = qa_post_content_to_text($groupProfile["group_location"], 'html');
 			$groupWebsite  = $viewer->get_html($groupProfile["group_website"], '', array(
-				'blockwordspreg' => @$options['blockwordspreg'] = 0,
+				'blockwordspreg' => @$options['blockwordspreg'],
 				'showurllinks' => @$options['showurllinks'] = 1,
 				'linksnewwindow' => @$options['linksnewwindow'] = 1,
 			));

@@ -46,8 +46,8 @@
 										'avatarblobid bigint(20) unsigned DEFAULT NULL,'.
 										'group_information VARCHAR(8000) DEFAULT \'\','.
 										'tags VARCHAR(100) DEFAULT NULL,'.
-										'group_location VARCHAR (200) DEFAULT \'\','.
-										'group_website VARCHAR (200) DEFAULT \'\','.
+										'group_location VARCHAR (50) DEFAULT \'\','.
+										'group_website VARCHAR (100) DEFAULT \'\','.
 										'created_by INT(11) NOT NULL,'.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
@@ -63,7 +63,7 @@
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
 								);
 					
-					// Create group announcement table
+					// Create group post table
 					qa_db_query_sub(
 									'CREATE TABLE IF NOT EXISTS ^group_posts ('.
 										'id INT(11) NOT NULL AUTO_INCREMENT,'.
@@ -74,8 +74,8 @@
 										'content VARCHAR (8000) DEFAULT NULL,'.
 										'tags VARCHAR(100) DEFAULT NULL,'.
 										'type enum("A", "D", "C") NOT NULL,'.
-										'is_locked INT(1) DEFAULT NULL,'.
-										'is_sticky INT(1) DEFAULT NULL,'.
+										'is_locked INT(1) DEFAULT 0,'.
+										'is_sticky INT(1) DEFAULT 0,'.
 										'edited_at DATETIME DEFAULT NULL,'.
 										'editor_id INT(11) DEFAULT NULL,'.
 										'parent_id INT(11) DEFAULT NULL,'.

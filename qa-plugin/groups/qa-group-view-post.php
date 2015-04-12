@@ -60,13 +60,17 @@
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
 			
+			if(isset($_POST["comment"]) && $currentUserIsMember) {
+				createPost($groupid, $userid, '', $_POST["comment"], '', 'C', $postid);
+				qa_redirect('view-post/'.$postid);
+			}
 			
 			//If the user is not a member redirect to groups page.
 			// If the DB returns an empty group array, redirect to groups page			
             if(!$currentUserIsMember || empty($groupProfile)){
 				qa_redirect('groups');
             }
-	
+			
 			// UI Generation below this.
 			
 			$qa_content=qa_content_prepare();
@@ -104,6 +108,20 @@
                 }
             }
 			
+			
+			$viewer=qa_load_viewer('', '');
+            $postContent['title'] = $viewer->get_html($postContent['title'], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'],
+                'linksnewwindow' => @$options['linksnewwindow'],
+            ));
+			$postContent['content'] = $viewer->get_html($postContent['content'], '', array(
+                'blockwordspreg' => @$options['blockwordspreg'],
+                'showurllinks' => @$options['showurllinks'] = 1,
+                'linksnewwindow' => @$options['linksnewwindow'] = 1,
+            ));
+			
+			
 			// Set the browser tab title for the page.
 			$qa_content['title']= $postContent['title'];
 
@@ -112,6 +130,8 @@
 			
 			$qa_content['custom'] .=  '<div class="view-post-wrapper"><h3 class="group-list-header"><a href="../group/' . $groupProfile["id"] . '">' . $groupProfile["group_name"] . '</a> -> '.$postContent['title'].' </h3>';
             
+		
+			// Display Pinned, Locked icons if needed.
             $qa_content['custom'] .= '<div class="group-post-icons">';
             
             if(@$postContent['is_sticky'] == '1'){
@@ -122,32 +142,54 @@
             }
             $qa_content['custom'] .= '</div></div>';
             
+			
+			// Display the root post
             $qa_content['custom'] .= '<div class="group-view-content">' . $postContent['content'] .  ' </div>';
             //Get the date this was posted at.
             $date = get_time(qa_when_to_html($postContent["posted_at"], @$options['fulldatedays']));
             
             $qa_content['custom'] .= '<div class="group-post-avatar-meta">';
-            $qa_content['custom'] .= $date . ' by ' . $postContent['handle'];
-            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $postContent["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/></div>'; 
-            
+			$qa_content['custom'] .= $date . ' by ' . displayGroupMember($postContent["handle"], $postContent["avatarblobid"]).'</div>';
             $qa_content['custom'] .= getGroupTags($postContent['tags']);
             
-            //Provisions for Admin.
+			//Provisions for Admin.
             if($currentUserIsAdmin){
                 if(!isset($postContent['is_locked']) || @$postContent['is_locked'] == '0'){
-                    $qa_content['custom'] .= '<a href="?lock" class="groups-btns groups-lock-btn">Lock Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?lock" class="groups-btns groups-lock-btn">Lock Discussion</a>';
                 }else{
-                    $qa_content['custom'] .= '<a href="?unlock" class="groups-btns groups-lock-btn">Unlock Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unlock" class="groups-btns groups-lock-btn">Unlock Discussion</a>';
                 }
                 if(!isset($postContent['is_sticky']) || @$postContent['is_sticky'] == '0'){
-                    $qa_content['custom'] .= '<a href="?sticky" class="groups-sticky-btn groups-btns">Sticky Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?sticky" class="groups-sticky-btn groups-btns">Sticky Discussion</a>';
                 }else{
-                    $qa_content['custom'] .= '<a href="?unsticky" class="groups-sticky-btn groups-btns">Unsticky Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unsticky" class="groups-sticky-btn groups-btns">Unsticky Discussion</a>';
                 }
                 
                 $qa_content['custom'] .= '<a href="?delete" class="groups-delete-btn groups-btns">Delete Thread</a>';
             }
-
+			
+			// Display post comments.
+			foreach ($postComments as $comment) {
+				$qa_content['custom'] .= '<br><br><div class="group-view-content">' . $comment['content'] . ' </div>';
+				//Get the date this was posted at.
+				$date = get_time(qa_when_to_html($comment["posted_at"], @$options['fulldatedays']));
+				
+				$qa_content['custom'] .= '<div class="group-post-avatar-meta">';
+				$qa_content['custom'] .= $date . ' by ' . displayGroupMember($comment["handle"], $comment["avatarblobid"]). ' </div><br>';			
+			}
+			
+			// Display the 'Leave a comment' section if the post is not locked.			
+			if(@$postContent['is_locked'] == '0'){
+				$qa_content['custom'] .= '<br><form method="post" enctype="multipart/form-data" action="../view-post/'.$postid.'/post-comment" id="form">';
+				$qa_content['custom'] .= '<br><label for="postContent">Leave a comment: </label><br>';
+				$qa_content['custom'] .= '<textarea required rows="10" cols="74" name="comment" form="form" maxlength="8000"></textarea><br>';
+				$qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Post"/>';
+				$qa_content['custom'] .= '</form>';	
+			} 
+			else {
+				$qa_content['custom'] .= '<br><h3>This post is locked and is no longer taking comments.</h3>';
+			}
+			
 			return $qa_content;
 		}
 	
