@@ -264,6 +264,8 @@
 			qa_db_query_sub('INSERT INTO ^group_posts (posted_at, group_id, user_id, title, content, tags, type, parent_id, is_sticky, is_locked) '.
 			'VALUES (NOW(), $, $, $, $, $, $, $, 0, 0)',
 			$groupid, $userid, $title, $content, $tags, $type, $parentid);
+			$createdPost = qa_db_last_insert_id();
+			return $createdPost;
 		}
 		
 		

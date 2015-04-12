@@ -109,7 +109,8 @@
 						$tags = qa_string_to_words($_POST['postTags'], $tolowercase=true, $delimiters=false, $splitideographs=true, $splithyphens=false);
 						$tags = qa_post_tags_to_tagstring($tags);
 						
-						createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $tags, $_GET["type"], 0);
+						$postid = createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $tags, $_GET["type"], 0);
+						qa_redirect('view-post/' . $postid);
                     }
                     header('Location: ../../group/' . $_GET["g_id"]);
                 }else{
