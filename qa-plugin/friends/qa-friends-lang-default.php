@@ -24,7 +24,7 @@
 		'friend_admin'=>'Friends Admin',
 		'friends'=>'Friends',
 		
-		'friends_list_title'=>'Friends List',
+		'friends_list_title'=>'My Friends',
 
 		'friends_admin_saved'=>'Options saved.',
 		

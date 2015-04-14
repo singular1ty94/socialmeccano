@@ -85,28 +85,27 @@ $(document).ready(function () {
 	});
     
     $("#delete-btn").click(function(){
-    vex.dialog.confirm({
-      message: 'Are you sure you want to delete this group? This action cannot be reversed?',
-      callback: function(value) {
-          if(value == true){
-            window.location.href = "?delete";
-          }
-      }
-    });
-});
+		vex.dialog.confirm({
+		  message: 'Are you sure you want to delete this group? This action cannot be reversed?',
+		  callback: function(value) {
+			  if(value == true){
+				window.location.href = "?delete";
+			  }
+		  }
+		});
+	});
 
     $("#leave-group-btn").click(function(){
-	vex.dialog.buttons.YES.text = 'Yes'
-	vex.dialog.buttons.NO.text = 'No'
-    vex.dialog.confirm({
-      message: 'Are you sure you want to leave this group?',
-      callback: function(value) {
-          if(value == true){
-            window.location.href = "?leave_group";
-          }
-      }
-    });
-});
-
+		vex.dialog.buttons.YES.text = 'Yes'
+		vex.dialog.buttons.NO.text = 'No'
+		vex.dialog.confirm({
+		  message: 'Are you sure you want to leave this group?',
+		  callback: function(value) {
+			  if(value == true){
+				window.location.href = "?leave_group";
+			  }
+		  }
+		});
+	});
 
 });

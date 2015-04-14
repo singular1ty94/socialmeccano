@@ -33,7 +33,8 @@
 		
 		function match_request($request)
 		{
-			if ($request=='friends')
+			$requestpart = qa_request_part(0);
+			if ($requestpart=='friends')
 				return true;
 
 			return false;
@@ -48,39 +49,64 @@
 			include 'qa-friends-db.php';
 			include 'qa-friends-helper.php';
 			
+			$userid = qa_get_logged_in_userid();
+
+            //If the user is not logged in redirect to main.		
+            if(!isset($userid)){
+               header('Location: ../');
+            }			
 			
-			$friendsList = getMyFriends(1); //TODO get current user.
+			
+			//If the user wants to remove a friend.
+            if(isset($_GET['unfriend'])){
+				var_dump(qa_request_part(1));
+                header('Location: ../?qa=friends');
+            }
+
 
 			
+			// Get my friends from DB.
+			$friendList = getMyFriends($userid);
+
+
             $heads = getJQueryUITabs('tabs');
-			
+
 			$qa_content['custom']= $heads;
-			$qa_content['custom'] .= '<h2>Friends List</h2>';
 			
+            //Vex.
+            $vex = getVex();
+			$qa_content['custom'] .= $vex;			
 			
-			if (empty($friendsList)) {
-				$qa_content['custom'] .= 'You Dont Have Any Friends. Nobody Likes You!';
-				
+			$qa_content['custom'] .= '<h2 class="group-list-header">'. qa_lang('friends/friends_list_title') .'</h2>';
+
+
+			if (empty($friendList)) {
+				$qa_content['custom'] .= "<br>You haven't added any friends yet.";
 			}
 			else {
                 //Even/odd wrapper color.
                 $wrapper = true;
-                
-				foreach ($groupList as $group) {
-                    //Get our formatted tags.
-                    $taglist = getGroupTags($group["tags"]);
-                    
+
+				foreach ($friendList as $friend) {
+
                     //Start the wrapper.
-                    $qa_content['custom'] .= getGroupListWrapper($wrapper);
-                    
-					//Get the Group name.
-					$qa_content['custom'] .= getGroupListName($group["id"], $group["group_name"], $group["group_description"]);
-                    //The group tags...
-					$qa_content['custom'] .= $taglist;
-					$qa_content['custom'] .= '<br>'. $group["avatarblobid"]; //obviously we want the actual image, not the id. TODO
-                    
+                    $qa_content['custom'] .= getFriendWrapper($wrapper);
+
+					$qa_content['custom'] .= '<a href="/user/' . $friend["handle"] . '"><img src="./?qa=image&amp;qa_blobid= ' . $friend["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/></a>';
+
+					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
+					
+					$qa_content['custom'] .= '<div class="qa-groups-button">';
+					$qa_content['custom'] .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save">Message</a>';
+					$qa_content['custom'] .= '<a href="#" id="unfriend-btn" class="groups-btns groups-delete-btn">Unfriend</a>';
+					$qa_content['custom'] .= '</div>';
+
+					$qa_content['custom'] .= '<br>';
+
                     //End the wrapper.
-                    $qa_content['custom'] .= endGroupListWrapper();
+                    $qa_content['custom'] .= endFriendWrapper();
+                    //Alternate the wrapper.
+                    $wrapper = !$wrapper;
 				}
 			}
 			

@@ -3,7 +3,7 @@
 	Social Meccano by Brett Orr and Samuel Hammill
 	Based on Question2Answer by Gideon Greenspan and contributors
 
-	File: /qa-group-helper.php
+	File: /qa-friend-helper.php
 	Description: Helper functions for outputting HTML wrappers.
 
 
@@ -50,48 +50,59 @@ function endSidePane(){
 
 
 /*
- * Make the group page header.
+ * Make the Friend page header.
  */
-function getGroupHeader($groupName){
-    return '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName . '</td></tr></table></div><br/>';
+function getFriendHeader($FriendName){
+    return '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $FriendName . '</td></tr></table></div><br/>';
 }
 
 /*
- * Make tags for Group List.
+ * Make a complete group unit for the group list.
  */
-function getGroupTags($tags){
-    //Format the tags.
-    $arr = explode(',', $tags); //Get a new array
+function getFriendUnit($id, $friendName){
+    $html = '';
+    //Add the wrapper.
+    $html .= '<div class="group-unit">';
     
-    //Header of the tag list.
-    $taglist = '<ul class="qa-group-tag-list">';
-    foreach($arr as $tag){
-        $taglist .= '<li><a href="./?qa=tag/' . $tag . '" class="qa-tag-link">' . $tag . '</a></li>';
-    }
-    $taglist .= '</ul>';
+    //Add the group header, name and description.
+    $html .= getFriendName($id, $friendName); //, $friendDescr
+	
+ 	//$html .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Unfriend</a>';
+
+    //Now end the wrapper.
+    $html .= '</div>';
+    return $html;
     
-    return $taglist;
 }
+
+
 
 /*
  * Returns the colored wrapper background.
  */
-function getGroupListWrapper($wrapper){
+function getFriendWrapper($wrapper){
     return '<div class="group-list-wrapper ' . ($wrapper ? 'even' : 'odd') . '">';
 }
 
 /*
- * Returns the group's name for the grouplist.
+ * Returns the Friend's name for the friend list.
  */
-function getGroupListName($id, $groupName, $groupDescr){
-    return '<h3 class="group-list-header"><a href="./group/' . $id . '">' . $groupName . '</a></h3><span class="group-description">'. $groupDescr . '</span><br/>';
+function getFriendName($id, $friendName){ // , $friendDescr
+    return '<h3 class="group-list-header"><a href="./user/' . $friendName . '">' . $friendName . '</a></h3>';//<span class="group-description">'. $friendDescr . '</span><br/>';
 }
 
 /*
- * Close the group wrapper.
+ * Close the Friend wrapper.
  */
-function endGroupListWrapper(){
+function endFriendWrapper(){
     return '</div>';
+}
+
+function getVex(){
+    return "<script src='../qa-theme/Carbon/js/vex.combined.min.js'></script>
+    <script>vex.defaultOptions.className = 'vex-theme-plain';</script>
+    <link rel='stylesheet' href='../qa-theme/Carbon/vex.css' />
+    <link rel='stylesheet' href='../qa-theme/Carbon/vex-theme-plain.css' />";
 }
 
 

@@ -52,18 +52,17 @@ checkForExistingRequest($userid, $friendid)
 
 		
 		function addFriendToList($userid, $friendid) {
-			$currentTime = NOW();
 		
 			// Add you to my list.
 			qa_db_query_sub('INSERT INTO ^friend_list (added_at, user_id, friend_id)'.
-				'VALUES ($, $, $)',
-				$currentTime, $userid, $friendid
+				'VALUES (NOW(), $, $)',
+				$userid, $friendid
 			);
 			
 			// Add me to your list.
 			qa_db_query_sub('INSERT INTO ^friend_list (added_at, user_id, friend_id)'.
-				'VALUES ($, $, $)',
-				$currentTime, $friendid, $userid 
+				'VALUES (NOW(), $, $)',
+				$friendid, $userid 
 			);		
 
 		}
