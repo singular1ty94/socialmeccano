@@ -112,7 +112,7 @@ function getGroupTags($tags){
     //Header of the tag list.
     $taglist = '<ul class="qa-group-tag-list">';
     foreach($arr as $tag){
-        $taglist .= '<li><a href="./?qa=tag/' . trim($tag) . '" class="qa-tag-link">' . trim($tag) . '</a></li>';
+        $taglist .= '<li><a href="../../?qa=tag/' . trim($tag) . '" class="qa-tag-link">' . trim($tag) . '</a></li>';
     }
     $taglist .= '</ul>';
     
