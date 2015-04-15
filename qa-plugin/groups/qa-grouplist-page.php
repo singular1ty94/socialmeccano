@@ -74,8 +74,12 @@
 			else {
                 //Even/odd wrapper color.
                 $wrapper = true;
-				       
+				$qa_content['raw'] = [];
+                
 				foreach ($groupList as $group) {
+                    //Output to the raw JSON format.
+                    $qa_content['raw'][$group["id"]] = $group;
+                    
 					$groupCreatedDate = $group["created_at"];
 					$groupid = $group["id"];
 					$groupName = qa_post_content_to_text($group["group_name"], 'html');

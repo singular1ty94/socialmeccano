@@ -1,6 +1,19 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+JSON
++ Removed support for the 'custom' element
++ Added support for the 'raw' element
++ JSON now outputs the element type.
+
+JSON: GROUPS
++ Added FULL retrieval on GroupList page
++ Added FULL retrieval on Group page
+
+JSON: BADGES
++ Added FULL retrieval for Badges ListPage
+
+------------------------------------------------------------------------------------------
 Group
 % Fixed relative URL issues with viewing posts
 % Fixed graphical bug on Discussions tab

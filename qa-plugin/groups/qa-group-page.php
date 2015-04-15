@@ -109,7 +109,6 @@
 				'linksnewwindow' => @$options['linksnewwindow'] = 1,
 			));
 			
-			
 			$memberCount = getMemberCount($groupid)["COUNT(user_id)"];
 		
 			
@@ -130,10 +129,11 @@
 			$groupMembers = getGroupMembers($groupid);
 	
 	
-	
-			// UI Generation below this.
-			
+			// UI Generation below this.			
 			$qa_content=qa_content_prepare();
+            
+            //JSON prepare
+            $qa_content['raw']['group'] = $groupProfile;
 			
 			// Set the browser tab title for the page.
 			$qa_content['title']=$groupName;
@@ -192,6 +192,7 @@
 					$overviewTab .= 'No recent announcements to display.';
 				}
 				$overviewTab .= displayGroupPosts($recentAnnouncements);
+                
 				
 				$overviewTab .= '<hr/><br>Recent Discussions<br>';
 				if (empty($recentDiscussions)) {
@@ -213,8 +214,11 @@
 				
 				if (empty($announcements)) {
 					$groupAnnouncementsTab .=  'No announcements to display.';
-				}
-				$groupAnnouncementsTab .= displayGroupPosts($announcements);
+				}else{
+                    $groupAnnouncementsTab .= displayGroupPosts($announcements);
+                    //JSON
+                    $qa_content['raw']['group']['announcements'] = $announcements;
+                }
 
 				
 				/*
@@ -227,10 +231,13 @@
 				}else{
                     if(hasPinned($discussions)){
                         $groupDiscussionsTab .= '<img class="group-sticky" src="../qa-plugin/groups/images/pin.png" /><h2 class="group-sticky">Pinned Discussions</h2>';
-                        $groupDiscussionsTab .= displayStickyPosts($discussions);	
+                        $groupDiscussionsTab .= displayStickyPosts($discussions);
                     }
                     $groupDiscussionsTab .= '<h2 class="group-sticky">Discussions</h2>';
                     $groupDiscussionsTab .= displayGroupPosts($discussions);	
+                    
+                    //JSON
+                    $qa_content['raw']['group']['discussions'] = $discussions;
                 }
 
 				
@@ -253,6 +260,8 @@
 					foreach ($groupMembers as $member) {
 						$groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"]);
 					}
+                    //JSON
+                    $qa_content['raw']['group']['members'] = $groupMembers;
 				}
 				
 				/*

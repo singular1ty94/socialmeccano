@@ -64,8 +64,7 @@
             
 			$count = array();
 			
-			foreach($result as $r) {
-                
+			foreach($result as $r) {                
 				if(qa_opt('badge_'.$r['badge_slug'].'_enabled') == '0') continue;
 				if(isset($count[$r['badge_slug']][$r['user_id']])) $count[$r['badge_slug']][$r['user_id']]++;
 				else $count[$r['badge_slug']][$r['user_id']] = 1;
@@ -106,6 +105,14 @@
                 }else if($types == 'gold'){
                     $badgeGold .= '<div class="badge-entry-badge"><span class="badge-'.$types.'" title="'.$typen.'">'.$name.'</span>&nbsp;<span class="badge-entry-desc">'.$desc.'</span>'.(isset($count[$slug])?'&nbsp;<span title="'.$count[$slug]['count'].' '.qa_lang('badges/awarded').'" class="badge-count-link" onclick="jQuery(\'#badge-users-'.$slug.'\').slideToggle()">x'.$count[$slug]['count'].' awarded</span>':'').'</div>';                
                 }
+                
+                //JSON Support
+                $badgeJSON = array();
+                $badgeJSON['name'] = $name;
+                $badgeJSON['type'] = $typen;
+                $badgeJSON['desc'] = $desc;
+                
+                $qa_content['raw'][$slug] = $badgeJSON;
                 
 				
 				// source users

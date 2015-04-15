@@ -831,18 +831,23 @@
             if(isset($qa_content['feed'])) unset($qa_content['feed']);
             
             //Get the content.
-            if(isset($qa_content['custom'])) $json[] = $qa_content['custom'];
-            if(isset($qa_content['form'])) $json[] = $qa_content['form'];
-            if(isset($qa_content['profile-form'])) $json[] = $qa_content['profile-form'];
-            if(isset($qa_content['activity-form'])) $json[] = $qa_content['activity-form'];
-            if(isset($qa_content['q_list'])) $json[] = $qa_content['q_list'];
-            if(isset($qa_content['q_view'])) $json[] = $qa_content['q_view'];
-            if(isset($qa_content['a_form'])) $json[] = $qa_content['a_form'];
-            if(isset($qa_content['a_list'])) $json[] = $qa_content['a_list'];
-            if(isset($qa_content['ranking'])) $json[] = $qa_content['ranking'];
-            if(isset($qa_content['message_list'])) $json[] = $qa_content['message_list'];
-            if(isset($qa_content['activity_list'])) $json[] = $qa_content['activity_list'];
-            if(isset($qa_content['nav_list'])) $json[] = $qa_content['nav_list'];
+            //if(isset($qa_content['custom'])) $json[] = $qa_content['custom'];
+            if(isset($qa_content['form'])) $json['form'] = $qa_content['form'];
+            if(isset($qa_content['profile-form'])) $json['user_profile'] = $qa_content['profile-form'];
+            if(isset($qa_content['activity-form'])) $json['user_activity'] = $qa_content['activity-form'];
+            if(isset($qa_content['q_list'])) $json['q_list'] = $qa_content['q_list'];
+            if(isset($qa_content['q_view'])) $json['q_view'] = $qa_content['q_view'];
+            if(isset($qa_content['a_form'])) $json['a_form'] = $qa_content['a_form'];
+            if(isset($qa_content['a_list'])) $json['a_list'] = $qa_content['a_list'];
+            if(isset($qa_content['ranking'])) $json['ranking'] = $qa_content['ranking'];
+            if(isset($qa_content['message_list'])) $json['messages'] = $qa_content['message_list'];
+            if(isset($qa_content['activity_list'])) $json['activities'] = $qa_content['activity_list'];
+            if(isset($qa_content['nav_list'])) $json['navigation'] = $qa_content['nav_list'];
+            
+            //Similar to custom. Custom is used chiefly for HTML output, whereas raw
+            //was intended for the Groups plugin, and is now intended for any RAW
+            //JSON data - no 
+            if(isset($qa_content['raw'])) $json['raw'] = $qa_content['raw'];
             
             //Logged in user.
             if (qa_is_logged_in()) {
@@ -852,7 +857,7 @@
                 $avatar['email'] = qa_get_logged_in_user_field('email');
                 $avatar['blobid'] = qa_get_logged_in_user_field('avatarblobid');
 
-                $json[] = $avatar;
+                $json['logged_in'] = $avatar;
             }
             
             
