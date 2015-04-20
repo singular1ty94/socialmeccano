@@ -1,6 +1,23 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
++ Added abstract body_custom to theme_base
+
+CHAT PLUGIN
++ Created base files
++ Added custom fancybox import for head_custom
++ Added chat button for logged-in users to body_custom
+
+CHAT (FRUG)
++ Added and installed Frug
++ Frug now launches in an iFrame using Fancybox
++ Added auto-log-in and managed to get lightbox to minimize on logout
++ Removed ability for users to choose their own channels
++ Fixed auto login system (was broken previously)
++ A dozen other things I hacked together with JS files etc, that I can't be bothered
+    individually listing.
+
+------------------------------------------------------------------------------------------
 JSON
 + Removed support for the 'custom' element
 + Added support for the 'raw' element

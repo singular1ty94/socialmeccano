@@ -336,6 +336,11 @@ class qa_html_theme_base
 	{
 		// abstract method
 	}
+    
+    public function body_custom()
+	{
+		// abstract method
+	}
 
 	public function body()
 	{
@@ -348,6 +353,7 @@ class qa_html_theme_base
 		$this->body_content();
 		$this->body_footer();
 		$this->body_hidden();
+		$this->body_custom();
 
 		$this->output('</body>');
 	}
