@@ -34,8 +34,8 @@ $users[2]['channels'] = array(0,1);
 // Sample registered user:
 $users[3] = array();
 $users[3]['userRole'] = AJAX_CHAT_USER;
-$users[3]['userName'] = 'samh';
-$users[3]['password'] = 'samh';
+$users[3]['userName'] = 'SamH';
+$users[3]['password'] = 'SamH';
 $users[3]['channels'] = array(0,1);
 
 $users[4] = array();

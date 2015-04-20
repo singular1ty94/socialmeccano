@@ -22,9 +22,9 @@ $config['dbConnection'] = array();
 // Database hostname:
 $config['dbConnection']['host'] = 'localhost';
 // Database username:
-$config['dbConnection']['user'] = 'root';
+$config['dbConnection']['user'] = 'qa-admin';
 // Database password:
-$config['dbConnection']['pass'] = '';
+$config['dbConnection']['pass'] = 'BlackLight13';
 // Database name:
 $config['dbConnection']['name'] = 'qa-db';
 // Database type:
@@ -57,7 +57,7 @@ $config['langNames'] = array(
 // Available styles:
 $config['styleAvailable'] = array('Oxygen');
 // Default style:
-$config['styleDefault'] = 'prosilver';
+$config['styleDefault'] = 'Oxygen';
 
 // The encoding used for the XHTML content:
 $config['contentEncoding'] = 'UTF-8';
