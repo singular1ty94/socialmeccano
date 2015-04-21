@@ -9,7 +9,8 @@ $(document).ready(function(){
             minWidth: 1000,
             minHeight: 600,
             padding : 5,
-            closeBtn : false
+            closeBtn : false,
+            modal: true
         });
     });
 

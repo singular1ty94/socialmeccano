@@ -1,6 +1,8 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
++ Made fancybox modal.
+------------------------------------------------------------------------------------------
 !CRITICAL FIX! : Fixed grave security oversight from previous hack where users could 
                  login to channels they didn't have permission for.
 
