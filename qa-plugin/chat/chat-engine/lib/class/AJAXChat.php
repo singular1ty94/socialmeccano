@@ -154,6 +154,18 @@ class AJAXChat {
 
 		if($this->getView() == 'chat') {
 			$this->initChatViewSession();
+            
+            /////////////////////////////
+            // FORCE LOG OUT - ENSURE VALID CHANNEL
+            // //////////////////////////
+            // List containing the registered chat users:
+            $userslist = $this->getUsers();
+            $validChannels = $userslist[$this->getUserID()]['channels'];
+            
+            if(!in_array($this->getChannel(), $validChannels)){
+                $this->logout();
+            }
+            
 		} else if($this->getView() == 'logs') {
 			$this->initLogsViewSession();
 		}
@@ -415,7 +427,7 @@ class AJAXChat {
 		$this->setUserID($userData['userID']);
 		$this->setUserName($userData['userName']);
 		$this->setLoginUserName($userData['userName']);
-		$this->setUserRole($userData['userRole']);
+		$this->setUserRole($userData['userRole']);        
 		$this->setLoggedIn(true);	
 		$this->setLoginTimeStamp(time());
 
@@ -3320,6 +3332,45 @@ class AJAXChat {
 			$this->_allChannels[$this->trimChannelName($this->getConfig('defaultChannelName'))] = $this->getConfig('defaultChannelID');
 		}
 		return $this->_allChannels;
+	}
+    
+    
+    ///////////////
+    // GET USERS //
+    ///////////////
+    function getUsers() {
+		// List containing the registered chat users:
+		$userslist = array();
+        
+        //Generate a request.
+        $sql = 'SELECT * FROM ajax_chat_users ORDER BY userID';
+        $users = $this->db->sqlQuery($sql);
+		
+		// Stop if an error occurs:
+		if($users->error()) {
+			error_log($users->getError());
+			die();
+        }
+        
+        //Loop through.
+        for($i = 0; $i < $users->numRows(); $i++){
+            //Prep everything.
+            $userslist[$i] = array();
+            $userslist[$i]['userRole'] = AJAX_CHAT_USER;
+            $userslist[$i]['userName'] = null;
+            $userslist[$i]['password'] = null;
+            $userslist[$i]['channels'] = array();
+        }
+        
+        while($row = $users->fetch()) {
+            $userslist[$row['userID']]['userName'] = $row['handle'];
+            $userslist[$row['userID']]['password'] = $row['handle'];
+            array_push($userslist[$row['userID']]['channels'], intval($row['channelID']));
+        }
+        
+        //error_log(json_encode($userslist));
+        
+		return $userslist;
 	}
 
 }

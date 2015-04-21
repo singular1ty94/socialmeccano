@@ -45,3 +45,18 @@ CREATE TABLE ajax_chat_invitations (
 	PRIMARY KEY (userID, channel),
 	INDEX (dateTime)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS ajax_chat_channels;
+CREATE TABLE ajax_chat_channels (
+	channelID INT(11) NOT NULL AUTO_INCREMENT,
+	channelName VARCHAR(64) NOT NULL,
+	PRIMARY KEY (channelID),
+	INDEX (channelName)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS ajax_chat_users;
+CREATE TABLE ajax_chat_users (
+	userID INT(11) NOT NULL,
+	handle VARCHAR(64),
+	channelID INT(11) NOT NULL
+) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

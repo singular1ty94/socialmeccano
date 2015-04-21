@@ -13,7 +13,7 @@ class CustomAJAXChat extends AJAXChat {
 	// Returns null if login is invalid
 	function getValidLoginUserData() {
 		
-		$customUsers = $this->getCustomUsers();
+		$customUsers = $this->getUsers();
 		
 		if($this->getRequestVar('password')) {
 			// Check if we have a valid registered user:
@@ -47,7 +47,7 @@ class CustomAJAXChat extends AJAXChat {
 		if($this->_channels === null) {
 			$this->_channels = array();
 			
-			$customUsers = $this->getCustomUsers();
+			$customUsers = $this->getUsers();
 			
 			// Get the channels, the user has access to:
 			if($this->getUserRole() == AJAX_CHAT_GUEST) {
@@ -66,6 +66,8 @@ class CustomAJAXChat extends AJAXChat {
 				if($this->getConfig('limitChannelList') && !in_array($value, $this->getConfig('limitChannelList'))) {
 					continue;
 				}
+                
+                //VALID CHANNELS
 				//if(in_array($value, $validChannels)) {
 					$this->_channels[$key] = $value;
 				//}
@@ -105,17 +107,26 @@ class CustomAJAXChat extends AJAXChat {
 		return $this->_allChannels;
 	}
 
-	function &getCustomUsers() {
-		// List containing the registered chat users:
-		$users = null;
-		require(AJAX_CHAT_PATH.'lib/data/users.php');
-		return $users;
-	}
+
 	
 	function getCustomChannels() {
-		// List containing the custom channels:
-		$channels = null;
-		require(AJAX_CHAT_PATH.'lib/data/channels.php');
+		// List containing the registered channels
+		$channels = array();
+        
+        //Generate a request.
+        $sql = 'SELECT * FROM ajax_chat_channels';
+        $chans = $this->db->sqlQuery($sql);
+		
+		// Stop if an error occurs:
+		if($chans->error()) {
+			error_log($chans->getError());
+			die();
+        }
+        
+        while($row = $chans->fetch()) {
+            $channels[intval($row['channelID'])] = $row['channelName'];
+        }
+        
 		// Channel array structure should be:
 		// ChannelName => ChannelID
 		return array_flip($channels);

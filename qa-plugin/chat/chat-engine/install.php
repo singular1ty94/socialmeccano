@@ -63,7 +63,38 @@ class CustomAJAXChatInstaller extends CustomAJAXChatInterface {
 				echo $result->getError();
 				die();
 			}
-		}
+        }       
+        
+        // STARTING DATA //
+        $result = $this->db->sqlQuery('INSERT INTO 
+        ajax_chat_channels(channelID, channelName) 
+        VALUES (0, "SiteChat");');
+			
+        $result = $this->db->sqlQuery('INSERT INTO 
+        ajax_chat_users(userID, handle, channelID) 
+        VALUES (0, NULL, 0);');
+        
+        //Generate a request.
+        $sql = 'SELECT * FROM qa_users ORDER BY userid';        
+        $users = $this->db->sqlQuery($sql);
+        
+        //All existing users join the database.
+        $i = 1;
+        while($row = $users->fetch()) {
+            $h = $row['handle'];
+            
+            $result = $this->db->sqlQuery('INSERT INTO 
+        ajax_chat_users(userID, handle, channelID) 
+        VALUES ('. $i . ',"' . $h . '", 0);');
+            $i++;
+            
+            // Stop if an error occurs:
+            if($result->error()) {
+                echo $result->getError();
+                die();
+            }
+        }
+        
 		if($printSuccessConfirmation) {
 			// Print a success confirmation:
 			echo 'Database tables created successfully - please delete this file (install.php).';

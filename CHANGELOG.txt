@@ -1,6 +1,31 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+!CRITICAL FIX! : Fixed grave security oversight from previous hack where users could 
+                 login to channels they didn't have permission for.
+
+Chat:
++ Managed to generate a list of users via the qa_users table (still early days)
++ Created two Databases:
+    + Database ajax_chat_channels to store ChannelIDs and ChannelNames
+    + Database ajax_chat_users to store userIDs, userNames and ChannelIDs (non-indexed, non-primary)
++ Modified install script to support adding 'base' data to these databases.
++ Userlist is NOW generated using the new ajax_chat_users database
++ ChannelList is NOW generated using the new ajax_chat_channels database
++ Converted all static PHP file reading into Database reading
++ Fancybox no longer has close option (was causing a boatload of issues with socket)
+
+Groups:
++ Cosmetic Changes to buttons on sidepanel
++ Added group chat
++ Newly Created Groups Now:
+    !+ Create a new chat channel using group name (maybe needs to be more secure?)
+    !+ Registers the admin into the ajax_chat_users table to use the channel
++ Adding Members
+    !+ New members gain access to the group chat channel!
+    
+
+------------------------------------------------------------------------------------------
 + Added abstract body_custom to theme_base
 
 CHAT PLUGIN

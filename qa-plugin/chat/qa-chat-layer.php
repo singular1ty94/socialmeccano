@@ -5,8 +5,7 @@
 	// init before start
 
 		function doctype() {
-				
-			qa_html_theme_base::doctype();
+			qa_html_theme_base::doctype();            
         }
         
         function head_custom() {
@@ -26,7 +25,7 @@
             $userid = qa_get_logged_in_userid();
 		
             if(isset($userid)){
-                $this->output('<div id="chat-open" data-user="' .  qa_get_logged_in_user_field('handle') . '" data-channel="samhbrett">Chat</div>');
+                $this->output('<div id="chat-float" class="chat-open" data-user="' .  qa_get_logged_in_user_field('handle') . '" data-channel="SiteChat">Chat</div>');
             }			
             
         }

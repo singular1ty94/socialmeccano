@@ -49,3 +49,4 @@ $users[5]['userRole'] = AJAX_CHAT_USER;
 $users[5]['userName'] = 'user';
 $users[5]['password'] = 'user';
 $users[5]['channels'] = array(0);
+?>

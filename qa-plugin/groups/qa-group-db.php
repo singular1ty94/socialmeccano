@@ -96,6 +96,9 @@
 				'VALUES (NOW(), $, $, $)',
 				$groupid, $userid, $is_admin
 			);
+            
+            //Register user.
+            registerChannelUserByGID($groupid, $userid);
 		}
 			
 		function removeUserFromGroup($userid, $groupid) {
@@ -163,10 +166,57 @@
 			// Add user to the group he just created.
 			$createdGroup = qa_db_last_insert_id();
 			$is_admin = 1;
-			addUserToGroup($userid, $createdGroup, $is_admin);
-			
+            
+            registerChatChannel($groupName);            
+			addUserToGroup($userid, $createdGroup, $is_admin);            
 			return $createdGroup;
 		}	
+
+    /*
+    ** Register a chat channel.
+    */
+    function registerChatChannel($groupName){
+        qa_db_query_sub(
+            'INSERT INTO ajax_chat_channels'.
+            '(channelName)'.
+            'VALUES ($)',
+            (preg_replace('/\s+/', '', $groupName)));
+    }
+
+    /*
+    ** Register a user for a channel.
+    */
+    function registerChannelUser($groupName, $userid){
+        $cID = $result = qa_db_read_one_assoc(
+            qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', (preg_replace('/\s+/', '', $groupName)))
+        );
+        
+        qa_db_query_sub(
+            'INSERT INTO ajax_chat_users'.
+            '(userID, handle, channelID)'.
+            'VALUES ($, $, $)',
+            $userid, qa_get_logged_in_user_field('handle'), (preg_replace('/\s+/', '', $cID)));
+    }
+
+    /*
+    ** Register a user for a channel.
+    */
+    function registerChannelUserByGID($groupid, $userid){
+        $gName = qa_db_read_one_assoc(
+            qa_db_query_sub('SELECT group_name FROM ^groups WHERE id=$', $groupid)
+        );
+        
+        
+        $cID = qa_db_read_one_assoc(
+            qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', (preg_replace('/\s+/', '', $gName)))
+        );
+        
+        qa_db_query_sub(
+            'INSERT INTO ajax_chat_users'.
+            '(userID, handle, channelID)'.
+            'VALUES ($, $, $)',
+            $userid, qa_get_logged_in_user_field('handle'), (preg_replace('/\s+/', '', $cID)));
+    }
 	
 
 	/*

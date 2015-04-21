@@ -152,7 +152,7 @@
 			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field') . makeSidePaneRaw(getGroupTags($groupTags));
 			
 			
-			$qa_content['custom'] .= endSidePane($currentUserIsMember);
+			$qa_content['custom'] .= endSidePane($currentUserIsMember, $groupName);
 			
 			
             //Group header.
