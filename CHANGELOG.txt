@@ -1,6 +1,12 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+GROUP AND CHAT
++ Users that leave groups are now deleted from the ajax_chat_users
++ When groups are destroyed, all users are removed from the chat channels 
+    and the channel is destroyed.
+
+------------------------------------------------------------------------------------------
 + Made fancybox modal.
 ------------------------------------------------------------------------------------------
 !CRITICAL FIX! : Fixed grave security oversight from previous hack where users could 

@@ -106,8 +106,13 @@
 				'DELETE FROM ^group_members WHERE user_id = $ AND group_id = $',
 				$userid, $groupid
 			);
-			// TODO?: Check user is the only admin, if so, make oldest member an admin
+			
+            //Remove user from associated chat channel. 
+            removeUserFromChannel($userid, findChannel($groupid));
+            
+            // TODO?: Check user is the only admin, if so, make oldest member an admin
 			// Alternatively make him choose a new admin, or just dont worry about it (lol).
+            
 		}
 			
 			
@@ -187,7 +192,7 @@
     ** Register a user for a channel.
     */
     function registerChannelUser($groupName, $userid){
-        $cID = $result = qa_db_read_one_assoc(
+        $cID = qa_db_read_one_assoc(
             qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', (preg_replace('/\s+/', '', $groupName)))
         );
         
@@ -196,6 +201,30 @@
             '(userID, handle, channelID)'.
             'VALUES ($, $, $)',
             $userid, qa_get_logged_in_user_field('handle'), (preg_replace('/\s+/', '', $cID)));
+    }
+
+    /*
+    ** Remove a user from a channel.
+    */
+    function removeUserFromChannel($userid, $channelID){
+        qa_db_query_sub(
+            'DELETE FROM ajax_chat_users WHERE userID=$ AND channelID=$',
+            $userid, $channelID);
+    }
+
+    /*
+    ** Helper functions.
+    */
+    function findChannel($groupID){
+        $groupName = qa_db_read_one_assoc(
+            qa_db_query_sub('SELECT group_name FROM qa_groups WHERE id=$', $groupID)
+        );
+        
+        //Sanitize group name.
+        $groupName = (preg_replace('/\s+/', '', $groupName));
+        return qa_db_read_one_assoc(
+            qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', $groupName)
+        );
     }
 
     /*
@@ -285,6 +314,12 @@
 		
 		
 		function deleteGroup($groupid) {
+            //Delete the users from the channel.
+            qa_db_query_sub('DELETE FROM ajax_chat_users WHERE channelID = $', findChannel($groupid));
+            
+            //Delete the chat channel.
+            qa_db_query_sub('DELETE FROM ajax_chat_channels WHERE channelID = $', findChannel($groupid));
+                    
 			// Delete all users from group		
 			qa_db_query_sub('DELETE FROM ^group_members WHERE group_id = $', $groupid);
 			
