@@ -20,6 +20,10 @@ $theme-hover: #f90;
     }
 }
 
+#group-chat{
+    cursor:pointer;
+}
+
 .qa-groups-link:before {
   content: '\e830';
   font-family: "fontello";

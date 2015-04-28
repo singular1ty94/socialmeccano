@@ -105,7 +105,7 @@ $config['privateChannelSuffix'] = ']';
 $config['forceAutoLogin'] = false;
 
 // Defines if login/logout and channel enter/leave are displayed:
-$config['showChannelMessages'] = true;
+$config['showChannelMessages'] = false;
 
 // If enabled, the chat will only be accessible for the admin:
 $config['chatClosed'] = false;
@@ -119,7 +119,7 @@ $config['closingHour'] = 24;
 $config['openingWeekDays'] = array(0,1,2,3,4,5,6);
 
 // Enable/Disable guest logins:
-$config['allowGuestLogins'] = true;
+$config['allowGuestLogins'] = false;
 // Enable/Disable write access for guest users - if disabled, guest users may not write messages:
 $config['allowGuestWrite'] = true;
 // Allow/Disallow guest users to choose their own userName:
@@ -139,7 +139,7 @@ $config['changedNickPrefix'] = '(';
 $config['changedNickSuffix'] = ')';
 
 // Allow/Disallow registered users to delete their own messages:
-$config['allowUserMessageDelete'] = true;
+$config['allowUserMessageDelete'] = false;
 
 // The userID used for ChatBot messages:
 $config['chatBotID'] = 2147483647;
@@ -158,7 +158,7 @@ $config['requestMessagesPriorChannelEnterList'] = null;
 // Max time difference in hours for messages to display on each request:
 $config['requestMessagesTimeDiff'] = 24;
 // Max number of messages to display on each request:
-$config['requestMessagesLimit'] = 10;
+$config['requestMessagesLimit'] = 20;
 
 // Max users in chat (does not affect moderators or admins):
 $config['maxUsersLoggedIn'] = 500;

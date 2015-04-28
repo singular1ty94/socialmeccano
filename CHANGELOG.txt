@@ -1,6 +1,20 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+CHAT UI
++ Successfuly removed datetime from messages.
++ Resized chat to better accomdate new style
+- Removed all of the annoying options containers (forced to display:none them, cannot perma remove)
++ Chat container takes up full window (in response to removed containers)
+- Removed chatbot login/logout messages
++ Repositioned logout button to more natural top-right position.
++ Repos'd status button.
++ Replaced 'Logout' with 'X.
+
+GROUPS:
++ Group Chat Button now has Pointer Cursor
+
+------------------------------------------------------------------------------------------
 GROUP AND CHAT
 + Users that leave groups are now deleted from the ajax_chat_users
 + When groups are destroyed, all users are removed from the chat channels 

@@ -8,11 +8,11 @@
  */
 
 $lang = array();
-$lang['title'] = 'AJAX Chat';
+$lang['title'] = 'Direct Messages';
 $lang['userName'] = 'Username';
 $lang['password'] = 'Password';
 $lang['login'] = 'Login';
-$lang['logout'] = 'Logout';
+$lang['logout'] = 'X';
 $lang['channel'] = 'Channel';
 $lang['style'] = 'Style';
 $lang['language'] = 'Language';

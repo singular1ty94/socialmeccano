@@ -45,8 +45,8 @@
 }
 #content #logoutChannelContainer {
 	position:absolute;
-	left:20px;
-	top:50px;
+	right:20px;
+	top:20px;
 }
 #content #logoutChannelContainer select{
 	width: 105px;
@@ -54,16 +54,16 @@
 }
 #content #statusIconContainer {
 	position:absolute;
-	right:20px;
-	top:50px;
+	right:60px;
+	top:23px;
 	width: 22px;
 	height: 22px;
 }
 #content #chatList {
 	position:absolute;
 	left:20px;
-	right:230px;
-	top:85px;
+	right:20px;
+	top:60px;
 	bottom:150px;
 	overflow:auto;
 }
@@ -81,6 +81,7 @@
 }
 #content #onlineListContainer {
 	position:absolute;
+    display:none;
 	right:20px;
 	top:85px;
 	width:200px;
@@ -88,12 +89,14 @@
 }
 #content #helpContainer {
 	position:absolute;
+    display:none;
 	right:20px;
 	top:85px;
 	width:360px;
 	bottom:150px;
 }
 #content #settingsContainer {
+    display:none;
 	position:absolute;
 	right:20px;
 	top:85px;
@@ -120,6 +123,7 @@
 	padding:3px;
 }
 #content #optionsContainer {
+    display:none;
 	position:absolute;
 	right:20px;
 	bottom:20px;
@@ -154,9 +158,19 @@
 	margin-left:auto;
 	margin-top:12px;
 }
+
+/**
+** BUBBLE TEXT
+**/
 #content #chatList div {
-	padding: 2px 10px;
+	padding: 8px;
+    max-width: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
 }
+
+
 #content #chatList img {
 	vertical-align:middle;
 	margin-bottom:2px;

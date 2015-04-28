@@ -665,7 +665,7 @@ var ajaxChat = {
 		return null;
 	},
 	
-	playSoundOnNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	playSoundOnNewMessage: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		if(this.settings['audio'] && this.sounds && this.lastID && !this.channelSwitch) {
 			switch(userID) {
 				case this.chatBotID:
@@ -965,7 +965,7 @@ var ajaxChat = {
 				messageText = textNode.firstChild ? textNode.firstChild.nodeValue : '';
 				if (i === (messageNodes.length - 1)) {this.DOMbuffering = false;}
 				this.addMessageToChatList(
-						new Date(messageNodes[i].getAttribute('dateTime')),
+						//new Date(messageNodes[i].getAttribute('dateTime')),
 						messageNodes[i].getAttribute('userID'),
 						userName,
 						messageNodes[i].getAttribute('userRole'),
@@ -1223,18 +1223,18 @@ var ajaxChat = {
 		);
 	},
 	
-	addMessageToChatList: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	addMessageToChatList: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		// Prevent adding the same message twice:
 		if(this.getMessageNode(messageID)) {
 			return;
 		}		
-		if(!this.onNewMessage(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip)) {
+		if(!this.onNewMessage(userID, userName, userRole, messageID, messageText, channelID, ip)) {
 			return;
 		}
 		this.DOMbufferRowClass = this.DOMbufferRowClass === 'rowEven' ? 'rowOdd' : 'rowEven';
 		this.DOMbuffer = this.DOMbuffer + 
 			this.getChatListMessageString(
-				dateObject, userID, userName, userRole, messageID, messageText, channelID, ip
+				userID, userName, userRole, messageID, messageText, channelID, ip
 			);
 		if(!this.DOMbuffering){
  			this.updateDOM('chatList', this.DOMbuffer);
@@ -1242,7 +1242,7 @@ var ajaxChat = {
  		}
 	},
 
-	getChatListMessageString: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	getChatListMessageString: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		var rowClass = this.DOMbufferRowClass;
 		var userClass = this.getRoleClass(userRole);
 		var colon;
@@ -1252,15 +1252,21 @@ var ajaxChat = {
 		} else {
 			colon = ': ';
 		}
-		var dateTime = this.settings['dateFormat'] ? '<span class="dateTime">'
-						+ this.formatDate(this.settings['dateFormat'], dateObject) + '</span> ' : '';
+        
+        var style = '';        
+        //Check if we're the user.
+        if(this.userName == userName){
+            style = ' logged-in';
+            userName = "You";
+        }
+        
 		return	'<div id="'
 				+ this.getMessageDocumentID(messageID)
 				+ '" class="'
-				+ rowClass
+				+ rowClass + style
 				+ '">'
 				+ this.getDeletionLink(messageID, userID, userRole, channelID)
-				+ dateTime
+				//+ dateTime
 				+ '<span class="'
 				+ userClass
 				+ '"'
@@ -1327,18 +1333,18 @@ var ajaxChat = {
 		return false;
 	},
 	
-	onNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
-		if(!this.customOnNewMessage(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip)) {
+	onNewMessage: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
+		if(!this.customOnNewMessage(userID, userName, userRole, messageID, messageText, channelID, ip)) {
 			return false;
 		}
-		if(this.ignoreMessage(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip)) {
+		if(this.ignoreMessage(userID, userName, userRole, messageID, messageText, channelID, ip)) {
 			return false;
 		}
 		if(this.parseDeleteMessageCommand(messageText)) {
 			return false;
 		}
-		this.blinkOnNewMessage(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip);
-		this.playSoundOnNewMessage(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip);
+		this.blinkOnNewMessage(userID, userName, userRole, messageID, messageText, channelID, ip);
+		this.playSoundOnNewMessage(userID, userName, userRole, messageID, messageText, channelID, ip);
 		return true;
 	},
 
@@ -1361,7 +1367,7 @@ var ajaxChat = {
 		return false;
 	},
 	
-	blinkOnNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	blinkOnNewMessage: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		if(this.settings['blink'] && this.lastID && !this.channelSwitch && userID !== this.userID) {
 			clearInterval(this.blinkInterval);
 			this.blinkInterval = setInterval(
@@ -1771,7 +1777,7 @@ var ajaxChat = {
 		this.setSetting('ignoredUserNames', ignoredUserNames.join(' '));
 	},
 	
-	ignoreMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	ignoreMessage: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		var textParts;
 		if(userID === this.chatBotID && messageText.charAt(0) === '/') {
 			textParts = messageText.split(' ');
@@ -2933,7 +2939,7 @@ var ajaxChat = {
 	
 	// Override to perform custom actions on new messages:
 	// Return true if message is to be added to the chatList, else false
-	customOnNewMessage: function(dateObject, userID, userName, userRole, messageID, messageText, channelID, ip) {
+	customOnNewMessage: function(userID, userName, userRole, messageID, messageText, channelID, ip) {
 		return true;
 	}
 

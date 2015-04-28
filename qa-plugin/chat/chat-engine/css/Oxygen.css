@@ -73,6 +73,7 @@
 		border-color:#0066B9;
 		background-color:#FFF;
 	}
+    
 	#content #colorCodesContainer a {
 		border-color:black;
 	}
@@ -85,6 +86,16 @@
 	#content .rowOdd {
 		background-color:#DEDFDF;
 	}
+    
+    #content .logged-in{
+        background-color: #2C3E50 !important;
+        color: white;
+    }
+    
+    #content .logged-in span{
+        color: white;
+    }
+    
 	#content .guest {
 		color:gray;
 	}
