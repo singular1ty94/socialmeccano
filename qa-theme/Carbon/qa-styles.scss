@@ -1355,7 +1355,12 @@ h1 {
   display: block;
   a {
     color: #1a6a9b;
-    &:hover, &:active, &:focus {
+      
+    &:hover{
+        color: #1a6a9b;
+    }
+      
+    &:active, &:focus {
       color: white;
     }
       

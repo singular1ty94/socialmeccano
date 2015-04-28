@@ -1,6 +1,10 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+SCSS Changes
+% Fixed long-standing hyperlink hover color on main page
+
+------------------------------------------------------------------------------------------
 CHAT UI
 + Successfuly removed datetime from messages.
 + Resized chat to better accomdate new style
