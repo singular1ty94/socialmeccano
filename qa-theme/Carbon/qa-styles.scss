@@ -1356,12 +1356,8 @@ h1 {
   a {
     color: #1a6a9b;
       
-    &:hover{
+    &:hover, &:active{
         color: #1a6a9b;
-    }
-      
-    &:active, &:focus {
-      color: white;
     }
       
     &:visited{
@@ -3594,6 +3590,10 @@ input[type="submit"], button {
       background-position: center;
     }
   }
+}
+
+.entry-title{
+    margin-left: 20px;
 }
 
 @media (min-width: 980px) {

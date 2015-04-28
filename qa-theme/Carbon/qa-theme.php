@@ -375,14 +375,14 @@ class qa_html_theme extends qa_html_theme_base
 			? ''
 			: '<img src="' . $this->rooturl . $this->icon_url . '/closed-q-view.png" class="qam-q-view-close-icon" alt="' . $closedText . '" width="24" height="24" title="' . $closedText . '">';
 
-		/*if (isset($this->content['title'])) {
+		if (isset($this->content['title'])) {
 			$this->output(
 				$imgHtml,
 				$url ? '<a href="' . $url . '">' : '',
 				$this->content['title'],
 				$url ? '</a>' : ''
 			);
-		}*/
+		}
 	}
 
 	/**

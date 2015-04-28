@@ -3,7 +3,7 @@ CHANGELOG
 ------------------------------------------------------------------------------------------
 SCSS Changes
 % Fixed long-standing hyperlink hover color on main page
-
++ Forced to reinstate titles for pages/questions.
 ------------------------------------------------------------------------------------------
 CHAT UI
 + Successfuly removed datetime from messages.
