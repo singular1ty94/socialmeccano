@@ -1,0 +1,10 @@
+.color{
+    display: inline-block;
+    width: 70px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+input{
+    display: inline-block;
+}

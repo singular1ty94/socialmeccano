@@ -11,7 +11,8 @@
                 "sourceComments": true,
                 "outputStyle": "compressed"
             },
-            "livedev.multibrowser": false
+            "livedev.multibrowser": false,
+            "linting.collapsed": true
         },
         "qa-plugin/groups/groups.scss": {
             "sass.enabled": true,

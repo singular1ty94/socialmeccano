@@ -13,12 +13,10 @@
 */
 $theme-main: #2C3E50;
 $theme-alt: #34495E;
-
 $theme-hover: #f90;
-
-$sky-blue: #3498DB;
-$error-red: #e74c3c;
-$warning-yellow: #f1c40f;
+$theme-bright: #3498DB;
+$theme-error: #e74c3c;
+$theme-warning: #f1c40f;
 
 .qa-q-item-clear, .clearfix, .qa-nav-main-list, .qa-nav-sub, .qam-qa-list-meta-box, .qa-q-item-avatar-meta, .qa-page-links, .qa-page-links-list, .qa-template-admin .qa-message-buttons, .qam-approve-users .qa-message-item, .qa-message-item, .qa-part-q-view, .qa-q-view-buttons, .qa-part-form-q-edit, .qa-a-list-item, .qa-a-item-buttons, .qa-c-item-buttons, .qa-c-item-clear, .qam-footer-row, .qa-nav-footer-list, .qa-footer-clear {
   *zoom: 1;
@@ -85,19 +83,19 @@ body {
 }
 
 a {
-  color: $sky-blue;
+  color: $theme-bright;
   text-decoration: none;
   &:active, &:focus {
-    color: $sky-blue;
+    color: $theme-bright;
     text-decoration: none;
     outline: 0;
   }
   &:visited {
-    color: $sky-blue;
+    color: $theme-bright;
     text-decoration: none;
   }
   &:hover {
-    color: $sky-blue;
+    color: $theme-bright;
     text-decoration: underline;
   }
 }
@@ -179,7 +177,7 @@ th, td {
 
 pre {
   background-color: #e0e4e5;
-  border-left: 11px solid $sky-blue;
+  border-left: 11px solid $theme-bright;
   margin: 1.7em 0 1.7em 0.3em;
   overflow: auto;
   padding: 0.1em 0.5em 0.3em 0.7em;
@@ -199,7 +197,7 @@ code, samp, kbd {
 
 blockquote {
   background-color: #e0e4e5;
-  border-left: 11px solid $sky-blue;
+  border-left: 11px solid $theme-bright;
   padding: 1em;
   margin: 1em 0;
   overflow-x: auto;
@@ -286,13 +284,13 @@ blockquote {
 }
 
 .qa-error {
-  background: $error-red;
+  background: $theme-error;
   position: relative;
   z-index: 999;
 }
 
 .qa-warning {
-  background: $warning-yellow;
+  background: $theme-warning;
   position: relative;
   z-index: 999;
 }
@@ -553,7 +551,7 @@ blockquote {
   }
 
   &.qa-nav-main-selected {
-    background: $sky-blue;
+    background: $theme-bright;
   }
 }
 
@@ -900,7 +898,7 @@ blockquote {
 h1 {
   padding: 8px 52px 8px 20px;
   margin-bottom: 5px;
-  background: $sky-blue;
+  background: $theme-bright;
   color: #fff;
   margin-top: 0px;
   position: relative;
@@ -1070,7 +1068,7 @@ h1 {
 }
 
 .qa-unfavorite-button {
-  background-color: $warning-yellow;
+  background-color: $theme-warning;
   background-position: center bottom;
 }
 
@@ -1105,13 +1103,13 @@ h1 {
 }
 
 .qa-a-count {
-  background-color: $sky-blue;
+  background-color: $theme-bright;
   color: #fff;
   text-align: center;
 }
 
 .qa-a-count-zero {
-  background-color: $error-red;
+  background-color: $theme-error;
 }
 
 .qa-a-count-selected {
@@ -1428,10 +1426,10 @@ h1 {
 
 .qa-q-item-avatar-meta .qa-user-link{
     &:link{
-        color: $sky-blue;
+        color: $theme-bright;
     }
     &:visited{
-        color: $sky-blue;
+        color: $theme-bright;
     }
     &:hover{
         color: #206593;
@@ -1528,7 +1526,7 @@ h1 {
 .qa-page-selected {
   padding: 5px 10px;
   margin-bottom: 5px;
-  background: $sky-blue;
+  background: $theme-bright;
   color: #fff;
   display: block;
   a {
@@ -1581,7 +1579,7 @@ h1 {
     .qa-message-who-data a {
       padding: 3px 10px;
       margin-bottom: 5px;
-      background: $error-red;
+      background: $theme-error;
       color: #fff;
       display: inline-block;
       a {
@@ -1622,7 +1620,7 @@ h1 {
     }
   }
   .qa-user-link {
-    background-color: $error-red;
+    background-color: $theme-error;
     display: block;
     float: left;
     color: #fff;
@@ -1642,7 +1640,7 @@ h1 {
       height: 0;
       border-top: 5px solid transparent;
       border-bottom: 5px solid transparent;
-      border-right: 5px solid $error-red;
+      border-right: 5px solid $theme-error;
     }
     &.qa-user-favorited {
       background-image: url('images/icons/fev-star.png');
@@ -1671,7 +1669,7 @@ h1 {
       margin-top: -7px;
       border-top: 7px solid transparent;
       border-bottom: 7px solid transparent;
-      border-left: 7px solid $error-red;
+      border-left: 7px solid $theme-error;
       -ms-transform: translate(0, 0);
       -webkit-transform: translate(0, 0);
       transform: translate(0, 0);
@@ -1715,7 +1713,7 @@ h1 {
 }
 
 .qa-browse-cat-nolink, .qa-browse-cat-link {
-  background-color: $error-red;
+  background-color: $theme-error;
   display: inline-block;
   color: #fff;
   padding: 2px 0.6em;
@@ -1885,7 +1883,7 @@ input, textarea, select {
 
 input:focus, textarea:focus, select:focus {
   background-color: #fff;
-  border-color: $sky-blue;
+  border-color: $theme-bright;
   outline: 0;
 }
 
@@ -1943,7 +1941,7 @@ input[type="submit"], button {
   font-size: 14px;
   -webkit-transition-duration: 0s;
   transition-duration: 0s;
-  background: $sky-blue none;
+  background: $theme-bright none;
   color: #fff;
 }
 
@@ -2021,7 +2019,7 @@ input[type="submit"], button {
 }
 
 .qa-form-tall-button-cancel, .qa-form-wide-button-cancel {
-  background: $error-red none;
+  background: $theme-error none;
 }
 
 .qa-form-tall-button-cancel {
@@ -2081,7 +2079,7 @@ input[type="submit"], button {
 }
 
 .qa-form-wide-error, .qa-form-tall-error {
-  color: $error-red;
+  color: $theme-error;
 }
 
 .qa-form-tall-spacer {
@@ -2102,7 +2100,7 @@ input[type="submit"], button {
 .qa-ask-similar-title {
   padding: 10px;
   margin-bottom: 5px;
-  background: $error-red;
+  background: $theme-error;
   color: #fff;
   margin: -10px -10px 10px -10px;
   a {
@@ -2255,7 +2253,7 @@ input[type="submit"], button {
     }
   }
   .qa-form-wide-button-block {
-    background: $error-red none;
+    background: $theme-error none;
     &:hover, &:focus {
       background-color: #ea6153;
     }
@@ -2311,13 +2309,13 @@ input[type="submit"], button {
     font-weight: 700;
   }
   .qa-uf-user-points, .qa-uf-user-q-posts, .qa-uf-user-a-posts, .qa-uf-user-c-posts, .qa-uf-user-q-votes, .qa-uf-user-a-votes {
-    color: $sky-blue;
+    color: $theme-bright;
   }
   .qa-uf-user-upvotes, .qa-uf-user-upvoteds {
     color: #27ae60;
   }
   .qa-uf-user-downvotes, .qa-uf-user-downvoteds {
-    color: $error-red;
+    color: $theme-error;
   }
   .qa-form-wide-static {
     color: #fff;
@@ -2452,7 +2450,7 @@ input[type="submit"], button {
 .qa-suggest-next {
   padding: 10px;
   margin-bottom: 5px;
-  background: $sky-blue;
+  background: $theme-bright;
   color: #fff;
   a {
     color: #fff;
@@ -2617,7 +2615,7 @@ input[type="submit"], button {
 .qa-view-count-data, .qa-view-count-pad {}
 
 .qam-q-view-close-icon {
-  background-color: $warning-yellow;
+  background-color: $theme-warning;
   padding: 4px;
   border-radius: 24px;
   float: left;
@@ -2703,7 +2701,7 @@ input[type="submit"], button {
   &:hover {
     padding: 10px 10px 10px 54px;
     margin-bottom: 5px;
-    background: $error-red;
+    background: $theme-error;
     color: #fff;
     cursor: help;
     a {
@@ -2737,7 +2735,7 @@ input[type="submit"], button {
 }
 
 .qa-q-item-flags, .qa-q-view-flags, .qa-a-item-flags, .qa-c-item-flags {
-  color: $error-red;
+  color: $theme-error;
   font-weight: bold;
   padding-left: 4px;
 }
@@ -3119,7 +3117,7 @@ input[type="submit"], button {
     background: #e67e22;
   }
   &.alizarin {
-    background: $error-red;
+    background: $theme-error;
   }
   &.turquoise {
     background: #1abc9c;
@@ -3128,7 +3126,7 @@ input[type="submit"], button {
     background: #2ecc71;
   }
   &.peter-river {
-    background: $sky-blue;
+    background: $theme-bright;
   }
   &.amethyst {
     background: #9b59b6;
@@ -3187,7 +3185,7 @@ input[type="submit"], button {
     }
   }
   &:nth-child(3) {
-    background: $warning-yellow;
+    background: $theme-warning;
     &:before {
       content: '\e803';
     }
@@ -3438,7 +3436,7 @@ input[type="submit"], button {
 .qa-ask-box {
   padding: 10px 20px;
   margin-bottom: 5px;
-  background: $sky-blue;
+  background: $theme-bright;
   color: #fff;
   color: #fff;
   a {
@@ -3546,7 +3544,7 @@ input[type="submit"], button {
       background-color: #e53f2e;
       border-left-color: #ea6153;
       &.active {
-        background-color: $error-red;
+        background-color: $theme-error;
       }
     }
     &.turquoise {
@@ -3567,7 +3565,7 @@ input[type="submit"], button {
       background-color: #2791d9;
       border-left-color: #4aa3df;
       &.active {
-        background-color: $sky-blue;
+        background-color: $theme-bright;
       }
     }
     &.amethyst {
