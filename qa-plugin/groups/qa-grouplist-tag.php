@@ -20,7 +20,7 @@
 	 
 */
 
-	class qa_grouplist_page {
+	class qa_grouptag_page {
 		
 		var $directory;
 		var $urltoroot;
@@ -33,7 +33,8 @@
 		
 		function match_request($request)
 		{
-			if ($request=='groups')
+			$requestpart = qa_request_part(0);
+			if ($requestpart=='group-tag')
 				return true;
 
 			return false;
@@ -41,11 +42,18 @@
 
 		function process_request($request)
 		{
+		
+			$tag = qa_request_part(1);
+		
 			$qa_content=qa_content_prepare();
 
-			$qa_content['title']="My Groups";
-
-			include './qa-include/app/posts.php';
+			if (isset($tag)) {
+				$qa_content['title']= "Groups by Tag '" . $tag . "'";
+			} else {
+				$qa_content['title']="Group Tags";
+			}
+			
+			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
@@ -55,7 +63,7 @@
                 header('Location: ../');
             }			
 
-			$groupList = getMyGroups($userid);
+			$groupList = getGroupsByTag($tag);
 
             $heads = getJQueryUITabs('tabs');
 			
@@ -63,8 +71,9 @@
 			$qa_content['custom'] .= displayGroupListNavBar();
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
-			if (empty($groupList)) {
-				$qa_content['custom'] .= '<br />There\'s nothing here!<br />You can help the community grow by <a href="./group-create/">creating your own group.</a>';
+			
+			if (!isset($tag)) {
+				$qa_content['custom'] .= '<br> Under construction, upcoming tag cloud and search field.';
 			}
 			else {
                 //Even/odd wrapper color.

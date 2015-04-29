@@ -76,6 +76,17 @@ function getFriendUnit($id, $friendName){
 }
 
 
+function displayFriendListNavBar(){
+	$html = '<div class="qa-nav-main">';
+	$html .= '<ul class="qa-nav-main-list">';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=friends" class="qa-nav-main-link">My Friends</a></li>';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=friend-search" class="qa-nav-main-link">Find Friends</a></li>';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=friend-requests" class="qa-nav-main-link">Friend Requests</a></li>';
+
+	$html .= '</ul><div class="qa-nav-main-clear"></div></div>';
+	return $html;
+}
+
 
 /*
  * Returns the colored wrapper background.

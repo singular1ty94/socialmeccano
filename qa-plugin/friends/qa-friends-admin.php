@@ -51,7 +51,7 @@
 										'user_id INT(11) NOT NULL,'.
 										'friend_id INT(11) NOT NULL'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);								
+								);					
 				}
 				$ok = qa_lang('friends/friends_admin_saved');
 			}

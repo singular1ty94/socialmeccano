@@ -37,7 +37,7 @@
 				if (qa_opt('chat_active')) {
 			
 				}
-				$ok = qa_lang('chats/chat_admin_saved');
+				$ok = qa_lang('chat/chat_admin_saved');
 			}
 
 		//	Create the form for display.
@@ -61,7 +61,7 @@
 
 				'buttons' => array(
 					array(
-						'label' => qa_lang('chats/save_settings'),
+						'label' => qa_lang('chat/save_settings'),
 						'tags' => 'NAME="chat_save_settings"',
 						),
 				),

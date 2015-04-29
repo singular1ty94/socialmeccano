@@ -49,6 +49,7 @@
 										'group_location VARCHAR (50) DEFAULT \'\','.
 										'group_website VARCHAR (100) DEFAULT \'\','.
 										'created_by INT(11) NOT NULL,'.
+										'privacy_setting enum("S", "C", "O") DEFAULT \'O\','.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
 								);
@@ -62,6 +63,18 @@
 										'is_admin INT(1) NOT NULL DEFAULT \'0\''.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
 								);
+								
+								
+					// Create group invite/request table
+					qa_db_query_sub(
+									'CREATE TABLE IF NOT EXISTS ^group_requests ('.
+										'sent_at DATETIME NOT NULL,'.
+										'group_id INT(11) NOT NULL,'.
+										'user_id INT(11) NOT NULL,'.
+										'type enum("R", "I") NOT NULL'.
+									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
+								);
+								
 					
 					// Create group post table
 					qa_db_query_sub(
@@ -81,15 +94,7 @@
 										'parent_id INT(11) DEFAULT NULL,'.
 										'PRIMARY KEY (id)'.
 									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);						
-								
-					//'member_approval INT(1) NOT NULL DEFAULT \'0\','.
-					//'is_hidden INT(1) NOT NULL DEFAULT \'0\','.			
-								
-								
-								
-								
-								
+								);							
 				}
 				$ok = qa_lang('groups/group_admin_saved');
 			}

@@ -20,7 +20,7 @@
 	 
 */
 
-	class qa_grouplist_page {
+	class qa_group_invites_page {
 		
 		var $directory;
 		var $urltoroot;
@@ -33,7 +33,7 @@
 		
 		function match_request($request)
 		{
-			if ($request=='groups')
+			if ($request=='group-invites')
 				return true;
 
 			return false;
@@ -43,9 +43,9 @@
 		{
 			$qa_content=qa_content_prepare();
 
-			$qa_content['title']="My Groups";
+			$qa_content['title']="Group Invitations";
 
-			include './qa-include/app/posts.php';
+			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
@@ -55,7 +55,7 @@
                 header('Location: ../');
             }			
 
-			$groupList = getMyGroups($userid);
+			$invitationList = displayGroupInvitations($userid);
 
             $heads = getJQueryUITabs('tabs');
 			
@@ -63,8 +63,9 @@
 			$qa_content['custom'] .= displayGroupListNavBar();
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
+			
 			if (empty($groupList)) {
-				$qa_content['custom'] .= '<br />There\'s nothing here!<br />You can help the community grow by <a href="./group-create/">creating your own group.</a>';
+				$qa_content['custom'] .= '<br />You have no outstanding invitations.';
 			}
 			else {
                 //Even/odd wrapper color.

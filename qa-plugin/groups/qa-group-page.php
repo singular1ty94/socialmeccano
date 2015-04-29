@@ -46,7 +46,7 @@
 			$groupid = qa_request_part(1);
 			if (!strlen($groupid)) {
 				qa_redirect(isset($groupid) ? 'group/'.$groupid : 'groups');
-			}		
+			}
 			
 			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
@@ -149,7 +149,11 @@
             //Left-hand pane.
             $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label');
             $qa_content['custom'] .= makeSidePaneField($groupDescription, 'group-desc-field') . makeSidePaneField($groupLocation, 'group-location-field');
-			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field') . makeSidePaneRaw(getGroupTags($groupTags));
+			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field');
+			
+			if (!empty($groupTags)) {
+				$qa_content['custom'] .= makeSidePaneRaw(getGroupTags($groupTags));
+			}
 			
 			
 			$qa_content['custom'] .= endSidePane($currentUserIsMember, $groupName);

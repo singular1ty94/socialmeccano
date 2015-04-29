@@ -22,6 +22,7 @@
 	return array(
 	
 		'chat_admin'=>'Chat Admin',
+		'chat_admin_saved'=>'Settings have been saved.',
 		'chat'=>'Chat',
 		'chat_admin_activate'=>'Activate Chat',
 		'save_settings'=>'Save',

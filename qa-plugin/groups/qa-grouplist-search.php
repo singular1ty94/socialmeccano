@@ -20,7 +20,7 @@
 	 
 */
 
-	class qa_grouplist_page {
+	class qa_group_search_page {
 		
 		var $directory;
 		var $urltoroot;
@@ -33,7 +33,7 @@
 		
 		function match_request($request)
 		{
-			if ($request=='groups')
+			if ($request=='group-search')
 				return true;
 
 			return false;
@@ -41,11 +41,14 @@
 
 		function process_request($request)
 		{
+		
+			$search = qa_request_part(1);
+					
 			$qa_content=qa_content_prepare();
 
-			$qa_content['title']="My Groups";
+			$qa_content['title']="Group Search";
 
-			include './qa-include/app/posts.php';
+			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
 			
@@ -55,7 +58,7 @@
                 header('Location: ../');
             }			
 
-			$groupList = getMyGroups($userid);
+			$groupList = getAllGroups();
 
             $heads = getJQueryUITabs('tabs');
 			
@@ -63,8 +66,9 @@
 			$qa_content['custom'] .= displayGroupListNavBar();
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
-			if (empty($groupList)) {
-				$qa_content['custom'] .= '<br />There\'s nothing here!<br />You can help the community grow by <a href="./group-create/">creating your own group.</a>';
+			
+			if (empty($search)) {
+				$qa_content['custom'] .= '<br> Search features are currently under development.';
 			}
 			else {
                 //Even/odd wrapper color.

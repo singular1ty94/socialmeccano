@@ -97,9 +97,10 @@ function getGroupUnit($id, $groupName, $groupDescr, $taglist){
     //Add the group header, name and description.
     $html .= getGroupListName($id, $groupName, $groupDescr);
     
-    //Now add the tags.
-    $html .= getGroupTags($taglist);
-    
+	if (!empty($taglist)) {
+		//Now add the tags.
+		$html .= getGroupTags($taglist);
+    }
     //Now end the wrapper.
     $html .= '</div>';
     return $html;
@@ -116,7 +117,7 @@ function getGroupTags($tags){
     //Header of the tag list.
     $taglist = '<ul class="qa-group-tag-list">';
     foreach($arr as $tag){
-        $taglist .= '<li><a href="../../?qa=tag/' . trim($tag) . '" class="qa-tag-link">' . trim($tag) . '</a></li>';
+        $taglist .= '<li><a href="../../?qa=group-tag/' . trim($tag) . '" class="qa-tag-link">' . trim($tag) . '</a></li>';
     }
     $taglist .= '</ul>';
     
@@ -128,6 +129,17 @@ function getGroupTags($tags){
  */
 function getGroupListWrapper($wrapper){
     return '<div class="group-list-wrapper ' . ($wrapper ? 'even' : 'odd') . '">';
+}
+
+function displayGroupListNavBar(){
+	$html = '<div class="qa-nav-main">';
+	$html .= '<ul class="qa-nav-main-list">';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=groups" class="qa-nav-main-link">My Groups</a></li>';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=group-tag" class="qa-nav-main-link">Groups by Tag</a></li>';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=group-search" class="qa-nav-main-link">Group Search</a></li>';
+	$html .= '<li class="qa-nav-main-item qa-nav-main-custom1">	<a href="./?qa=group-invites" class="qa-nav-main-link">Group Invitations</a></li>';
+	$html .= '</ul><div class="qa-nav-main-clear"></div></div>';
+	return $html;
 }
 
 /*

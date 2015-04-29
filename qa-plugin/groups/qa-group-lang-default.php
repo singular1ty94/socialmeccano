@@ -24,7 +24,7 @@
 		'group_admin'=>'Group Admin',
 		'groups'=>'Groups',
 		
-		'group_list_title'=>'Group List',
+		'group_list_title'=>'Groups',
 
 		'group_admin_saved'=>'Options saved.',
 		

@@ -93,14 +93,26 @@
                 $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" value="'. $groupProfile["tags"] .'"/><br />';				
                 $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
                 $qa_content['custom'] .= '<input id="avatar" name="avatar" type="file" /><br />';
-
+				$qa_content['custom'] .= '<label for="privacy_setting">Privacy Setting: </label>';
+				$qa_content['custom'] .= '<select name="privacy_setting" form="form" required>';
+                $qa_content['custom'] .= '<option></option>';
+                $qa_content['custom'] .= '<option value="O">Open - Anyone can find and join your group.</option>';
+				$qa_content['custom'] .= '<option value="C">Closed - Anyone can find your group, members must be approved.</option>';
+				$qa_content['custom'] .= '<option value="S">Secret - No one can find or join your group unless invited.</option>';
+				$qa_content['custom'] .= '</select><br />';
+				
                 $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Update Group"/>';
                 $qa_content['custom'] .= '</form>';	
             }else{
+				
+				require_once QA_INCLUDE_DIR.'./app/format.php';	
+				require_once QA_INCLUDE_DIR.'./app/posts.php';
 
+				$tags = qa_string_to_words($_POST['groupTags'], $tolowercase=true, $delimiters=false, $splitideographs=true, $splithyphens=false);
+				$tags = qa_post_tags_to_tagstring($tags);
 				
 				if (empty($_FILES['avatar']['name'])) {
-					updateGroupProfileNoBlob($groupid, $_POST['groupName'], $_POST['groupDescr'], $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $_POST['groupTags']);
+					updateGroupProfileNoBlob($groupid, $_POST['groupName'], $_POST['groupDescr'], $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $tags, $_POST['privacy_setting']);
 				}
 				else {
 					//Black magic below. Don't touch.
@@ -112,7 +124,7 @@
 
 					$blobId = qa_create_blob($imagedata, 'jpeg', null, $userid, null, qa_remote_ip_address());
 						
-					updateGroupProfile($groupid, $_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $_POST['groupTags']);
+					updateGroupProfile($groupid, $_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $tags, $_POST['privacy_setting']);
 				}
 				
                 header('Location: ../group/' . $groupid);

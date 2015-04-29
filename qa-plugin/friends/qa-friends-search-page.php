@@ -20,7 +20,7 @@
 	 
 */
 
-	class qa_friends_page {
+	class qa_friend_search_page {
 		
 		var $directory;
 		var $urltoroot;
@@ -34,7 +34,7 @@
 		function match_request($request)
 		{
 			$requestpart = qa_request_part(0);
-			if ($requestpart=='friends')
+			if ($requestpart=='friend-search')
 				return true;
 
 			return false;
@@ -44,7 +44,7 @@
 		{
 			$qa_content=qa_content_prepare();
 
-			$qa_content['title']="My Friends";
+			$qa_content['title']="Find Friends";
 			
 			include 'qa-friends-db.php';
 			include 'qa-friends-helper.php';
@@ -66,8 +66,8 @@
 
 			
 			// Get my friends from DB.
-			$friendList = getMyFriends($userid);
-
+			$requestList = displayIncomingFriendRequests($userid);
+			
 
             $heads = getJQueryUITabs('tabs');
 
@@ -81,7 +81,7 @@
 
 
 			if (empty($friendList)) {
-				$qa_content['custom'] .= "<br>You haven't added any friends yet.";
+				$qa_content['custom'] .= "<br>Search features are currently under development.";
 			}
 			else {
                 //Even/odd wrapper color.

@@ -24,8 +24,8 @@
 	Plugin Name: Friends
 	Plugin URI:
 	Plugin Description: Allows users to add and remove friends.
-	Plugin Version: 0.1
-	Plugin Date: 2015-04-03
+	Plugin Version: 0.2
+	Plugin Date: 2015-04-29
 	Plugin Author: Samuel Hammill
 	Plugin Author URI:
 	Plugin License: GPLv2
@@ -43,6 +43,8 @@
 	// Register a plugin module
 	qa_register_plugin_module('module', 'qa-friends-admin.php', 'qa_friends_admin', 'Friends Admin');
 	qa_register_plugin_module('page', 'qa-friends-page.php', 'qa_friends_page', 'Friends Page');
+	qa_register_plugin_module('page', 'qa-friends-requests-page.php', 'qa_friend_requests_page', 'Friend Requests Page');
+	qa_register_plugin_module('page', 'qa-friends-search-page.php', 'qa_friend_search_page', 'Friend Search Page');	
 	//qa_register_plugin_layer('qa-friends-layer.php', 'friends layer');	// Will need to do this to make a 'add friend button' on user profile
 	qa_register_plugin_phrases('qa-friends-lang-default.php', 'friends');
 	

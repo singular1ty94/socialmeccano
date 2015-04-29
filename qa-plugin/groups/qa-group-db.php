@@ -56,7 +56,7 @@
 	*/
 		function getAllGroups() {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT * FROM ^groups')
+				qa_db_query_sub('SELECT * FROM ^groups WHERE privacy_setting != "S"')
 			);
 			return $result;
 		}
@@ -78,7 +78,7 @@
 			$formattedTag = '%'.$tag.'%';
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT * FROM ^groups '.
-					'WHERE tags LIKE $',
+					'WHERE tags LIKE $ AND privacy_setting != "S"',
 					$formattedTag
 				)
 			);
@@ -111,8 +111,44 @@
             removeUserFromChannel($userid, findChannel($groupid));
             
             // TODO?: Check user is the only admin, if so, make oldest member an admin
-			// Alternatively make him choose a new admin, or just dont worry about it (lol).
-            
+			// Alternatively make him choose a new admin, or just dont worry about it (lol). 
+		}
+		
+		
+		// Creates a join group request or invite.		
+		function sendGroupRequest($userid, $groupid, $type) {
+			qa_db_query_sub(
+				'INSERT INTO ^group_requests (sent_at, group_id, user_id, type)'.
+				'VALUES (NOW(), $, $, $)',
+				$groupid, $userid, $type
+			);
+		}	
+
+		// Removes a join group request or invite.
+		function removeGroupRequest($userid, $groupid, $type) {
+			qa_db_query_sub(
+				'DELETE FROM ^group_requests WHERE user_id = $ AND group_id = $ AND type = "$"',
+				$userid, $groupid, $type
+			);
+		}
+
+		
+		// Displays group invitations.
+		function displayGroupInvitations($userid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^group_requests WHERE user_id = $ AND type = "I"',
+				$userid), true
+			);
+			return $result;
+		}
+	
+		// Displays group invitations.
+		function displayGroupJoinRequests($userid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^group_requests ON ^users.userid = ^group_requests.user_id WHERE user_id = $ AND type = "R"',
+				$userid), true
+			);
+			return $result;
 		}
 			
 			
@@ -160,20 +196,20 @@
 	/*
 	*	Group Creation Functions
 	*/				
-		function createNewGroup($groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid) {		
+		function createNewGroup($groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid, $privacy_setting) {		
 			qa_db_query_sub(
 				'INSERT INTO ^groups '.
-				'(created_at, group_name, group_description, avatarblobid, group_location, group_website, group_information, tags, created_by)'.
-				'VALUES (NOW(), $, $, #, $, $, $, $, $)',
-				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid
+				'(created_at, group_name, group_description, avatarblobid, group_location, group_website, group_information, tags, created_by, privacy_setting)'.
+				'VALUES (NOW(), $, $, #, $, $, $, $, $, $)',
+				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $userid, $privacy_setting
 			);
 			
 			// Add user to the group he just created.
 			$createdGroup = qa_db_last_insert_id();
 			$is_admin = 1;
             
-            registerChatChannel($groupName);            
-			addUserToGroup($userid, $createdGroup, $is_admin);            
+            registerChatChannel($groupName);
+			addUserToGroup($userid, $createdGroup, $is_admin);
 			return $createdGroup;
 		}	
 
@@ -295,19 +331,19 @@
 	*	Group Management Functions
 	*/	
 		
-		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags) {		
+		function updateGroupProfile($groupid, $groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $privacy_setting) {		
 			qa_db_query_sub(
-				'UPDATE ^groups SET group_name = $, group_description = $, avatarblobid = #, group_location = $, group_website = $, group_information = $, tags = $ '.
+				'UPDATE ^groups SET group_name = $, group_description = $, avatarblobid = #, group_location = $, group_website = $, group_information = $, tags = $, privacy_setting = $ '.
 				'WHERE id = $',
-				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $groupid
+				$groupName, $groupDescription, $groupAvatar, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $privacy_setting, $groupid
 			);		
 		}
 		
-		function updateGroupProfileNoBlob($groupid, $groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags) {		
+		function updateGroupProfileNoBlob($groupid, $groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $privacy_setting) {		
 			qa_db_query_sub(
-				'UPDATE ^groups SET group_name = $, group_description = $, group_location = $, group_website = $, group_information = $, tags = $ '.
+				'UPDATE ^groups SET group_name = $, group_description = $, group_location = $, group_website = $, group_information = $, tags = $, privacy_setting = $ '.
 				'WHERE id = $',
-				$groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $groupid
+				$groupName, $groupDescription, $groupLocation, $groupWebsite, $groupInfo, $groupTags, $privacy_setting,  $groupid
 			);		
 		}
 		

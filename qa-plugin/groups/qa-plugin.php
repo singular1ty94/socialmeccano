@@ -24,8 +24,8 @@
 	Plugin Name: Groups
 	Plugin URI:
 	Plugin Description: Allows users to create and join groups.
-	Plugin Version: 0.1
-	Plugin Date: 2015-03-30
+	Plugin Version: 0.6
+	Plugin Date: 2015-04-29
 	Plugin Author: Samuel Hammill
 	Plugin Author URI:
 	Plugin License: GPLv2
@@ -49,6 +49,9 @@
 	qa_register_plugin_module('page', 'qa-group-view-post.php', 'qa_group_view_post', 'View Post Page');
 	qa_register_plugin_module('page', 'qa-group-edit-post.php', 'qa_group_edit_post', 'Edit Post Page');	
 	qa_register_plugin_module('page', 'qa-grouplist-page.php', 'qa_grouplist_page', 'Group List');
+	qa_register_plugin_module('page', 'qa-grouplist-tag.php', 'qa_grouptag_page', 'Group By Tag');
+	qa_register_plugin_module('page', 'qa-grouplist-search.php', 'qa_group_search_page', 'Search Groups');
+	qa_register_plugin_module('page', 'qa-group-invites.php', 'qa_group_invites_page', 'Group Invitations');
 	qa_register_plugin_layer('qa-group-layer.php', 'Group Notification and Heads Layer');	
 	qa_register_plugin_phrases('qa-group-lang-default.php', 'groups');
 	

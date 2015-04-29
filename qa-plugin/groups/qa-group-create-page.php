@@ -80,6 +80,12 @@
                 $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" maxlength="100" size="32"/><br />';				
                 $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
                 $qa_content['custom'] .= '<input required id="avatar" name="avatar" type="file" /><br />';
+				$qa_content['custom'] .= '<label for="privacy_setting">Privacy Setting: </label>';
+				$qa_content['custom'] .= '<select name="privacy_setting" form="form">';
+                $qa_content['custom'] .= '<option value="O">Open - Anyone can find and join your group.</option>';
+				$qa_content['custom'] .= '<option value="C">Closed - Anyone can find your group, members must be approved.</option>';
+				$qa_content['custom'] .= '<option value="S">Secret - No one can find or join your group unless invited.</option>';
+				$qa_content['custom'] .= '</select><br />';
 
                 $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Create Group"/>';
                 $qa_content['custom'] .= '</form>';	
@@ -104,7 +110,7 @@
 				$tags = qa_post_tags_to_tagstring($tags);
 
 				
-                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $tags, $userid);
+                $groupid = createNewGroup($_POST['groupName'], $_POST['groupDescr'], $blobId, $_POST['groupLocation'], $_POST['groupWebsite'], $_POST['groupInfo'], $tags, $userid, $_POST['privacy_setting']);
                 
                 //Add generic announcement
                 createPost($groupid, $userid, 'Welcome to ' . $_POST['groupName'], 'Welcome to your new group.', 'admin', 'A');

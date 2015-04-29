@@ -36,9 +36,6 @@ checkForExistingRequest($userid, $friendid)
 
 */	
 
-
-
-
 		function getMyFriends($userid) {
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT userid, handle, avatarblobid FROM ^users '.
@@ -63,8 +60,7 @@ checkForExistingRequest($userid, $friendid)
 			qa_db_query_sub('INSERT INTO ^friend_list (added_at, user_id, friend_id)'.
 				'VALUES (NOW(), $, $)',
 				$friendid, $userid 
-			);		
-
+			);
 		}
 		
 		function removeFriendFromList($userid, $friendid) {
@@ -76,10 +72,8 @@ checkForExistingRequest($userid, $friendid)
 			// Remove me from your list.
 			qa_db_query_sub('DELETE FROM ^friend_list WHERE user_id = $ AND friend_id = $',
 				$friendid, $userid 
-			);			
-			
+			);
 		}
-		
 
 		// Used for both approval AND deny of request.
 		function removeFriendRequest($requesterid, $requesteeid) {
@@ -90,12 +84,30 @@ checkForExistingRequest($userid, $friendid)
 		
 		function createFriendRequest($requesterid, $requesteeid) {
 			// Send someone a friend request
-			qa_db_query_sub('INSERT INTO ^friend_requests (requsted_at, requester_id, requestee_id)'.
+			qa_db_query_sub('INSERT INTO ^friend_requests (requsted_at, requester_id, receiver_id)'.
 				'VALUES (NOW(), $, $)',
 				$requesterid, $requesteeid
 			);
 		}
 		
+		
+		// Displays incoming friend requests.
+		function displayIncomingFriendRequests($userid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^friend_requests ON ^users.userid = ^friend_requests.receiver_id WHERE userid = $',
+				$userid), true
+			);
+			return $result;
+		}
+		
+		// Displays outgoing friend requests.
+		function displayOutgoingFriendRequests($userid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^friend_requests ON ^users.userid = ^friend_requests.receiver_id WHERE requester_id = $',
+				$userid), true
+			);
+			return $result;
+		}		
 		
 		function approveFriendRequest($requesterid, $requesteeid) {
 			removeFriendRequest ($requesterid, $requesteeid);
