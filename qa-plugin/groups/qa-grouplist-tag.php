@@ -44,8 +44,15 @@
 		{
 			$qa_content=qa_content_prepare();
 
-			if (isset($tag)) {
-				$qa_content['title']= "Groups by Tag '" . $tag . "'";
+			if (isset($_POST['search'])) {
+				$search = $_POST['search'];
+			}
+			else {
+				$search = qa_request_part(1);
+			}
+			
+			if (isset($search)) {
+				$qa_content['title']= "Groups by Tag '" . $search . "'";
 			} else {
 				$qa_content['title']="Group Tags";
 			}
@@ -67,18 +74,17 @@
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
 			
-			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
+			$qa_content['custom'] .= '<form method="POST" action="group-tag" id="form">';
 			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
-			if (isset($_POST['search'])) {
-				$qa_content['custom'] .= $_POST['search'];
+			if (isset($search)) {
+				$qa_content['custom'] .= $search;
 			}
 			$qa_content['custom'] .= '" placeholder="Search by Tag..."/>';
 			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
             $qa_content['custom'] .= '</form>';
 
-		
-			if (isset($_POST['search'])) {
-				$groupList = getGroupsByTag($_POST['search']);
+			if (isset($search)) {
+				$groupList = getGroupsByTag($search);
                 //Even/odd wrapper color.
                 $wrapper = true;
 				$qa_content['raw'] = [];

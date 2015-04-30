@@ -42,7 +42,12 @@
 		function process_request($request)
 		{
 		
-			$search = qa_request_part(1);
+			if (isset($_POST['search'])) {
+				$search = $_POST['search'];
+			}
+			else {
+				$search = qa_request_part(1);
+			}
 					
 			$qa_content=qa_content_prepare();
 
@@ -68,15 +73,15 @@
 			
 			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
 			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
-			if (isset($_POST['search'])) {
-				$qa_content['custom'] .= $_POST['search'];
+			if (isset($search)) {
+				$qa_content['custom'] .= $search;
 			}
 			$qa_content['custom'] .= '" placeholder="Search by group name..."/>';
 			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
             $qa_content['custom'] .= '</form>';
 			
-			if (isset($_POST['search'])) {
-				$groupList = getGroupsByTitle($_POST['search']);
+			if (isset($search)) {
+				$groupList = getGroupsByTag($search);
                 //Even/odd wrapper color.
                 $wrapper = true;
 				$qa_content['raw'] = [];
