@@ -85,6 +85,17 @@
 			return $result;
 		}
 		
+		function getGroupsByTitle($name) {
+			$formattedName = '%'.$name.'%';
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^groups '.
+					'WHERE group_name LIKE $ AND privacy_setting != "S"',
+					$formattedName
+				)
+			);
+			return $result;
+		}
+		
 		
 	
 	/*

@@ -145,6 +145,17 @@ checkForExistingRequest($userid, $friendid)
 			}			
 		}
 
+		function getUsersByHandle($name) {
+			$formattedName = '%'.$name.'%';
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^users '.
+					'WHERE handle LIKE $',
+					$formattedName
+				)
+			);
+			return $result;
+		}		
+
 
 /*
 	Omit PHP closing tag to help avoid accidental output

@@ -96,11 +96,6 @@
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 					
-					$qa_content['custom'] .= '<div class="qa-groups-button">';
-					$qa_content['custom'] .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save">Message</a>';
-					$qa_content['custom'] .= '<a href="#" id="unfriend-btn" class="groups-btns groups-delete-btn">Unfriend</a>';
-					$qa_content['custom'] .= '</div>';
-
 					$qa_content['custom'] .= '<br>';
 
                     //End the wrapper.

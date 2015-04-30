@@ -66,11 +66,17 @@
 			$qa_content['custom'] .= displayGroupListNavBar();
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
-			
-			if (empty($search)) {
-				$qa_content['custom'] .= '<br> Search features are currently under development.';
+			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
+			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
+			if (isset($_POST['search'])) {
+				$qa_content['custom'] .= $_POST['search'];
 			}
-			else {
+			$qa_content['custom'] .= '" placeholder="Search by group name..."/>';
+			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
+            $qa_content['custom'] .= '</form>';
+			
+			if (isset($_POST['search'])) {
+				$groupList = getGroupsByTitle($_POST['search']);
                 //Even/odd wrapper color.
                 $wrapper = true;
 				$qa_content['raw'] = [];

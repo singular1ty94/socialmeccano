@@ -42,9 +42,6 @@
 
 		function process_request($request)
 		{
-		
-			$tag = qa_request_part(1);
-		
 			$qa_content=qa_content_prepare();
 
 			if (isset($tag)) {
@@ -63,8 +60,6 @@
                 header('Location: ../');
             }			
 
-			$groupList = getGroupsByTag($tag);
-
             $heads = getJQueryUITabs('tabs');
 			
 			$qa_content['custom']= $heads;
@@ -72,10 +67,18 @@
 			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
 			
 			
-			if (!isset($tag)) {
-				$qa_content['custom'] .= '<br> Under construction, upcoming tag cloud and search field.';
+			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
+			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
+			if (isset($_POST['search'])) {
+				$qa_content['custom'] .= $_POST['search'];
 			}
-			else {
+			$qa_content['custom'] .= '" placeholder="Search by Tag..."/>';
+			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
+            $qa_content['custom'] .= '</form>';
+
+		
+			if (isset($_POST['search'])) {
+				$groupList = getGroupsByTag($_POST['search']);
                 //Even/odd wrapper color.
                 $wrapper = true;
 				$qa_content['raw'] = [];

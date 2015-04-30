@@ -80,10 +80,18 @@
 			$qa_content['custom'] .= displayFriendListNavBar();
 
 
-			if (empty($friendList)) {
-				$qa_content['custom'] .= "<br>Search features are currently under development.";
+			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
+			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
+			if (isset($_POST['search'])) {
+				$qa_content['custom'] .= $_POST['search'];
 			}
-			else {
+			$qa_content['custom'] .= '" placeholder="Enter username here..."/>';
+			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
+            $qa_content['custom'] .= '</form>';
+
+		
+			if (isset($_POST['search'])) {
+				$friendList = getUsersByHandle($_POST['search']);
                 //Even/odd wrapper color.
                 $wrapper = true;
 
@@ -95,11 +103,6 @@
 					$qa_content['custom'] .= '<a href="/user/' . $friend["handle"] . '"><img src="./?qa=image&amp;qa_blobid= ' . $friend["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/></a>';
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
-					
-					$qa_content['custom'] .= '<div class="qa-groups-button">';
-					$qa_content['custom'] .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save">Message</a>';
-					$qa_content['custom'] .= '<a href="#" id="unfriend-btn" class="groups-btns groups-delete-btn">Unfriend</a>';
-					$qa_content['custom'] .= '</div>';
 
 					$qa_content['custom'] .= '<br>';
 
