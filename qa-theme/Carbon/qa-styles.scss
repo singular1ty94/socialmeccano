@@ -13,7 +13,7 @@
 */
 $theme-main: #2C3E50;
 $theme-alt: #34495E;
-$theme-hover: #f90;
+$theme-hover: #ff9900;
 $theme-bright: #3498DB;
 $theme-error: #e74c3c;
 $theme-warning: #f1c40f;
@@ -3590,8 +3590,10 @@ input[type="submit"], button {
   }
 }
 
-.entry-title{
-    margin-left: 20px;
+.favorite_form{
+    h1{
+        padding-left:40px;
+    }
 }
 
 @media (min-width: 980px) {

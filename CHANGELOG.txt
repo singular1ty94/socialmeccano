@@ -1,6 +1,15 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+UI Bugs
++ Fixed 'ser user' bug.
++ Fixed issue that may have been affecting Toolbox from styling orange tag links
++ Fixed bug where user avatars weren't aligned on comments.
++ Sanity (lengths) checks on content preview on group page
++ Sanity (lengths) checks on content title preview on group page
++ Empty fields no longer show on group page
+
+------------------------------------------------------------------------------------------
 SCSS Changes
 % Fixed long-standing hyperlink hover color on main page
 + Forced to reinstate titles for pages/questions.

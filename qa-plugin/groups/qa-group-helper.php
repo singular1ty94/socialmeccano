@@ -38,6 +38,7 @@ function getSidePane(){
  * for the span.
  */
 function makeSidePaneFieldWithLabel($data, $dataClass, $label, $labelClass){
+    //Check that there is actually a value here.
     return '<tr><td class="qa-form-wide-data"><span class="' . $dataClass . '">' . $data . '</span><span class="'. $labelClass .'">' . $label . '</span></td></tr>';
 }
 
@@ -46,7 +47,9 @@ function makeSidePaneFieldWithLabel($data, $dataClass, $label, $labelClass){
  * with the provided data.
  */
 function makeSidePaneField($data, $dataClass){
-    return '<tr><td class="qa-form-wide-data"><span class="' . $dataClass . '">' . $data . '</span></td></tr>';
+    if(strlen($data) > 0){
+        return '<tr><td class="qa-form-wide-data"><span class="' . $dataClass . '">' . $data . '</span></td></tr>';
+    }
 }
 
 /*
@@ -197,6 +200,15 @@ function displayGroupPosts($postArray, $wrapper = true) {
                 'showurllinks' => @$options['showurllinks'] = 1,
                 'linksnewwindow' => @$options['linksnewwindow'] = 1,
             ));
+
+            //Sanity checks.
+            if(strlen($post["content"]) > 350){
+                $post["content"] = substr($post["content"], 0, 345) . '...';
+            }
+
+            if(strlen($post["title"]) > 80){
+                $post["title"] = substr($post["title"], 0, 75) . '...';
+            }
 
 
             $html .= '<div class="group-post '. ($wrapper ? 'even' : 'odd'). '">'; //Start with the div.

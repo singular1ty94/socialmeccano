@@ -2035,7 +2035,7 @@
 */
 	{
 		return array(
-			'form_tags' => 'method="post" action="'.qa_self_html().'"',
+			'form_tags' => 'method="post" class="favorite_form" action="'.qa_self_html().'"',
 			'form_hidden' => array('code' => qa_get_form_security_code('favorite-'.$entitytype.'-'.$entityid)),
 			'favorite_tags' => 'id="favoriting"',
 			($favorite ? 'favorite_remove_tags' : 'favorite_add_tags') =>
