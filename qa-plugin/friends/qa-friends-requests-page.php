@@ -89,7 +89,7 @@
 					$approveRequestButton = 'class="qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Approve Request" '.$approveRequestButton.'>';
 					
-					$denyRequestButton = 'class="qa-form-wide-button qa-form-wide-button-block" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
+					$denyRequestButton = 'class="qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Deny Request" '.$denyRequestButton.'>';
 					
 					$qa_content['custom'] .= '<br>';

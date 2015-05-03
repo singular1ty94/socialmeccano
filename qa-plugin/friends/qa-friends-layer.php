@@ -14,7 +14,7 @@
 					if(strpos($i,'form') === 0) { unset($content[$i]); }
 				}	
 				
-				include 'qa-plugin\friends\qa-friends-db.php';
+				include 'qa-plugin/friends/qa-friends-db.php';
 		
 				// Get logged in user and the user profile we're looking it.
 				$userid = qa_get_logged_in_userid();
@@ -59,8 +59,14 @@
 						);				
 				}
 				
-				// Merge existing QA buttons with the ones we created.	
-				$content['profile-form']['buttons'] = array_merge($content['profile-form']['buttons'], $new_buttons);
+				// Merge existing QA buttons with the ones we created.
+				if (isset($content['profile-form']['buttons'])) {
+					$content['profile-form']['buttons'] = array_merge($content['profile-form']['buttons'], $new_buttons);
+				}
+				else {
+					$content['profile-form']['buttons'] = $new_buttons;
+				}
+				
 			}
 			qa_html_theme_base::main_parts($content);
 		}	

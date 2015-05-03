@@ -67,15 +67,20 @@
 				removeFriendFromList($userid, $target);
             }
 
-			//If the user wants to remove a friend request.
+			//If the user wants to remove a outgoing friend request.
             if($requestType == "removeRequest"){
 				removeFriendRequest($userid, $target);
             }
 			
+			//If the user wants to remove a friend request.
+            if($requestType == "removeRequestI"){
+				removeFriendRequest($target, $userid);
+            }			
+			
 			//If the user wants to remove a friend.
             if($requestType == "approveRequest"){
 				approveFriendRequest($userid, $target);
-            }			
+            }
 			
 
 			if 	($redirect == 'user') {
