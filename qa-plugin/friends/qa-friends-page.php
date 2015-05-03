@@ -96,6 +96,9 @@
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 					
+					$removeRequestButton = 'class="qa-form-wide-button qa-form-wide-button-block" type="button" onclick="window.location.href=\'/friend-functions/removeFriend/'.$friend["userid"].'/myFriends/\';"';
+					$qa_content['custom'] .= '<input value="Remove Friend" '.$removeRequestButton.'>';					
+					
 					$qa_content['custom'] .= '<br>';
 
                     //End the wrapper.

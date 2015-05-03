@@ -23,18 +23,6 @@
 		exit;
 	}
 	
-/*
-	Available Functions for brevity...
-	
-getMyFriends($userid)
-removeFriendFromList($userid, $friendid)
-removeFriendRequest($requesterid, $requesteeid)
-createFriendRequest($requesterid, $requesteeid)
-approveFriendRequest($requesterid, $requesteeid)
-checkForExistingFriendship($userid, $friendid)
-checkForExistingRequest($userid, $friendid)
-
-*/	
 
 		function getMyFriends($userid) {
 			$result = qa_db_read_all_assoc(
@@ -77,7 +65,7 @@ checkForExistingRequest($userid, $friendid)
 
 		// Used for both approval AND deny of request.
 		function removeFriendRequest($requesterid, $requesteeid) {
-			qa_db_query_sub('DELETE FROM ^friend_requests WHERE requester_id = $ AND friend_id = $',
+			qa_db_query_sub('DELETE FROM ^friend_requests WHERE requester_id = $ AND receiver_id = $',
 				$requesterid, $requesteeid
 			);
 		}
@@ -94,8 +82,8 @@ checkForExistingRequest($userid, $friendid)
 		// Displays incoming friend requests.
 		function displayIncomingFriendRequests($userid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^friend_requests ON ^users.userid = ^friend_requests.receiver_id WHERE userid = $',
-				$userid), true
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^friend_requests ON ^users.userid = ^friend_requests.requester_id WHERE receiver_id = $',
+				$userid)
 			);
 			return $result;
 		}
@@ -104,7 +92,7 @@ checkForExistingRequest($userid, $friendid)
 		function displayOutgoingFriendRequests($userid) {
 			$result = qa_db_read_all_assoc(
 				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^friend_requests ON ^users.userid = ^friend_requests.receiver_id WHERE requester_id = $',
-				$userid), true
+				$userid)
 			);
 			return $result;
 		}		
@@ -117,10 +105,10 @@ checkForExistingRequest($userid, $friendid)
 		
 		function checkForExistingFriendship($userid, $friendid) {
 			$result = qa_db_read_one_assoc(
-				qa_db_query_sub('SELECT userid FROM ^friend_list '.
+				qa_db_query_sub('SELECT user_id FROM ^friend_list '.
 					'WHERE user_id = $ AND friend_id = $' ,
 					$userid, $friendid
-				)
+				), true
 			);
 			if (empty($result)) {
 				return false;
@@ -132,10 +120,10 @@ checkForExistingRequest($userid, $friendid)
 		
 		function checkForExistingRequest($userid, $friendid) {
 			$result = qa_db_read_one_assoc(
-				qa_db_query_sub('SELECT userid FROM ^friend_requests '.
-					'WHERE requester_id = $ AND requestee_id = $' ,
+				qa_db_query_sub('SELECT requester_id FROM ^friend_requests '.
+					'WHERE requester_id = $ AND receiver_id = $' ,
 					$userid, $friendid
-				)
+				), true
 			);
 			if (empty($result)) {
 				return false;
@@ -145,6 +133,16 @@ checkForExistingRequest($userid, $friendid)
 			}			
 		}
 
+		function getUseridFromHandle($handle) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT userid FROM ^users WHERE handle = $' ,
+					$handle
+				), true
+			);
+			return $result;
+		}
+
+			
 		function getUsersByHandle($name) {
 			$formattedName = '%'.$name.'%';
 			$result = qa_db_read_all_assoc(

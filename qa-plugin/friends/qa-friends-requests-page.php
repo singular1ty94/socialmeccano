@@ -55,19 +55,11 @@
             if(!isset($userid)){
                header('Location: ../');
             }			
-			
-			
-			//If the user wants to remove a friend.
-            if(isset($_GET['unfriend'])){
-				var_dump(qa_request_part(1));
-                header('Location: ../?qa=friends');
-            }
-
 
 			
 			// Get my friends from DB.
-			$requestList = displayIncomingFriendRequests($userid);
-			
+			$incomingRequestList = displayIncomingFriendRequests($userid);
+			$outgoingRequestList = displayOutgoingFriendRequests($userid);	
 
             $heads = getJQueryUITabs('tabs');
 
@@ -80,14 +72,11 @@
 			$qa_content['custom'] .= displayFriendListNavBar();
 
 
-			if (empty($friendList)) {
-				$qa_content['custom'] .= "<br>You have no friend requests.";
-			}
-			else {
+			if (!empty($incomingRequestList)) {
+				$qa_content['custom'] .= "<br>Incoming Requests<br>";
                 //Even/odd wrapper color.
                 $wrapper = true;
-
-				foreach ($friendList as $friend) {
+				foreach ($incomingRequestList as $friend) {
 
                     //Start the wrapper.
                     $qa_content['custom'] .= getFriendWrapper($wrapper);
@@ -95,6 +84,13 @@
 					$qa_content['custom'] .= '<a href="/user/' . $friend["handle"] . '"><img src="./?qa=image&amp;qa_blobid= ' . $friend["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/></a>';
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
+
+					
+					$approveRequestButton = 'class="qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
+					$qa_content['custom'] .= '<input value="Approve Request" '.$approveRequestButton.'>';
+					
+					$denyRequestButton = 'class="qa-form-wide-button qa-form-wide-button-block" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
+					$qa_content['custom'] .= '<input value="Deny Request" '.$denyRequestButton.'>';
 					
 					$qa_content['custom'] .= '<br>';
 
@@ -103,8 +99,36 @@
                     //Alternate the wrapper.
                     $wrapper = !$wrapper;
 				}
-			}
+			}		
+
+			if (!empty($outgoingRequestList)) {
+				$qa_content['custom'] .= "<br>Outgoing Requests<br>";
+                //Even/odd wrapper color.
+                $wrapper = true;
+				foreach ($outgoingRequestList as $friend) {
+
+                    //Start the wrapper.
+                    $qa_content['custom'] .= getFriendWrapper($wrapper);
+
+					$qa_content['custom'] .= '<a href="/user/' . $friend["handle"] . '"><img src="./?qa=image&amp;qa_blobid= ' . $friend["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/></a>';
+
+					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
+					
+					$removeRequestButton = 'class="qa-form-wide-button" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
+					$qa_content['custom'] .= '<input value="Remove Request" '.$removeRequestButton.'>';
+				
+					$qa_content['custom'] .= '<br>';
+					
+                    //End the wrapper.
+                    $qa_content['custom'] .= endFriendWrapper();
+                    //Alternate the wrapper.
+                    $wrapper = !$wrapper;
+				}
+			}			
 			
+			if ((empty($outgoingRequestList)) && (empty($incomingRequestList))) {
+				$qa_content['custom'] .= "<br>You have no incoming or outgoing friend requests.";
+			}
 			
 			return $qa_content;
 		}

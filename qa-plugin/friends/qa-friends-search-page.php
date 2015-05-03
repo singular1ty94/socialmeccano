@@ -55,19 +55,6 @@
             if(!isset($userid)){
                header('Location: ../');
             }			
-			
-			
-			//If the user wants to remove a friend.
-            if(isset($_GET['unfriend'])){
-				var_dump(qa_request_part(1));
-                header('Location: ../?qa=friends');
-            }
-
-
-			
-			// Get my friends from DB.
-			$requestList = displayIncomingFriendRequests($userid);
-			
 
             $heads = getJQueryUITabs('tabs');
 
