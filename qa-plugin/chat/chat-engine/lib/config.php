@@ -24,7 +24,7 @@ $config['dbConnection']['host'] = 'localhost';
 // Database username:
 $config['dbConnection']['user'] = 'root';
 // Database password:
-$config['dbConnection']['pass'] = 'root';
+$config['dbConnection']['pass'] = '';
 // Database name:
 $config['dbConnection']['name'] = 'qa-db';
 // Database type:

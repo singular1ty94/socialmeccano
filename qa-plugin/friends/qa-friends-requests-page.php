@@ -86,10 +86,10 @@
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 
 					
-					$approveRequestButton = 'class="qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
+					$approveRequestButton = 'class="friends-btns qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Approve Request" '.$approveRequestButton.'>';
 					
-					$denyRequestButton = 'class="qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
+					$denyRequestButton = 'class="friends-btns qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Deny Request" '.$denyRequestButton.'>';
 					
 					$qa_content['custom'] .= '<br>';
@@ -114,7 +114,7 @@
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 					
-					$removeRequestButton = 'class="qa-form-wide-button" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
+					$removeRequestButton = 'class="friends-btns qa-form-wide-button" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Remove Request" '.$removeRequestButton.'>';
 				
 					$qa_content['custom'] .= '<br>';

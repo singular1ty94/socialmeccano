@@ -22,11 +22,5 @@
         function body_custom() {
 			qa_html_theme_base::body_custom();
             
-            $userid = qa_get_logged_in_userid();
-		
-            if(isset($userid)){
-                $this->output('<div id="chat-float" class="chat-open" data-user="' .  qa_get_logged_in_user_field('handle') . '" data-channel="SiteChat">Chat</div>');
-            }			
-            
         }
     }

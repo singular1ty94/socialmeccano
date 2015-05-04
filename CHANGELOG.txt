@@ -1,6 +1,15 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+FRIENDS/CHAT
++ Establishing a friendship now establishes a chat channel
+- Removed site-wide chat.
++ Added chat ability between friends via 'friends' page.
++ Destroy channels when friendships are destroyed
++ Added notification bubble for incoming requests.
++ Fixed error text about 'tags' being undefined [quick fix, no investigation]
+
+------------------------------------------------------------------------------------------
 UI Bugs
 + Fixed 'ser user' bug.
 + Fixed issue that may have been affecting Toolbox from styling orange tag links

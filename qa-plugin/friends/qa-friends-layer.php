@@ -6,6 +6,25 @@
 		function doctype() {
 			qa_html_theme_base::doctype();
 		}
+
+        function head_custom() {
+			qa_html_theme_base::head_custom();
+            $this->output('<link rel="stylesheet" href="' . qa_path_to_root(). 'qa-plugin/friends/friends.css"/>');
+        }
+
+        function body_custom() {
+			qa_html_theme_base::body_custom();
+
+            include_once 'qa-plugin/friends/qa-friends-db.php';
+
+            $requests = displayIncomingFriendRequests(qa_get_logged_in_userid());
+            if(count($requests) > 0){
+                $notice = '<div class="friends-notify notify"><a href="./?qa=friend-requests">You have new friend requests!</a><div class="friends-notify-close" onclick="jQuery(this).parent().slideUp(\'slow\')">x</div></div>';
+
+                $this->output($notice);
+            }
+
+        }
 	
 	// theme replacement functions
 		function main_parts($content) {
@@ -14,7 +33,7 @@
 					if(strpos($i,'form') === 0) { unset($content[$i]); }
 				}	
 				
-				include 'qa-plugin/friends/qa-friends-db.php';
+				include_once 'qa-plugin/friends/qa-friends-db.php';
 		
 				// Get logged in user and the user profile we're looking it.
 				$userid = qa_get_logged_in_userid();

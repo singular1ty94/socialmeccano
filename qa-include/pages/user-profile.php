@@ -531,7 +531,7 @@
 						"qa_update_category_levels();",
 					);
 
-					$qa_content['profile-form']['fields']['level']['tags'] .= ' id="level_select" onchange="qa_update_category_levels();"';
+					@$qa_content['profile-form']['fields']['level']['tags'] .= ' id="level_select" onchange="qa_update_category_levels();"';
 
 				}
 			}

@@ -49,6 +49,9 @@
 				'VALUES (NOW(), $, $)',
 				$friendid, $userid 
 			);
+
+            //Make a chat channel.
+            establishChatChannel($userid, $friendid);
 		}
 		
 		function removeFriendFromList($userid, $friendid) {
@@ -61,6 +64,9 @@
 			qa_db_query_sub('DELETE FROM ^friend_list WHERE user_id = $ AND friend_id = $',
 				$friendid, $userid 
 			);
+
+            //Destroy our channel.
+            destroyChannel(findChanelByID($userid, $friendid));
 		}
 
 		// Used for both approval AND deny of request.
@@ -152,7 +158,83 @@
 				)
 			);
 			return $result;
-		}		
+		}
+
+        function establishChatChannel($userID, $friendID){
+            $username = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT handle FROM ^users WHERE userid = $' , $userID)
+            );
+
+            $friendname = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT handle FROM ^users WHERE userid = $' , $friendID)
+            );
+
+
+            $arr = array("username" => $username["handle"],
+                    "friendname" => $friendname["handle"]
+                   );
+            sort($arr);
+
+            $channel = $arr[0] . '' . $arr[1];
+
+            qa_db_query_sub(
+            'INSERT INTO ajax_chat_channels'.
+            '(channelName)'.
+            'VALUES ($)',
+            $channel);
+
+            registerChannelUser($userID, $channel, $username);
+            registerChannelUser($friendID, $channel, $friendname);
+        }
+
+        /*
+        ** Register a user for a channel.
+        */
+        function registerChannelUser($userID, $channelID, $handle){
+            $cID = qa_db_read_one_assoc(
+                qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', $channelID)
+            );
+
+            qa_db_query_sub(
+                'INSERT INTO ajax_chat_users'.
+                '(userID, handle, channelID)'.
+                'VALUES ($, $, $)',
+                $userID, $handle, $cID);
+        }
+
+        function destroyChannel($channelID){
+            //Delete the users from the channel.
+            qa_db_query_sub('DELETE FROM ajax_chat_users WHERE channelID = $', $channelID);
+
+            //Delete the chat channel.
+            qa_db_query_sub('DELETE FROM ajax_chat_channels WHERE channelID = $', $channelID);
+        }
+
+        //Helper feature.
+        function findChanelByID($userID, $friendID){
+            $username = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT handle FROM ^users WHERE userid = $' , $userID)
+            );
+
+            $friendname = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT handle FROM ^users WHERE userid = $' , $friendID)
+            );
+
+
+            $arr = array("username" => $username["handle"],
+                    "friendname" => $friendname["handle"]
+                   );
+            sort($arr);
+
+            $channel = $arr[0] . '' . $arr[1];
+
+            return qa_db_read_one_assoc(
+                qa_db_query_sub(
+                    'SELECT channelID FROM ajax_chat_channels WHERE channelName = $', $channel)
+            );
+        }
+
+
 
 
 /*
