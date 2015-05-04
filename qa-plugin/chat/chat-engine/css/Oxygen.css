@@ -90,6 +90,7 @@
     #content .logged-in{
         background-color: #2C3E50 !important;
         color: white;
+        margin-left: 285px !important;
     }
     
     #content .logged-in span{

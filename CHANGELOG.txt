@@ -2,6 +2,16 @@ CHANGELOG
 
 ------------------------------------------------------------------------------------------
 FRIENDS/CHAT
++ Chat bubbles from the logged-in user now appear on the right-hand side of chat
+    (exactly like Facebook and Twitter)
++ Buttons on Friends Page now float to the right
++ Fixed a lot of styling quirks on friends pages.
+
+OTHER
+- Removed silly green styling on 'Ask Question' link
+
+------------------------------------------------------------------------------------------
+FRIENDS/CHAT
 + Establishing a friendship now establishes a chat channel
 - Removed site-wide chat.
 + Added chat ability between friends via 'friends' page.

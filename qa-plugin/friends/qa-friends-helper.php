@@ -29,7 +29,7 @@ function getJQueryUITabs($id){
  * Left-Pane Header and Table Head.
  */
 function getSidePane(){
-    return '<div class="group-sidepane"><table class="qa-form-wide-table">';
+    return '<div class="friend-sidepane"><table class="qa-form-wide-table">';
 }
 
 /*
@@ -53,21 +53,21 @@ function endSidePane(){
  * Make the Friend page header.
  */
 function getFriendHeader($FriendName){
-    return '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $FriendName . '</td></tr></table></div><br/>';
+    return '<div class="friend-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="friend-name">' . $FriendName . '</td></tr></table></div><br/>';
 }
 
 /*
- * Make a complete group unit for the group list.
+ * Make a complete friend unit for the friend list.
  */
 function getFriendUnit($id, $friendName){
     $html = '';
     //Add the wrapper.
-    $html .= '<div class="group-unit">';
+    $html .= '<div class="friend-unit">';
     
-    //Add the group header, name and description.
+    //Add the friend header, name and description.
     $html .= getFriendName($id, $friendName); //, $friendDescr
 	
- 	//$html .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Unfriend</a>';
+ 	//$html .= '<a href="#" id="delete-btn" class="qa-form-wide-button qa-form-wide-button-save qa-friends-button">Unfriend</a>';
 
     //Now end the wrapper.
     $html .= '</div>';
@@ -92,14 +92,14 @@ function displayFriendListNavBar(){
  * Returns the colored wrapper background.
  */
 function getFriendWrapper($wrapper){
-    return '<div class="group-list-wrapper ' . ($wrapper ? 'even' : 'odd') . '">';
+    return '<div class="friend-list-wrapper ' . ($wrapper ? 'even' : 'odd') . '">';
 }
 
 /*
  * Returns the Friend's name for the friend list.
  */
 function getFriendName($id, $friendName){ // , $friendDescr
-    return '<h3 class="group-list-header"><a href="./user/' . $friendName . '">' . $friendName . '</a></h3>';//<span class="group-description">'. $friendDescr . '</span><br/>';
+    return '<h3 class="friend-list-header"><a href="./user/' . $friendName . '">' . $friendName . '</a></h3>';//<span class="friend-description">'. $friendDescr . '</span><br/>';
 }
 
 /*

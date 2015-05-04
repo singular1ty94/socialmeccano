@@ -43,3 +43,42 @@
 .friends-notify a:visited{
     color: #fff;
 }
+
+.friends-btn-wrapper{
+    width: 400px;
+    float:right;
+    line-height: normal;
+    margin-top: 20px;
+}
+
+
+.friend-list-header{
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 14pt;
+}
+
+.friend-list-wrapper{
+    padding: 10px;
+    margin-bottom: 10px;
+    min-height: 100px;
+}
+
+.friend-list-wrapper img{
+    height: 80px;
+    width: 80px;
+}
+
+.friend-list-wrapper.even{
+    background-color: #f6f6f6;
+}
+
+.friend-list-wrapper.odd{
+    background-color: #fff;
+}
+
+.friend-unit{
+   display: inline-block;
+   margin-left: 15px;
+   margin-bottom: 20px;
+}

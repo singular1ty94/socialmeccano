@@ -73,7 +73,7 @@
 
 
 			if (!empty($incomingRequestList)) {
-				$qa_content['custom'] .= "<br>Incoming Requests<br>";
+				$qa_content['custom'] .= "<h3>Incoming Requests</h3>";
                 //Even/odd wrapper color.
                 $wrapper = true;
 				foreach ($incomingRequestList as $friend) {
@@ -85,6 +85,7 @@
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 
+                    $qa_content['custom'] .= '<div class="friends-btn-wrapper">';
 					
 					$approveRequestButton = 'class="friends-btns qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Approve Request" '.$approveRequestButton.'>';
@@ -92,7 +93,7 @@
 					$denyRequestButton = 'class="friends-btns qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Deny Request" '.$denyRequestButton.'>';
 					
-					$qa_content['custom'] .= '<br>';
+					$qa_content['custom'] .= '</div><br>';
 
                     //End the wrapper.
                     $qa_content['custom'] .= endFriendWrapper();
@@ -102,7 +103,7 @@
 			}		
 
 			if (!empty($outgoingRequestList)) {
-				$qa_content['custom'] .= "<br>Outgoing Requests<br>";
+				$qa_content['custom'] .= "<h3>Outgoing Requests</h3>";
                 //Even/odd wrapper color.
                 $wrapper = true;
 				foreach ($outgoingRequestList as $friend) {
@@ -114,10 +115,12 @@
 
 					$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
 					
+                    $qa_content['custom'] .= '<div class="friends-btn-wrapper">';
+
 					$removeRequestButton = 'class="friends-btns qa-form-wide-button" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Remove Request" '.$removeRequestButton.'>';
 				
-					$qa_content['custom'] .= '<br>';
+					$qa_content['custom'] .= '</div><br>';
 					
                     //End the wrapper.
                     $qa_content['custom'] .= endFriendWrapper();

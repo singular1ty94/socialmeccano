@@ -551,14 +551,8 @@ blockquote p {
 	content: '\e809';
 }
 
-.qa-nav-main-ask .qa-nav-main-link {
-	color: #2ecc71;
-}
 .qa-nav-main-ask .qa-nav-main-link:before {
 	content: '\e801';
-}
-.qa-nav-main-ask .qa-nav-main-link.qa-nav-main-selected {
-	color: #54d98c;
 }
 
 .qa-nav-main-admin .qa-nav-main-link:before {
