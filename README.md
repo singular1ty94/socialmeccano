@@ -5,6 +5,7 @@ Social Mecanno - powered by Question2Answer
 
 As of version 1.6.3, all development is taking place through GitHub. This current version is maintained by Brett Orr and Samuel Hammill, for the QUT project, Social Mecanno.
 
+You can find a working version of the site on [its creator's website][2].
+
 [Q2A]: http://www.question2answer.org/
-[1]: http://www.question2answer.org/qa/user/Scott
-[2]: https://github.com/q2a/question2answer/blob/master/CONTRIBUTING.md
+[2]: https://bitbucket.org/earlyarrival/socialmeccano/
