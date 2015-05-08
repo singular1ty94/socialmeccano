@@ -8,4 +8,4 @@ As of version 1.6.3, all development is taking place through GitHub. This curren
 You can find a working version of the site on [its creator's website][2].
 
 [Q2A]: http://www.question2answer.org/
-[2]: https://bitbucket.org/earlyarrival/socialmeccano/
+[2]: http://socialmeccano.brettmichaelorr.com
