@@ -3,8 +3,8 @@
 	Social Meccano by Brett Orr and Samuel Hammill
 	Based on Question2Answer by Gideon Greenspan and contributors
 
-	File: qa-plugin/friends/qa-plugin.php
-	Description: Initiates friends plugin
+	File: qa-plugin/notifications/qa-plugin.php
+	Description: Initiates notifications plugin
 
 
 	This program is free software; you can redistribute it and/or
@@ -21,11 +21,11 @@
 */
 
 /*
-	Plugin Name: Friends
+	Plugin Name: Notifications System
 	Plugin URI:
-	Plugin Description: Allows users to add and remove friends.
-	Plugin Version: 1.0
-	Plugin Date: 2015-04-29
+	Plugin Description: Allows users to receive notifications
+	Plugin Version: 0.1
+	Plugin Date: 2015-05-09
 	Plugin Author: Samuel Hammill
 	Plugin Author URI:
 	Plugin License: GPLv2
@@ -41,10 +41,8 @@
 	}
 
 	// Register a plugin module
-	qa_register_plugin_module('module', 'qa-friends-admin.php', 'qa_friends_admin', 'Friends Admin');
-	qa_register_plugin_module('page', 'qa-friends-page.php', 'qa_friends_page', 'Friends Page');
-	qa_register_plugin_module('page', 'qa-friends-requests-page.php', 'qa_friend_requests_page', 'Friend Requests Page');
-	qa_register_plugin_module('page', 'qa-friends-search-page.php', 'qa_friend_search_page', 'Friend Search Page');	
-	qa_register_plugin_module('page', 'qa-friends-functions-page.php', 'qa_friend_functions_page', 'Friend Functions Page');	
-	qa_register_plugin_layer('qa-friends-layer.php', 'friends layer');
-	qa_register_plugin_phrases('qa-friends-lang-default.php', 'friends');			
+	qa_register_plugin_module('module', 'qa-notifications-admin.php', 'qa_notifications_admin', 'Notifications Admin');
+	qa_register_plugin_layer('qa-notifications-layer.php', 'Notifications Layer');	
+	qa_register_plugin_phrases('qa-notifications-lang-default.php', 'notifications');
+	
+		
