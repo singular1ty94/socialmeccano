@@ -11,24 +11,10 @@
 			qa_html_theme_base::head_custom();
             $this->output('<link rel="stylesheet" href="' . qa_path_to_root(). 'qa-plugin/friends/friends.css"/>');
         }
-
-        function body_custom() {
-			qa_html_theme_base::body_custom();
-
-            include_once 'qa-plugin/friends/qa-friends-db.php';
-
-            $requests = displayIncomingFriendRequests(qa_get_logged_in_userid());
-            if(count($requests) > 0){
-                $notice = '<div class="friends-notify notify"><a href="./?qa=friend-requests">You have new friend requests!</a><div class="friends-notify-close" onclick="jQuery(this).parent().slideUp(\'slow\')">x</div></div>';
-
-                $this->output($notice);
-            }
-
-        }
 	
 	// theme replacement functions
 		function main_parts($content) {
-			if ((qa_opt('friends_active') && $this->template == 'user')  && (isset($content['raw']['userid']))) { 
+			if (($this->template == 'user')  && (isset($content['raw']['userid']))) {
 				foreach($content as $i => $v) {
 					if(strpos($i,'form') === 0) { unset($content[$i]); }
 				}	

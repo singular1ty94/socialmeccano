@@ -19,10 +19,13 @@ $theme-hover: #ff9900;
     }
 }
 
+#search{
+    padding: 10px 0px !important;
+}
+
 #group-chat{
     cursor:pointer;
 }
-
 
 .qa-groups-link:before {
   content: '\e830';

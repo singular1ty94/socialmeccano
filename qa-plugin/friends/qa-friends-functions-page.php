@@ -45,6 +45,7 @@
 			$qa_content=qa_content_prepare();
 			
 			include 'qa-friends-db.php';
+            include 'qa-plugin/notifications/qa-notifications-db.php';
 			
 			$userid = qa_get_logged_in_userid();
 			$requestType = qa_request_part(1);	
@@ -60,6 +61,8 @@
 			//If the user wants to remove a friend request.
             if($requestType == "addFriend"){
 				createFriendRequest($userid, $target);
+                //Notify the target user.
+                createNotification($target, 'FriendOffer', $userid);
             }
 			
 			//If the user wants to remove a friend.
@@ -77,9 +80,11 @@
 				removeFriendRequest($target, $userid);
             }			
 			
-			//If the user wants to remove a friend.
+			//If the user wants to approve a friend.
             if($requestType == "approveRequest"){
 				approveFriendRequest($userid, $target);
+                //Notify the target user.
+                createNotification($target, 'FriendAccept', $userid);
             }
 			
 

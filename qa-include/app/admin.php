@@ -32,7 +32,7 @@
 	and set up $qa_content with the appropriate title and error message
 */
 	{
-		if (!qa_is_logged_in()) {
+        if (!qa_is_logged_in()) {
 			require_once QA_INCLUDE_DIR.'app/format.php';
 
 			$qa_content=qa_content_prepare();

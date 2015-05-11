@@ -25,58 +25,7 @@
 		}
 
 		function admin_form(&$qa_content) {
-			$ok = null;
-
-			if(qa_clicked('notifications_save_settings')) {
-				
-				qa_opt('notifications_active', (bool)qa_post_text('notifications_active_check'));
-
-				if (qa_opt('notifications_active')) {
-
-					// Create notifications table.
-					qa_db_query_sub(
-									'CREATE TABLE IF NOT EXISTS ^notifications ('.
-										'id INT(11) NOT NULL AUTO_INCREMENT,'.
-										'time DATETIME NOT NULL,'.
-										'user_id INT(11) NOT NULL,'.
-										'type VARCHAR (50) DEFAULT \'\','.
-										'target_id INT(11) NOT NULL,'.
-										'info1 VARCHAR(100) DEFAULT \'\','.
-										'info2 VARCHAR(100) DEFAULT \'\','.
-										'seen INT(1) DEFAULT 0,'.										
-										'actioned INT(1) DEFAULT 0,'.
-										'PRIMARY KEY (id)'.
-									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);
-				}
-				$ok = qa_lang('notifications/notifications_admin_saved');
-			}
 
 		//	Create the form for display.
-			$fields = array();
-
-			$fields[] = array(
-				'label' => qa_lang('notifications/notifications_admin_activate'),
-				'tags' => 'NAME="notifications_active_check"',
-				'value' => qa_opt('notifications_active'),
-				'type' => 'checkbox',
-			);
-
-			if(qa_opt('notifications_active')) {
-
-			}
-
-			return array(
-				'ok' => ($ok && !isset($error)) ? $ok : null,
-
-				'fields' => $fields,
-
-				'buttons' => array(
-					array(
-						'label' => qa_lang('notifications/save_settings'),
-						'tags' => 'NAME="notifications_save_settings"',
-						),
-				),
-			);
 		}
 	}

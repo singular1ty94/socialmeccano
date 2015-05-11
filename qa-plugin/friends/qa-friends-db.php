@@ -183,14 +183,14 @@
             'VALUES ($)',
             $channel);
 
-            registerChannelUser($userID, $channel, $username);
-            registerChannelUser($friendID, $channel, $friendname);
+            registerChannelUserFriend($userID, $channel, $username);
+            registerChannelUserFriend($friendID, $channel, $friendname);
         }
 
         /*
         ** Register a user for a channel.
         */
-        function registerChannelUser($userID, $channelID, $handle){
+        function registerChannelUserFriend($userID, $channelID, $handle){
             $cID = qa_db_read_one_assoc(
                 qa_db_query_sub('SELECT channelID FROM ajax_chat_channels WHERE channelName=$', $channelID)
             );

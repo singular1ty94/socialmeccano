@@ -4,7 +4,7 @@
 	Based on Question2Answer by Gideon Greenspan and contributors
 
 	File: qa-plugin/notifications/qa-plugin.php
-	Description:  Responsible for language display, default is English. Warning: This may fall by the wayside.
+	Description: Initiates notifications plugin
 
 
 	This program is free software; you can redistribute it and/or
@@ -16,25 +16,30 @@
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
+
+
 */
 
-	return array(
-	
-		'notifications_admin'=>'Notifications Admin',
-		'notifications'=>'Notifications',
-		
-		'notifications_list_title'=>'Notifications',
+	if (!defined('QA_VERSION')) { // don't allow this page to be requested directly from browser
+		header('Location: ../');
+		exit;
+	}
 
-		'notifications_admin_saved'=>'Options saved.',
-		
-		'notifications_admin_activate'=>'Activate Notifications',
-		'notifications_always'=>'Notifications is installed by default with Social Meccano.',
+	require_once QA_INCLUDE_DIR.'app/format.php';
 
-		'save_settings'=>'Save',
-	);
-	
+
+	header('HTTP/1.0 404 Not Found');
+
+	qa_set_template('not-found');
+
+	$qa_content=qa_content_prepare();
+	$qa_content['error']=qa_lang_html('main/page_not_found');
+	$qa_content['suggest_next']=qa_html_suggest_qs_tags(qa_using_tags());
+
+
+	return $qa_content;
+
 
 /*
 	Omit PHP closing tag to help avoid accidental output
 */
-

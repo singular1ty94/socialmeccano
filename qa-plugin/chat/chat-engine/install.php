@@ -11,10 +11,10 @@
 error_reporting(E_ALL);
 
 // Remember to set up the config file to point to your database:
-file_exists('lib/config.php') or die('Failed to load lib/config.php. Did you remember to create a config file based on config.php.example?');
+file_exists(dirname(__FILE__).'/lib/config.php') or die('Failed to load lib/config.php. Did you remember to create a config file based on config.php.example?');
 
 // Path to the chat directory:
-define('AJAX_CHAT_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
+define('AJAX_CHAT_PATH', dirname(__FILE__).'/');
 
 // Include custom libraries and initialization code:
 require(AJAX_CHAT_PATH.'lib/custom.php');
@@ -71,34 +71,13 @@ class CustomAJAXChatInstaller extends CustomAJAXChatInterface {
         VALUES (0, "SiteChat");');
 			
         $result = $this->db->sqlQuery('INSERT INTO 
-        ajax_chat_users(userID, handle, channelID) 
-        VALUES (0, NULL, 0);');
+        ajax_chat_users(userID, handle, channelID, dateTime)
+        VALUES (0, NULL, 0, NOW());');
         
-        //Generate a request.
-        $sql = 'SELECT * FROM qa_users ORDER BY userid';        
-        $users = $this->db->sqlQuery($sql);
-        
-        //All existing users join the database.
-        $i = 1;
-        while($row = $users->fetch()) {
-            $h = $row['handle'];
-            
-            $result = $this->db->sqlQuery('INSERT INTO 
-        ajax_chat_users(userID, handle, channelID) 
-        VALUES ('. $i . ',"' . $h . '", 0);');
-            $i++;
-            
-            // Stop if an error occurs:
-            if($result->error()) {
-                echo $result->getError();
-                die();
-            }
-        }
-        
-		if($printSuccessConfirmation) {
+		/*if($printSuccessConfirmation) {
 			// Print a success confirmation:
 			echo 'Database tables created successfully - please delete this file (install.php).';
-		}
+		}*/
 	}
 
 }

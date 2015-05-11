@@ -351,12 +351,13 @@
 			'show_user_titles' => 1,
 			'show_when_created' => 1,
 			'site_text_direction' => 'ltr',
-			'site_theme' => 'Snow',
+			'site_theme' => 'Carbon',
 			'smtp_port' => 25,
 			'sort_answers_by' => 'created',
 			'tags_or_categories' => 'tc',
 			'voting_on_as' => 1,
 			'voting_on_qs' => 1,
+            'show_custom_sidebar' => 0,
 		);
 
 		if (isset($fixed_defaults[$name]))

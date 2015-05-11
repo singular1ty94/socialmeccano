@@ -81,33 +81,61 @@ if (!isset($pass_failure_type) && qa_clicked('super')) {
 		require_once QA_INCLUDE_DIR.'app/users.php';
 
 		$userid = qa_create_new_user($inemail, $inpassword, $inhandle, QA_USER_LEVEL_SUPER);
+
+        //Now go an register this for chat.
+        qa_db_query_sub('INSERT INTO ajax_chat_users(userID, handle, channelID)
+            VALUES ($, $, 0)', $userid, $inhandle);
+
 		qa_set_logged_in_user($userid, $inhandle);
 
 		qa_set_option('feedback_email', $inemail);
 
-		$success .= "Congratulations - Your Question2Answer site is ready to go!\n\nYou are logged in as the super administrator and can start changing settings.\n\nThank you for installing Question2Answer.";
-	}
+        //Redirect to the toolbox so they can change the colors.
+        header('Location: ./toolbox/default.php?install');
+    }
 }
 
 
 //	Output start of HTML early, so we can see a nicely-formatted list of database queries when upgrading
 
 ?><!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<style>
-			body, input { font: 16px Verdana, Arial, Helvetica, sans-serif; }
-			body { text-align: center; width: 640px; margin: 64px auto; }
-			table { margin: 16px auto; }
-			th, td { padding: 2px; }
-			th { text-align: right; font-weight: normal; }
-			td { text-align: left; }
-			.msg-success { color: #090; }
-			.msg-error { color: #b00; }
-		</style>
-	</head>
-	<body>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Social Meccano Toolbox</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="../toolbox/css/normalize.css">
+  <link rel="stylesheet" href="../toolbox/css/skeleton.css">
+  <link type="text/css" rel="stylesheet" href="../toolbox/style.css" />
+  <script type="application/javascript" src="j./toolbox/jquery-2.1.3.min.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row install">
+        <h2>Social Meccano Installation</h2>
 <?php
 
 
@@ -119,16 +147,16 @@ if (isset($pass_failure_type)) {
 			break;
 
 		case 'select':
-			$errorhtml .= 'Could not switch to the Question2Answer database. Please check the database name in the config file, and if necessary create the database in MySQL and grant appropriate user privileges.';
+			$errorhtml .= 'Could not switch to the Social Meccano database. Please check the database name in the config file, and if necessary create the database in MySQL and grant appropriate user privileges.';
 			break;
 
 		case 'query':
 			global $pass_failure_from_install;
 
 			if (@$pass_failure_from_install)
-				$errorhtml .= "Question2Answer was unable to perform the installation query below. Please check the user in the config file has CREATE and ALTER permissions:\n\n".qa_html($pass_failure_query."\n\nError ".$pass_failure_errno.": ".$pass_failure_error."\n\n");
+				$errorhtml .= "Social Meccano was unable to perform the installation query below. Please check the user in the config file has CREATE and ALTER permissions:\n\n".qa_html($pass_failure_query."\n\nError ".$pass_failure_errno.": ".$pass_failure_error."\n\n");
 			else
-				$errorhtml .= "A Question2Answer database query failed when generating this page.\n\nA full description of the failure is available in the web server's error log file.";
+				$errorhtml .= "A Social Meccano database query failed when generating this page.\n\nA full description of the failure is available in the web server's error log file.";
 			break;
 	}
 }
@@ -139,6 +167,12 @@ else {
 	if (qa_clicked('create')) {
 		qa_db_install_tables();
 
+        //Install the chat-engine.
+        require('./qa-plugin/chat/chat-engine/install.php');
+
+        //Install the Social Meccano base.
+        require('social-meccano-install.php');
+
 		if (QA_FINAL_EXTERNAL_USERS) {
 			if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH')) {
 				require_once QA_INCLUDE_DIR.'db/admin.php';
@@ -147,31 +181,31 @@ else {
 				// create link back to WordPress home page
 				qa_db_page_move(qa_db_page_create(get_option('blogname'), QA_PAGE_FLAGS_EXTERNAL, get_option('home'), null, null, null), 'O', 1);
 
-				$success .= 'Your Question2Answer database has been created and integrated with your WordPress site.';
+				$success .= 'Your Social Meccano database has been created and integrated with your WordPress site.';
 
 			}
 			else {
-				$success .= 'Your Question2Answer database has been created for external user identity management. Please read the online documentation to complete integration.';
+				$success .= 'Your Social Meccano database has been created for external user identity management. Please read the online documentation to complete integration.';
 			}
 		}
 		else {
-			$success .= 'Your Question2Answer database has been created.';
+			$success .= 'Your Social Meccano database has been created.';
 		}
 	}
 
 	if (qa_clicked('nonuser')) {
 		qa_db_install_tables();
-		$success .= 'The additional Question2Answer database tables have been created.';
+		$success .= 'The additional Social Meccano database tables have been created.';
 	}
 
 	if (qa_clicked('upgrade')) {
 		qa_db_upgrade_tables();
-		$success .= 'Your Question2Answer database has been updated.';
+		$success .= 'Your Social Meccano database has been updated.';
 	}
 
 	if (qa_clicked('repair')) {
 		qa_db_install_tables();
-		$success .= 'The Question2Answer database tables have been repaired.';
+		$success .= 'The Social Meccano database tables have been repaired.';
 	}
 
 	if (qa_clicked('module')) {
@@ -203,21 +237,21 @@ if (qa_db_connection(false) !== null && !@$pass_failure_from_install) {
 			if (@$pass_failure_errno == 1146) // don't show error if we're in installation process
 				$errorhtml = '';
 
-			$errorhtml .= 'Welcome to Question2Answer. It\'s time to set up your database!';
+			$errorhtml .= 'Welcome to Social Meccano. It\'s time to set up your database!';
 
 			if (QA_FINAL_EXTERNAL_USERS) {
 				if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH')) {
-					$errorhtml .= "\n\nWhen you click below, your Question2Answer site will be set up to integrate with the users of your WordPress site <a href=\"".qa_html(get_option('home'))."\" target=\"_blank\">".qa_html(get_option('blogname'))."</a>. Please consult the online documentation for more information.";
+					$errorhtml .= "\n\nWhen you click below, your Social Meccano site will be set up to integrate with the users of your WordPress site <a href=\"".qa_html(get_option('home'))."\" target=\"_blank\">".qa_html(get_option('blogname'))."</a>. Please consult the online documentation for more information.";
 				}
 				else {
-					$errorhtml .= "\n\nWhen you click below, your Question2Answer site will be set up to integrate with your existing user database and management. Users will be referenced with database column type ".qa_html(qa_get_mysql_user_column_type()).". Please consult the online documentation for more information.";
+					$errorhtml .= "\n\nWhen you click below, your Social Meccano site will be set up to integrate with your existing user database and management. Users will be referenced with database column type ".qa_html(qa_get_mysql_user_column_type()).". Please consult the online documentation for more information.";
 				}
 
-				$buttons = array('create' => 'Set up the Database');
+				$buttons = array('create' => 'Continue');
 			}
 			else {
-				$errorhtml .= "\n\nWhen you click below, your Question2Answer database will be set up to manage user identities and logins internally.\n\nIf you want to offer a single sign-on for an existing user base or website, please consult the online documentation before proceeding.";
-				$buttons = array('create' => 'Set up the Database including User Management');
+				$errorhtml .= "\n\nWhen you click below, your Social Meccano database will be set up to manage user identities and logins internally.";
+				$buttons = array('create' => 'Continue');
 			}
 			break;
 
@@ -227,22 +261,22 @@ if (qa_db_connection(false) !== null && !@$pass_failure_from_install) {
 				$errorhtml = '';
 
 			// don't show error before this
-			$errorhtml .= 'Your Question2Answer database needs to be upgraded for this version of the software.';
+			$errorhtml .= 'Your Social Meccano database needs to be upgraded for this version of the software.';
 			$buttons = array('upgrade' => 'Upgrade the Database');
 			break;
 
 		case 'non-users-missing':
-			$errorhtml = 'This Question2Answer site is sharing its users with another Q2A site, but it needs some additional database tables for its own content. Please click below to create them.';
+			$errorhtml = 'This Social Meccano site is sharing its users with another Q2A site, but it needs some additional database tables for its own content. Please click below to create them.';
 			$buttons = array('nonuser' => 'Set up the Tables');
 			break;
 
 		case 'table-missing':
-			$errorhtml .= 'One or more tables are missing from your Question2Answer database.';
+			$errorhtml .= 'One or more tables are missing from your Social Meccano database.';
 			$buttons = array('repair' => 'Repair the Database');
 			break;
 
 		case 'column-missing':
-			$errorhtml .= 'One or more Question2Answer database tables are missing a column.';
+			$errorhtml .= 'One or more Social Meccano database tables are missing a column.';
 			$buttons = array('repair' => 'Repair the Database');
 			break;
 
@@ -250,7 +284,7 @@ if (qa_db_connection(false) !== null && !@$pass_failure_from_install) {
 			require_once QA_INCLUDE_DIR.'db/admin.php';
 
 			if (!QA_FINAL_EXTERNAL_USERS && qa_db_count_users() == 0) {
-				$errorhtml .= "There are currently no users in the Question2Answer database.\n\nPlease enter your details below to create the super administrator:";
+				$errorhtml .= "There are currently no users in the Social Meccano database.\n\nPlease enter your details below to create the super administrator:";
 				$fields = array(
 					'handle' => array('label' => 'Username:', 'type' => 'text'),
 					'password' => array('label' => 'Password:', 'type' => 'password'),
@@ -292,7 +326,7 @@ if (qa_db_connection(false) !== null && !@$pass_failure_from_install) {
 
 if (empty($errorhtml)) {
 	if (empty($success))
-		$success = 'Your Question2Answer database has been checked with no problems.';
+		$success = 'Your Social Meccano database has been checked with no problems.';
 
 	$suggest = '<a href="'.qa_path_html('admin', null, null, QA_URL_FORMAT_SAFEST).'">Go to admin center</a>';
 }
@@ -343,5 +377,7 @@ qa_db_disconnect();
 ?>
 
 		</form>
+      </div>
+    </div>
 	</body>
 </html>

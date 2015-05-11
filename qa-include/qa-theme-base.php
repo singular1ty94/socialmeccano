@@ -497,35 +497,39 @@ class qa_html_theme_base
 		);
 	}
     
-    public function updates()
+    public function updates($pulse)
+    {
+        if($pulse){
+            $this->output(
+               '<a href="./?qa=notifications" class="qa-updates-link pulse">' .
+               '' .
+               '</a>'
+            );
+        }else{
+            $this->output(
+               '<a href="./?qa=notifications" class="qa-updates-link">' .
+               '' .
+               '</a>'
+            );
+        }
+    }
+    
+    public function friends()
     {
         $this->output(
-           '<a href="' . qa_path_html('updates') . '" class="qa-updates-link">' .
+           '<a href="' . qa_path_html('friends') . '" class="qa-friends-link">' .
            '' .
            '</a>'
         );
     }
     
-    public function friends()
-    {
-		if (qa_opt('friends_active')) {
-			$this->output(
-			   '<a href="' . qa_path_html('friends') . '" class="qa-friends-link">' .
-			   '' .
-			   '</a>'
-			);
-		}
-    }
-    
     public function groups()
     {
-		if (qa_opt('group_active')) {
-			$this->output(
-			   '<a href="' . qa_path_html('groups') . '" class="qa-groups-link">' .
-			   '' .
-			   '</a>'
-			);
-		}
+        $this->output(
+           '<a href="' . qa_path_html('groups') . '" class="qa-groups-link">' .
+           '' .
+           '</a>'
+        );
     }
 
 	public function search()

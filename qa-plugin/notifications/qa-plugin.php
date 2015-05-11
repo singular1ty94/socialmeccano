@@ -44,5 +44,4 @@
 	qa_register_plugin_module('module', 'qa-notifications-admin.php', 'qa_notifications_admin', 'Notifications Admin');
 	qa_register_plugin_layer('qa-notifications-layer.php', 'Notifications Layer');	
 	qa_register_plugin_phrases('qa-notifications-lang-default.php', 'notifications');
-	
-		
+	qa_register_plugin_module('page', 'qa-notifications-page.php', 'qa_notifications_page', 'Notifications Page');

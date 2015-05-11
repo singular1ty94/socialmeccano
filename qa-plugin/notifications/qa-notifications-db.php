@@ -72,6 +72,16 @@
 				$id
 			);
 		}
+
+
+        function getUser($id){
+            $result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT handle, avatarblobid FROM qa_users WHERE userid = $',
+				    $id
+				)
+			);
+            return $result;
+        }
 		
 		
 		

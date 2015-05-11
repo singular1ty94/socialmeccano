@@ -192,7 +192,25 @@ class qa_html_theme extends qa_html_theme_base
 		$this->logo();
         
         if(qa_is_logged_in()){
-            $this->updates();
+
+            //Check if we have notifications for us...
+            include_once 'qa-plugin/notifications/qa-notifications-db.php';
+
+            $requests = getMyNotifications(qa_get_logged_in_userid());
+
+            $flag = true;
+            foreach($requests as $n){
+                if($n["seen"] == 0){
+                    $flag = false;
+                }
+            }
+
+            if(!$flag){
+                $this->updates(true);
+            }else{
+                $this->updates(false);
+            }
+
             $this->friends();
             $this->groups();
         }

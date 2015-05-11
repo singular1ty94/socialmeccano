@@ -26,8 +26,6 @@
 					return '0';
 				case 'badge_custom_badges':
 					return true;
-				case 'badge_notify_time':
-					return 0;
 				case 'badge_widget_list_max':
 					return 5;
 				case 'badge_widget_date_max':
@@ -94,9 +92,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 				}
 				$ok = qa_lang('badges/badge_values_reset');
 			}
-			else if (qa_clicked('badge_trigger_notify')) {
-				$qa_content['test-notify'] = 1;
-			}
 			else if(qa_clicked('badge_save_settings')) {
 				qa_opt('badge_active', (bool)qa_post_text('badge_active_check'));
 
@@ -154,8 +149,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 					}
 
 					// options
-
-					qa_opt('badge_notify_time', (int)qa_post_text('badge_notify_time'));
 					qa_opt('badge_show_users_badges',(bool)qa_post_text('badge_show_users_badges'));
 					qa_opt('badge_show_source_posts',(bool)qa_post_text('badge_show_source_posts'));
 					qa_opt('badge_show_source_users',(bool)qa_post_text('badge_show_source_users'));
@@ -225,14 +218,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 				);
 
 				$fields[] = array(
-						'label' => qa_lang('badges/notify_time').':',
-						'type' => 'number',
-						'value' => qa_opt('badge_notify_time'),
-						'tags' => 'NAME="badge_notify_time"',
-						'note' => '<em>'.qa_lang('badges/notify_time_desc').'</em>',
-				);
-
-				$fields[] = array(
 					'type' => 'blank',
 				);
 
@@ -295,9 +280,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 					'value' => (bool)qa_opt('badge_show_users_badges'),
 					'type' => 'checkbox',
 				);
-				if (qa_clicked('badge_trigger_notify')) {
-					$fields['test-notify'] = 1;
-				}
 				
 				$fields[] = array(
 					'type' => 'blank',
@@ -363,11 +345,6 @@ You may cancel these notices at any time by visiting your profile at the link ab
 				'fields' => $fields,
 
 				'buttons' => array(
-					array(
-						'label' => qa_lang('badges/badge_trigger_notify'),
-						'tags' => 'name="badge_trigger_notify"'.(qa_opt('badge_active')?'':' disabled="true"'),
-						'note' => '<br/><em>'.qa_lang('badges/badge_trigger_notify_desc').'</em><br/>',
-					),
 					array(
 						'label' => qa_lang('badges/badge_reset_names'),
 						'tags' => 'NAME="badge_reset_names"',

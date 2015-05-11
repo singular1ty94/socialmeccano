@@ -644,7 +644,7 @@ blockquote {
   display: block;
   cursor: pointer;
   min-width: 60px;
-  min-height: 36px;
+  min-height: 52px;
   padding: 10px;
   background-color: $theme-alt;
   text-align: center;
@@ -668,7 +668,7 @@ blockquote {
   display: none;
   position: absolute;
   right: 0;
-  top: 60px;
+  top: 52px;
   width: 230px;
   padding: 10px;
   z-index: 1100;
@@ -3590,6 +3590,44 @@ input[type="submit"], button {
     h1{
         padding-left:40px;
     }
+}
+
+.pulse{
+    animation: colorchange 3s infinite alternate;
+    -webkit-animation: colorchange 3s infinite alternate; /* Chrome and Safari */
+}
+
+
+@keyframes colorchange
+{
+  0% {
+      transform: scale(1);
+      background-color: $theme-bright;
+  }
+  50%  {
+      transform: scale(1);
+      background-color: $theme-alt;
+  }
+  100% {
+      transform: scale(1);
+      background-color: $theme-bright;
+  }
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
+{
+  0% {
+      transform: scale(1);
+      background-color: $theme-bright;
+  }
+  50%  {
+      transform: scale(1);
+      background-color: $theme-alt;
+  }
+  100% {
+      transform: scale(1);
+      background-color: $theme-bright;
+  }
 }
 
 @media (min-width: 980px) {

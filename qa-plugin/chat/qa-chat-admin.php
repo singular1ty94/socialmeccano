@@ -28,43 +28,5 @@
 
 		function admin_form(&$qa_content) {
 
-			$ok = null;
-
-			if(qa_clicked('chat_save_settings')) {
-				
-				qa_opt('chat_active', (bool)qa_post_text('chat_active_check'));
-
-				if (qa_opt('chat_active')) {
-			
-				}
-				$ok = qa_lang('chat/chat_admin_saved');
-			}
-
-		//	Create the form for display.
-			$fields = array();
-
-			$fields[] = array(
-				'label' => qa_lang('chat/chat_admin_activate'),
-				'tags' => 'NAME="chat_active_check"',
-				'value' => qa_opt('chat_active'),
-				'type' => 'checkbox',
-			);
-
-			if(qa_opt('chat_active')) {
-
-			}
-
-			return array(
-				'ok' => ($ok && !isset($error)) ? $ok : null,
-
-				'fields' => $fields,
-
-				'buttons' => array(
-					array(
-						'label' => qa_lang('chat/save_settings'),
-						'tags' => 'NAME="chat_save_settings"',
-						),
-				),
-			);
 		}
 	}

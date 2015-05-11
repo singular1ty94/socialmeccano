@@ -9,4 +9,12 @@
 			qa_html_theme_base::doctype();
         }
 
+        /*
+        ** Body override.
+        */
+        function body_custom() {
+			qa_html_theme_base::body_custom();
+
+        }
+
     }

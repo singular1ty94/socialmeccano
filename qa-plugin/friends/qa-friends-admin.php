@@ -28,59 +28,6 @@
 
 		function admin_form(&$qa_content) {
 
-			$ok = null;
 
-			if(qa_clicked('friends_save_settings')) {
-				
-				qa_opt('friends_active', (bool)qa_post_text('friends_active_check'));
-
-				if (qa_opt('friends_active')) {
-
-					// Create friends and friend request tables.
-					qa_db_query_sub(
-									'CREATE TABLE IF NOT EXISTS ^friend_requests ('.
-										'requsted_at DATETIME NOT NULL,'.
-										'requester_id INT(11) NOT NULL,'.
-										'receiver_id INT(11) NOT NULL'.
-									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);
-
-					qa_db_query_sub(
-									'CREATE TABLE IF NOT EXISTS ^friend_list ('.
-										'added_at DATETIME NOT NULL,'.
-										'user_id INT(11) NOT NULL,'.
-										'friend_id INT(11) NOT NULL'.
-									') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-								);					
-				}
-				$ok = qa_lang('friends/friends_admin_saved');
-			}
-
-		//	Create the form for display.
-			$fields = array();
-
-			$fields[] = array(
-				'label' => qa_lang('friends/friends_admin_activate'),
-				'tags' => 'NAME="friends_active_check"',
-				'value' => qa_opt('friends_active'),
-				'type' => 'checkbox',
-			);
-
-			if(qa_opt('friends_active')) {
-
-			}
-
-			return array(
-				'ok' => ($ok && !isset($error)) ? $ok : null,
-
-				'fields' => $fields,
-
-				'buttons' => array(
-					array(
-						'label' => qa_lang('friends/save_settings'),
-						'tags' => 'NAME="friends_save_settings"',
-						),
-				),
-			);
 		}
 	}

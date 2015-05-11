@@ -3,8 +3,8 @@
 	Social Meccano by Brett Orr and Samuel Hammill
 	Based on Question2Answer by Gideon Greenspan and contributors
 
-	File: qa-plugin/groups/qa-group-create-page.php
-	Description: Create a group.
+	File: qa-plugin/groups/qa-group-create-post.php
+	Description: Create a group post.
 
 
 	This program is free software; you can redistribute it and/or
@@ -54,11 +54,6 @@
 			$groupid = intval(qa_request_part(1));
 			$groupProfile = getGroupData($groupid);
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
-			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
-			
-	
-		
-
 			
 			// UI Generation below this.
 			
@@ -105,11 +100,35 @@
 				   	if (isUserGroupMember($userid, $groupid = $_GET["g_id"])) {
 						require_once QA_INCLUDE_DIR.'./app/format.php';	
 						require_once QA_INCLUDE_DIR.'./app/posts.php';
+						require_once './qa-plugin/notifications/qa-notifications-db.php';
+
+                        $groupProfile = getGroupData($_GET["g_id"]);
 
 						$tags = qa_string_to_words($_POST['postTags'], $tolowercase=true, $delimiters=false, $splitideographs=true, $splithyphens=false);
 						$tags = qa_post_tags_to_tagstring($tags);
 						
 						$postid = createPost($_GET["g_id"], $userid, $_POST["postTitle"], $_POST["postContent"], $tags, $_GET["type"], 0);
+
+                        //Alert all members.
+                        $allMembers = getGroupMembers($_GET["g_id"]);
+                        foreach($allMembers as $member){
+                            //But not me.
+                            if($member["userid"] != $userid){
+                                createNotification($member["userid"], 'NewGroupPost', $userid, $_GET["g_id"], qa_post_content_to_text($groupProfile["group_name"], 'html'));
+                            }
+                        }
+
+                        //Alert admins too!
+                        $allAdmins = getGroupAdmins($groupid);
+                        foreach($allAdmins as $admin){
+                            //But not me.
+                            if($admin["userid"] != $userid){
+                                createNotification($admin["userid"], 'NewGroupPost', $userid, $_GET["g_id"], qa_post_content_to_text($groupProfile["group_name"], 'html'));
+                            }
+                        }
+
+
+
 						qa_redirect('view-post/' . $postid);
                     }
                     header('Location: ../../group/' . $_GET["g_id"]);

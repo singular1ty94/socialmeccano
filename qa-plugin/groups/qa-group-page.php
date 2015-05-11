@@ -51,6 +51,7 @@
 			include './qa-include/app/posts.php';	
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
+            include './qa-plugin/notifications/qa-notifications-db.php';
 			
 			$viewer=qa_load_viewer('', '');
 			
@@ -63,6 +64,13 @@
                 header('Location: ../');
             }			
 			
+            $groupProfile = getGroupData($groupid);
+
+			// If the DB returns an empty array, group not found, so redirect to groups page
+			if (empty($groupProfile)) {
+				qa_redirect('groups');
+			}
+
             //If the user is the admin, and wants to delete.
             if($currentUserIsAdmin && @isset($_GET['delete'])){
                 deleteGroup(intval($groupid));
@@ -73,6 +81,12 @@
             if(!$currentUserIsMember && @isset($_GET['join_group'])){
 				$is_admin = 0;
 				AddUserToGroup(intval($userid), intval($groupid), $is_admin);
+
+                $allAdmins = getGroupAdmins($groupid);
+                foreach($allAdmins as $admin){
+                    createNotification($admin["userid"], 'NewGroupUser', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+                }
+
 				$currentUserIsMember = true;
                 header('Location: ../group/'.$groupid);
             }
@@ -82,13 +96,6 @@
 				removeUserFromGroup(intval($userid), intval($groupid));
                 header('Location: ../?qa=groups');
             }
-			
-			$groupProfile = getGroupData($groupid);
-
-			// If the DB returns an empty array, group not found, so redirect to groups page
-			if (empty($groupProfile)) {
-				qa_redirect('groups');
-			}
 
 			// Set vars from DB result
 			$createdAt = $groupProfile["created_at"];

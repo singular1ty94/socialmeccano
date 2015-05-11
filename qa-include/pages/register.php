@@ -114,6 +114,11 @@
 
 					$userid = qa_create_new_user($inemail, $inpassword, $inhandle);
 
+
+                    //Now go an register this for chat.
+                    qa_db_query_sub('INSERT INTO ajax_chat_users(userID, handle, channelID)
+            VALUES ($, $, 0)', $userid, $inhandle);
+
 					foreach ($userfields as $userfield)
 						qa_db_user_profile_set($userid, $userfield['title'], $inprofile[$userfield['fieldid']]);
 

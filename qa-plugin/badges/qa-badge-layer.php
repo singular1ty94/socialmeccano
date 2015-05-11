@@ -129,8 +129,7 @@
 
 			if ($this->request == 'admin/plugins' && qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
 				$this->output("
-				<script>".(qa_opt('badge_notify_time') != '0'?"
-					jQuery('document').ready(function() { jQuery('.notify-container').delay(".((int)qa_opt('badge_notify_time')*1000).").slideUp('fast'); });":"")."
+				<script>
 					function badgeEdit(slug,end) {
 						if(end) {
 							jQuery('#badge_'+slug+'_edit').hide();
@@ -144,31 +143,18 @@
 					}
 				</script>");
 			}
-			else if (isset($this->badge_notice)) {
-				$this->output("
-				<script>".(qa_opt('badge_notify_time') != '0'?"
-					jQuery('document').ready(function() { jQuery('.notify-container').delay(".((int)qa_opt('badge_notify_time')*1000).").slideUp('fast'); });":"")."
-				</script>");
-			}
 			$this->output('<link rel="stylesheet" href="' . qa_path_to_root() . 'qa-plugin/badges/badges.css"/>');
 		}
 
 		function body_prefix()
 		{
 			qa_html_theme_base::body_prefix();
-			if(isset($this->badge_notice))
-				$this->output($this->badge_notice);
 		}
 
 		function body_suffix()
 		{
 			qa_html_theme_base::body_suffix();
-			
-			if (qa_opt('badge_active')) {
-				if(isset($this->content['test-notify'])) {
-					$this->trigger_notify('Badge Tester');
-				 }
-			}
+
 		}
 
 		function main_parts($content)
@@ -290,44 +276,20 @@
 				)
 			);
 			if(count($result) > 0) {
-				$notice = '<div class="notify-container">';
-				
-				if(count($result) == 1) {
-					$slug = $result[0];
-					$badge_name=qa_lang('badges/'.$slug);
-					if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
-					$name = qa_opt('badge_'.$slug.'_name');
-					
-					$notice .= '<div class="badge-notify notify">'.qa_lang('badges/badge_notify')."'".$name.'\'&nbsp;&nbsp;'.qa_lang('badges/badge_notify_profile_pre').'<a href="'.qa_path_html((QA_FINAL_EXTERNAL_USERS?qa_path_to_root():'').'user/'.qa_get_logged_in_handle()). '#badges">'.qa_lang('badges/badge_notify_profile').'</a><div class="notify-close" onclick="jQuery(this).parent().slideUp(\'slow\')">x</div></div>';
-				}
-				else {
-					$number_text = count($result)>2?str_replace('#', count($result)-1, qa_lang('badges/badge_notify_multi_plural')):qa_lang('badges/badge_notify_multi_singular');
-					$slug = $result[0];
-					$badge_name=qa_lang('badges/'.$slug);
-					if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
-					$name = qa_opt('badge_'.$slug.'_name');
-					$notice .= '<div class="badge-notify notify">'.qa_lang('badges/badge_notify')."'".$name.'\'&nbsp;'.$number_text.'&nbsp;&nbsp;'.qa_lang('badges/badge_notify_profile_pre').'<a href="'.qa_path_html('user/'.qa_get_logged_in_handle(),array('tab'=>'badges'),qa_opt('site_url')).'">'.qa_lang('badges/badge_notify_profile').'</a><div class="notify-close" onclick="jQuery(this).parent().slideUp(\'slow\')">x</div></div>';
-				}
-
-				$notice .= '</div>';
+                include './qa-plugin/notifications/qa-notifications-db.php';
+                createNotification($userid, 'NewBadge', $userid, qa_lang('badges/'. $result[0]));
 				
 				// remove notification flag
-				
 				qa_db_query_sub(
 					'UPDATE ^userbadges SET notify=0 WHERE user_id=# AND notify>=1',
 					$userid
 				);
-				$this->badge_notice = $notice;
 			}
 		}
 
+
 	// etc
-		
-		function trigger_notify($message) {
-			$notice = '<div class="notify-container"><div class="badge-notify notify">'.qa_lang('badges/badge_notify')."'".$message.'\'!&nbsp;&nbsp;'.qa_lang('badges/badge_notify_profile_pre').'<a href="/user/'.qa_get_logged_in_handle().'">'.qa_lang('badges/badge_notify_profile').'</a><div class="notify-close" onclick="jQuery(this).parent().parent().slideUp()">x</div></div></div>';
-			$this->output($notice);
-		}
-		
+
 		function priviledge_notify() { // gained priviledge
 		}
 

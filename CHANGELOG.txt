@@ -1,6 +1,74 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+NOTIFICATIONS
++ Added notifications layer messages.
++ Added notifications page.
+    + Displays Friend Requests, lets user go to /friend-request
+    + Displays accepted friend requests
+    + Notifies ALL ADMINS when a user JOINS a group they are an admin of
+    + Notifies ALL ADMINS AND MEMBERS when a user (not them) posts a DISCUSSION
+    + Notifies when you have CHAT MESSAGES UNREAD in your CHANNELS
+    + New BADGES now appear as a notification!
+    
++ Added "close" buttons tp notifications page.
++ Notification message only appears for unread notifications
++ Hopefully fixed a bug involving duplicate function names
++ Fixed bug (of own making) regarding empty assoc sets
++ Reworked to remove admin form (post-install changes).
++ Fixed styling bug in Notifications on visited links
++ Al unseen notifications are now seen by default when the user visits their notification page
++ Managed to fix rampant notifications for unread chat messages
++ Now user can click notification to view new chat messages! 
+
++ Changed 'pop up' styling to beautiful pulsing notification link.
+
+
+BADGES
+- REMOVED the original badge-notify.
+- Removed a bunch of unneccessary notify-related code.
+
+CHAT
+!+ Fixed CRITICAL bug where new users would not be granted access to base
+    channel, and would unfairly be tossed off the system.
+- Removed SQL code that finds all existing users and adds them to the database.
+- Removed redundant activate checks in plugin admin field 
++ ADDED ability to track when a user LEAVES a chatroom
++ Layer now tracks if the user has missed messages, and notifies accordingly
++ Fixed user recieving notifications from chatbot...
++ Fixed the aforementioned fix, which stop using get any chat notifications at all.
+
+INSTALL
+- Removed references to Question2Answer
++ Prettified the install script with Skeleton and CSS
+!+ Install script now INSTALLS CHAT ENGINE.
++ Install script redirects to toolbox after install
+!+ Created Social Meccano Install script:
+    + Notifications install by default.
+    + Groups install by default.
+    + Friends install by default.
+- Custom HTML sidebar is no longer on by default
+
+THEMES
+- Removed alternate themes.
+% Removed (now-redundent) checks to active plugin for button display
+
+STYLING
+% Fixed bug where user panel would appear too small without a defined avatar
+% Fixed style where drop-down from panel was seperated from the panel itself
+% Fixed style bug where group search fields were too thin
+% Fixed the way notifications text displays next to images
+
+TOOLBOX
++ Minor changes to toolbox to support install-redirect functionality.
++ Now supports changing colors for GROUPS
++ Now supports changing colors for FRIENDS
++ Inputs now have LIVE COLOR CHANGING.
+
+OTHER
+- Removed /tests folder
++ Added not-found page that had been destroyed in very early commit
+------------------------------------------------------------------------------------------
 FRIENDS/CHAT
 + Chat bubbles from the logged-in user now appear on the right-hand side of chat
     (exactly like Facebook and Twitter)

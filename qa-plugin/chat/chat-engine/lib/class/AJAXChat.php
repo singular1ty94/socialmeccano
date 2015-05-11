@@ -131,7 +131,8 @@ class AJAXChat {
 		if($this->isLoggedIn()) {
 			// Logout if we receive a logout request, the chat has been closed or the userID could not be revalidated:
 			if($this->getRequestVar('logout') || !$this->isChatOpen() || !$this->revalidateUserID()) {
-				$this->logout();
+                $this->setLastKnownTime();
+                $this->logout();
 				return;
 			}
 			// Logout if the Session IP is not the same when logged in and ipCheck is enabled:
@@ -516,11 +517,13 @@ class AJAXChat {
 		if($this->getConfig('socketServerEnabled')) {
 			$this->updateSocketAuthentication($this->getUserID());
 		}
+
 		if($this->isUserOnline()) {
 			$this->chatViewLogout($type);
 		}	
 		$this->setLoggedIn(false);		
 		$this->destroySession();
+
 
 		// Re-initialize the view:
 		$this->initView();
@@ -2523,6 +2526,25 @@ class AJAXChat {
 			}
 		}
 	}
+
+
+    /*
+    ** Sets the last known time that the user was
+    ** present in the chat.
+    */
+    function setLastKnownTime() {
+        $sql = 'UPDATE ajax_chat_users SET dateTime = NOW() WHERE userID = ' . $this->getUserID() . ' AND channelID = ' . $this->getChannel();
+
+        // Create a new SQL query:
+        $result = $this->db->sqlQuery($sql);
+
+        // Stop if an error occurs:
+        if($result->error()) {
+            echo $result->getError();
+            error_log($result->getError());
+            die();
+        }
+    }
 
 	function regenerateSessionID() {
 		if($this->_sessionNew) {

@@ -58,5 +58,6 @@ DROP TABLE IF EXISTS ajax_chat_users;
 CREATE TABLE ajax_chat_users (
 	userID INT(11) NOT NULL,
 	handle VARCHAR(64),
-	channelID INT(11) NOT NULL
+	channelID INT(11) NOT NULL,
+    dateTime DATETIME NOT NULL
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
