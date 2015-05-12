@@ -209,7 +209,7 @@
 			'allow_user_walls' => 1,
 			'allow_self_answer' => 1,
 			'allow_view_q_bots' => 1,
-			'avatar_allow_gravatar' => 1,
+			'avatar_allow_gravatar' => 0,
 			'avatar_allow_upload' => 1,
 			'avatar_message_list_size' => 20,
 			'avatar_profile_size' => 200,

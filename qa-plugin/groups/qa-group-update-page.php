@@ -75,24 +75,27 @@
 
             //Did we already submit?
             if(@$_POST["groupName"] == ""){
+                //Output helper text.
+                $qa_content['custom'] = '<p>Update your group\'s information! Fields marked with an asterisk * are required.</p>';
+
                 //Output form.
-                $qa_content['custom'] = '<form method="post" enctype="multipart/form-data" action="" id="form">';
-                $qa_content['custom'] .= '<label for="groupName">Group Name: </label>';
-                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" value="'. $groupProfile["group_name"] .'"/><br/>';
-                $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label><br>';
-                //$qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
-				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupDescr" form="form">'. $groupProfile["group_description"] .'</textarea><br>';			
-                $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
-				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupInfo" form="form">'. $groupProfile["group_information"] .'</textarea><br>';	
-                //$qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';                
+                $qa_content['custom'] .= '<form method="post" enctype="multipart/form-data" action="" id="form">';
+                $qa_content['custom'] .= '<label for="groupName">*Group Name: </label>';
+                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" value="'. $groupProfile["group_name"] .'"/>';
+                $qa_content['custom'] .= '<label for="groupDescr">*Group Description: </label>';
+
+				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupDescr" form="form">'. $groupProfile["group_description"] .'</textarea>';
+                $qa_content['custom'] .= '<label for="groupInfo">*Group Info: </label>';
+				$qa_content['custom'] .= '<textarea required rows="4" cols="50" name="groupInfo" form="form">'. $groupProfile["group_information"] .'</textarea>';
+
 				$qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
-                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" value="'. $groupProfile["group_location"] .'"/><br/>';
+                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" value="'. $groupProfile["group_location"] .'"/>';
                 $qa_content['custom'] .= '<label for="groupWebsite">Group Website: </label>';
-                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" value="'. $groupProfile["group_website"] .'"/><br/>';
-                $qa_content['custom'] .= '<label for="groupTags">Group Tags: </label>';
-                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" value="'. $groupProfile["tags"] .'"/><br />';				
-                $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
-                $qa_content['custom'] .= '<input id="avatar" name="avatar" type="file" /><br />';
+                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" value="'. $groupProfile["group_website"] .'"/>';
+                $qa_content['custom'] .= '<label for="groupTags">*Group Tags: </label>';
+                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" value="'. $groupProfile["tags"] .'"/>';
+                $qa_content['custom'] .= '<label for="avatar">*Group Image: </label>';
+                $qa_content['custom'] .= '<input id="avatar" name="avatar" type="file" />';
 				$qa_content['custom'] .= '<label for="privacy_setting">Privacy Setting: </label>';
 				$qa_content['custom'] .= '<select name="privacy_setting" form="form" required>';
                 $qa_content['custom'] .= '<option></option>';
@@ -101,7 +104,7 @@
 				$qa_content['custom'] .= '<option value="S">Secret - No one can find or join your group unless invited.</option>';
 				$qa_content['custom'] .= '</select><br />';
 				
-                $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Update Group"/>';
+                $qa_content['custom'] .= '<input type="submit" class="button button-primary" value="Update Group"/>';
                 $qa_content['custom'] .= '</form>';	
             }else{
 				

@@ -12,7 +12,8 @@
                 "outputStyle": "compressed"
             },
             "livedev.multibrowser": false,
-            "linting.collapsed": true
+            "linting.collapsed": true,
+            "brackets-git.gitPath": "C:\\Program Files (x86)\\Git\\cmd\\git.exe"
         },
         "qa-plugin/groups/groups.scss": {
             "sass.enabled": true,

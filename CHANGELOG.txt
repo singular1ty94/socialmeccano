@@ -1,6 +1,35 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+NITO, LORD OF THE SCSS: AKA, THE SKELETON CSS UPDATE
+Implemented some of the core Skeleton CSS features (NOT the responsive design, sadly)
+
++ Buttons are now softly rounded, and adhere to to a scheme of
+    button-primary, button-negative, button-creation, or just button
++ Added soft pulse effect to buttons (unifying it with the existing tag-link)
++ Added soft pulse effect to all menu links
+% Fixed graphical quirk with search box due to new update
+
+GROUPS
+% Fixed grammatical quirk of plural 'members' for a singular number.
++ Tidied up the Groups Create page.
+& Tidied up the Groups Update page.
+
+STYLES
+% Tidied up search bars on Friends and Groups page.
++ Changed button styles on profile page!
+% Fixed login/register buttons in drop-down
++ BUTTON CHANGES EVERYWHERE
+% Graphical fixes!
+% Fixed massive images in chat
++ Added fancy buttons and colors to group chat
+
+
+TOOLBOX
++ Greatly changed the logic for SAVING and FALLING BACK, and system now
+    REMEMBERS your last choices...
+
+------------------------------------------------------------------------------------------
 NOTIFICATIONS
 + Added notifications layer messages.
 + Added notifications page.

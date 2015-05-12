@@ -87,10 +87,10 @@
 
                     $qa_content['custom'] .= '<div class="friends-btn-wrapper">';
 					
-					$approveRequestButton = 'class="friends-btns qa-form-wide-button qa-form-wide-button-save" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
+					$approveRequestButton = 'class="friends-btns button button-creation" type="button" onclick="window.location.href=\'/friend-functions/approveRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Approve Request" '.$approveRequestButton.'>';
 					
-					$denyRequestButton = 'class="friends-btns qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
+					$denyRequestButton = 'class="friends-btns button button-negative" type="button" onclick="window.location.href=\'/friend-functions/removeRequestI/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Deny Request" '.$denyRequestButton.'>';
 					
 					$qa_content['custom'] .= '</div><br>';
@@ -117,7 +117,7 @@
 					
                     $qa_content['custom'] .= '<div class="friends-btn-wrapper">';
 
-					$removeRequestButton = 'class="friends-btns qa-form-wide-button" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
+					$removeRequestButton = 'class="friends-btns button button-primary" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$friend["userid"].'/requests/\';"';
 					$qa_content['custom'] .= '<input value="Remove Request" '.$removeRequestButton.'>';
 				
 					$qa_content['custom'] .= '</div><br>';

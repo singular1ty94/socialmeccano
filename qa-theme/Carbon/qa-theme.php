@@ -51,19 +51,19 @@ class qa_html_theme extends qa_html_theme_base
 	 */
 	public function head_metas()
 	{
-		$this->output('<meta name="viewport" content="width=device-width, initial-scale=1">');
+		//$this->output('<meta name="viewport" content="width=device-width, initial-scale=1">');
 		parent::head_metas();
 	}
 
 	/**
 	 * Adding theme stylesheets
 	 *
-	 * @since Snow 1.4
+	 * @since Carbon 1
 	 */
 	public function head_css()
 	{
-		// add Ubuntu font CSS file
-		$this->content['css_src'][] = 'http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic,700italic';
+		// add Raleway font CSS file
+		$this->content['css_src'][] = 'http://fonts.googleapis.com/css?family=Raleway:400,300,600';
 
 		parent::head_css();
 
@@ -166,7 +166,7 @@ class qa_html_theme extends qa_html_theme_base
 						'<div><input type="checkbox" name="remember" id="qam-rememberme" value="1">',
 						'<label for="qam-rememberme">' . qa_lang_html('users/remember') . '</label></div>',
 						'<input type="hidden" name="code" value="' . qa_html(qa_get_form_security_code('login')) . '">',
-						'<input type="submit" value="' . $login['label'] . '" class="qa-form-tall-button qa-form-tall-button-login" name="dologin">',
+						'<input type="submit" value="' . $login['label'] . '" class="button button-primary" name="dologin">',
 					'</form>'
 				);
 
@@ -694,8 +694,6 @@ class qa_html_theme extends qa_html_theme_base
 			'<a href="' . qa_path('ask', null, qa_path_to_root()) . '" class="' . $this->ask_search_box_class . '">' .
 			qa_lang_html('main/nav_ask') .
 			'</a>' .
-			'</div>' .
-			'<div class="qam-search-mobile ' . $this->ask_search_box_class . '" id="qam-search-mobile">' .
 			'</div>' .
 			'</div>';
 	}

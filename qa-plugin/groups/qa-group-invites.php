@@ -61,7 +61,7 @@
 			
 			$qa_content['custom']= $heads;
 			$qa_content['custom'] .= displayGroupListNavBar();
-			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
+			$qa_content['custom'] .= '<a href="./group-create/" class="button button-creation qa-groups-button">Create Group</a>';
 			
 			
 			if (empty($groupList)) {

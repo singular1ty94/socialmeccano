@@ -65,11 +65,11 @@ function makeSidePaneRaw($html){
 function endSidePane($currentUserIsMember, $groupName){
 	$endSidePane = '</table>';
 	if ($currentUserIsMember) {
-		 $endSidePane .= '<br><a href="#" id="leave-group-btn" class="groups-btns groups-delete-btn">Leave Group</a>';
 		 $endSidePane .= '<div id="group-chat" 
-         class="groups-btns groups-update-btn chat-open" 
+         class="button button-creation chat-open"
          data-user="' . qa_get_logged_in_user_field('handle') .  '" 
          data-channel="' . preg_replace('/\s+/', '', $groupName) . '">Group Chat</div>';
+        $endSidePane .= '<br><a href="#" id="leave-group-btn" class="button button-negative groups-delete-btn">Leave Group</a>';
 	}
 	$endSidePane .= '</div>';
     return $endSidePane;

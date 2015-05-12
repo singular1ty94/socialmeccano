@@ -43,7 +43,7 @@
 				if (!$isOwnProfile && !$isFriend && !$friendRequestSent) {
 					//$test = 'class="qa-form-wide-button qa-form-wide-button-save" name="addFriend" type="button" onclick="window.location.href = \'friend-functions\addFriend\ '.$profileid.';"'
 					$new_buttons['addFriend'] = array(
-								'tags' => 'class="qa-form-wide-button qa-form-wide-button-save" name="addFriend" type="button" onclick="window.location.href=\'/friend-functions/addFriend/'.$profileid.'/user/'.$profileHandle.'\';"',
+								'tags' => 'class="button button-primary" name="addFriend" type="button" onclick="window.location.href=\'/friend-functions/addFriend/'.$profileid.'/user/'.$profileHandle.'\';"',
 								'label' => 'Add Friend',
 							);
 				}
@@ -51,7 +51,7 @@
 				// Display Remove Friend Request Button
 				if (!$isOwnProfile && !$isFriend && $friendRequestSent) {
 					$new_buttons['removeFriendRequest'] = array(
-								'tags' => 'name="removeFriendRequest" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$profileid.'/user/'.$profileHandle.'\';"',
+								'tags' => 'class="button button-primary" name="removeFriendRequest" type="button" onclick="window.location.href=\'/friend-functions/removeRequest/'.$profileid.'/user/'.$profileHandle.'\';"',
 								'label' => 'Remove Friend Request',
 							);
 				}				
@@ -59,8 +59,8 @@
 				// Display Remove Friend Button
 				if (!$isOwnProfile && $isFriend) {			
 				$new_buttons['removeFriend'] = array(
-							'tags' => 'class="qa-form-wide-button qa-form-wide-button-block" type="button" onclick="window.location.href=\'/friend-functions/removeFriend/'.$profileid.'/user/'.$profileHandle.'\';"',
-							'label' => 'Remove Friend',
+							'tags' => 'class="button button-negative" type="button" onclick="window.location.href=\'/friend-functions/removeFriend/'.$profileid.'/user/'.$profileHandle.'\';"',
+							'label' => 'Unfriend',
 						);				
 				}
 				

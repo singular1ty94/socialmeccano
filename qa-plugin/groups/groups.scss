@@ -6,25 +6,26 @@
 $theme-main: #2C3E50;
 $theme-alt: #34495E;
 $theme-hover: #ff9900;
+$theme-creation: '#27AE60';
 
 
 .qa-groups-link{
     display: inline-block;
     background-color: $theme-alt;
     padding: 12px;
-    margin: 0 0 0 0;  
+    margin: 0;
+    transition: all 0.25s ease-in-out 0s;
     
     &:hover{
         background-color: $theme-hover;
+        transition: all 0.25s ease-in-out 0s;
     }
-}
-
-#search{
-    padding: 10px 0px !important;
 }
 
 #group-chat{
     cursor:pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .qa-groups-link:before {
@@ -101,6 +102,11 @@ h3.group-list-header{
         font-size: 11pt;
     }
 }
+
+.ui-widget{
+    font-family: "Raleway", "Helvetica", "Arial", "FreeSans", sans-serif !important;
+}
+
 
 .group-sidepane{
     width: 30%;
@@ -242,6 +248,7 @@ img.group-sticky{
     float: right;
     &:link, &:visited, &:hover, &:active{
         color: white;
+        text-decoration: none;
     }
 }
 
@@ -253,19 +260,21 @@ h2.group-list-header{
     display: inline-block;
 }
 
+.groups-delete-btn{
+    &:link, &:visited, &:hover, &:active{
+        color: white;
+        text-decoration: none;
+    }
+}
 
-.groups-btns{
-    
-    margin-right: 5px;
-    
-    &.groups-delete-btn{
+    .groups-sticky-btn{
         padding: 10px 15px;
         border: 0px none;
         font-size: 14px;
         transition-duration: 0s;
-        background: none repeat scroll 0% 0% #3498DB;
+        background: none repeat scroll 0% 0% $theme-creation;
         color: #FFF;
-        background-color: #E74C3C;
+        background-color: $theme-creation;
         display: inline-block;
 
         &:link, &:visited, &:hover, &:active{
@@ -273,22 +282,7 @@ h2.group-list-header{
         }
     }
     
-    &.groups-sticky-btn{
-        padding: 10px 15px;
-        border: 0px none;
-        font-size: 14px;
-        transition-duration: 0s;
-        background: none repeat scroll 0% 0% #27AE60;
-        color: #FFF;
-        background-color: #27AE60;
-        display: inline-block;
-
-        &:link, &:visited, &:hover, &:active{
-            color: white;
-        }
-    }
-    
-    &.groups-lock-btn{
+    .groups-lock-btn{
         padding: 10px 15px;
         border: 0px none;
         font-size: 14px;
@@ -303,22 +297,22 @@ h2.group-list-header{
         }
     }
 
-    &.groups-update-btn{
+    .groups-update-btn{
         padding: 10px 15px;
         border: 0px none;
         font-size: 14px;
         margin-left: 10px;
         transition-duration: 0s;
-        background: none repeat scroll 0% 0% #27AE60;
+        background: none repeat scroll 0% 0% $theme-creation;
         color: #FFF;
-        background-color: #27AE60;
+        background-color: $theme-creation;
         display: inline-block;
 
         &:link, &:visited, &:hover, &:active{
             color: white;
         }
     }
-}
+
 
 /*
  * Displays the unit of information on the

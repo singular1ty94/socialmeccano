@@ -13,18 +13,50 @@
 @import url('global.css');
 @import url('fonts.css');
 @import url('print.css');
+@import url('http://fonts.googleapis.com/css?family=Raleway:400,300,600');
 
 @media screen,projection,handheld {
 
 	/* Buttons */
 	#content #bbCodeContainer input, #content #logoutButton, #content #submitButton, #loginForm #loginButton {
-		background-color:#0066B9;
+		background-color:#34495E;
 		color: #fff;
-		border: 1px solid #0066B9;
-	}
+        display: inline-block;
+        height: 25px;
+        padding: 0 10px;
+        text-align: center;
+        font-size: 10px !important;
+        font-weight: 500 !important;
+        line-height: 25px;
+        letter-spacing: .1rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        white-space: nowrap;
+        border-radius: 4px;
+        border: none !important;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: all 0.10s ease-in-out 0s;
+    }
+
+    #submitButton{
+        background-color:#3498DB !important;
+    }
+
+    #logoutButton:hover{
+        opacity: 0.9;
+        transition: all 0.10s ease-in-out 0s;
+        background-color: #e74c3c !important;
+    }
+
+    #bbCodeContainer input:hover, #submitButton:hover{
+        opacity: 0.9;
+        transition: all 0.10s ease-in-out 0s;
+    }
+
 	#content select, #loginForm select, #loginForm input, #content textarea {
 		color:#333333;
-		border: 1px solid #0066B9;
+
 	}
 	
 	/* Status Icon */
@@ -50,7 +82,7 @@
 		color:#333333;
 	}
 	#loginContent a {
-		color:#0066B9;
+		color:#34495E;
 	}
 	#loginContent input, #loginContent select {
 		background-color:#FFF;
@@ -67,16 +99,12 @@
 		color:#333333;
 	}
 	#content a {
-		color:#0066B9;
+		color:#34495E;
 	}
 	#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content #colorCodesContainer, #content textarea {
-		border-color:#0066B9;
 		background-color:#FFF;
 	}
-    
-	#content #colorCodesContainer a {
-		border-color:black;
-	}
+
 	#content #optionsContainer input {
 	    background-color:transparent;
 	}
@@ -110,19 +138,19 @@
 		color:red;
 	}
 	#content .chatBot {
-		color:#0066B9;
+		color:#34495E;
 	}
 	#content #chatList .chatBotErrorMessage {
 		color:red;
 	}
 	#content #chatList a {
-		color:#0066B9;
+		color:#34495E;
 	}
 	#content #chatList .deleteSelected {
 		border-color:red;
 	}
 	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
-		background-color:#0066B9;
+		background-color:#34495E;
 		color:#FFF;
 	}
 }

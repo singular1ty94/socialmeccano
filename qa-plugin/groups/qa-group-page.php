@@ -154,7 +154,7 @@
 			$qa_content['custom'] .= $vex;
             
             //Left-hand pane.
-            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', 'Members', 'group-member-count-label');
+            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', $memberCount == 1 ? 'Member' : 'Members', 'group-member-count-label');
             $qa_content['custom'] .= makeSidePaneField($groupDescription, 'group-desc-field') . makeSidePaneField($groupLocation, 'group-location-field');
 			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field');
 			
@@ -278,10 +278,11 @@
 				/*
 				*	Admin Tab
 				*/
-				$groupAdminTab = '<div class="group-tabs" id="admin"><br>';
-				$groupAdminTab .= '<a href="#" id="delete-btn" class="groups-btns groups-delete-btn">Delete Group</a>';
+				$groupAdminTab = '<div class="group-tabs" id="admin">';
+				$groupAdminTab .= 'Administrative Tools:<br>';
+				$groupAdminTab .= '<a href="#" id="delete-btn" class="button button-negative " style="margin-right:10px;">Delete Group</a>';
 				//Edit Button.
-                $groupAdminTab .= '<a href="../group-update/'. $groupid .'" id="update-btn" class="groups-btns groups-update-btn">Update Group</a>';
+                $groupAdminTab .= '<a href="../group-update/'. $groupid .'" id="update-btn" class="button button-primary">Update Group</a>';
 				
 				
 				//Add the tabs.

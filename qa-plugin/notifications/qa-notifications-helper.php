@@ -37,7 +37,7 @@ function makeChatURL($url, $message, $channel, $user){
 }
 
 function closeNotify($id){
-    return '<a class="notify-close-button" href="./?qa=notifications&close='. $id . '">Close</a>';
+    return '<a class="button button-chat close-button" href="./?qa=notifications&close='. $id . '">Close</a>';
 }
 
 function silenceNotify($id){

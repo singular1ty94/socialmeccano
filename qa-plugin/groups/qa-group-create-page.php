@@ -62,32 +62,36 @@
 
             //Did we already submit?
             if(@$_POST["groupName"] == ""){
+                //Output helper text.
+                $qa_content['custom'] = '<p>Enter your new group\'s information! Fields marked with an asterisk * are required.</p>';
+
                 //Output form.
-                $qa_content['custom'] = '<form method="post" enctype="multipart/form-data" action="group-create" id="form">';
-                $qa_content['custom'] .= '<label for="groupName">Group Name: </label>';
-                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" maxlength="64" size="60"/><br/>';
-                $qa_content['custom'] .= '<label for="groupDescr">Group Description: </label><br>';
-                //$qa_content['custom'] .= '<input required id="groupDescr" name="groupDescr" type="text" /><br/>';
-				$qa_content['custom'] .= '<textarea required rows="3" cols="70" name="groupDescr" form="form" maxlength="200" placeholder="Type a brief description here..."></textarea><br>';			
-                $qa_content['custom'] .= '<label for="groupInfo">Group Info: </label><br>';
-				$qa_content['custom'] .= '<textarea required rows="5" cols="70" name="groupInfo" form="form" maxlength="8000" placeholder="Type important group information here..."></textarea><br>';	
-                //$qa_content['custom'] .= '<input required id="groupInfo" name="groupInfo" type="text" /><br/>';                
+                $qa_content['custom'] .= '<form method="post" enctype="multipart/form-data" action="group-create" id="form">';
+                $qa_content['custom'] .= '<label for="groupName">*Group Name: </label>';
+                $qa_content['custom'] .= '<input required id="groupName" name="groupName" type="text" maxlength="64" size="60"/>';
+                $qa_content['custom'] .= '<label for="groupDescr">*Group Description: </label>';
+
+				$qa_content['custom'] .= '<textarea required rows="3" cols="70" name="groupDescr" form="form" maxlength="200" placeholder="Type a brief description here..."></textarea>';
+                $qa_content['custom'] .= '<label for="groupInfo">*Group Info: </label>';
+				$qa_content['custom'] .= '<textarea required rows="5" cols="70" name="groupInfo" form="form" maxlength="8000" placeholder="Type important group information here..."></textarea>';
+
 				$qa_content['custom'] .= '<label for="groupLocation">Group Location: </label>';
-                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" maxlength="50" size="58"/><br/>';
+                $qa_content['custom'] .= '<input id="groupLocation" name="groupLocation" type="text" maxlength="50" size="58"/>';
                 $qa_content['custom'] .= '<label for="groupWebsite">Group Website: </label>';
-                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" maxlength="100"/ size="58"><br/>';
-                $qa_content['custom'] .= '<label for="groupTags">Group Tags: </label>';
-                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" maxlength="100" size="32"/><br />';				
-                $qa_content['custom'] .= '<label for="avatar">Group Image: </label>';
-                $qa_content['custom'] .= '<input required id="avatar" name="avatar" type="file" /><br />';
+                $qa_content['custom'] .= '<input id="groupWebsite" name="groupWebsite" type="text" maxlength="100"/ size="58">';
+                $qa_content['custom'] .= '<label for="groupTags">*Group Tags: </label>';
+                $qa_content['custom'] .= '<p>Use commas to seperate tags, and hyphens to combine words.</p>';
+                $qa_content['custom'] .= '<input required id="groupTags" name="groupTags" type="text" maxlength="100" size="32"/>';
+                $qa_content['custom'] .= '<label for="avatar">*Group Image: </label>';
+                $qa_content['custom'] .= '<input required id="avatar" name="avatar" type="file" />';
 				$qa_content['custom'] .= '<label for="privacy_setting">Privacy Setting: </label>';
 				$qa_content['custom'] .= '<select name="privacy_setting" form="form">';
                 $qa_content['custom'] .= '<option value="O">Open - Anyone can find and join your group.</option>';
 				$qa_content['custom'] .= '<option value="C">Closed - Anyone can find your group, members must be approved.</option>';
 				$qa_content['custom'] .= '<option value="S">Secret - No one can find or join your group unless invited.</option>';
-				$qa_content['custom'] .= '</select><br />';
+				$qa_content['custom'] .= '</select><br>';
 
-                $qa_content['custom'] .= '<input type="submit" class="qa-form-wide-button qa-form-wide-button-save" value="Create Group"/>';
+                $qa_content['custom'] .= '<input type="submit" class="button button-creation" value="Create Group"/>';
                 $qa_content['custom'] .= '</form>';	
             }else{
                 $blobId = '18056448301737554770';                

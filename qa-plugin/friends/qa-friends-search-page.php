@@ -68,12 +68,12 @@
 
 
 			$qa_content['custom'] .= '<form method="POST" action="" id="form">';
-			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
+			$qa_content['custom'] .= '<input class="search-bar" required id="search" name="search" type="text" value="';
 			if (isset($_POST['search'])) {
 				$qa_content['custom'] .= $_POST['search'];
 			}
 			$qa_content['custom'] .= '" placeholder="Enter username here..."/>';
-			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
+			$qa_content['custom'] .= '<input class="search-button" type="submit">';
             $qa_content['custom'] .= '</form>';
 
 		

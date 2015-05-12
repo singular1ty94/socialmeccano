@@ -71,16 +71,16 @@
 			
 			$qa_content['custom']= $heads;
 			$qa_content['custom'] .= displayGroupListNavBar();
-			$qa_content['custom'] .= '<a href="./group-create/" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Create Group</a>';
+			$qa_content['custom'] .= '<a href="./group-create/" class="button button-creation qa-groups-button">Create Group</a>';
 			
 			
 			$qa_content['custom'] .= '<form method="POST" action="group-tag" id="form">';
-			$qa_content['custom'] .= '<input class="qa-form-tall-data" required id="search" name="search" type="text" value="';
+			$qa_content['custom'] .= '<input class="search-bar" required id="search" name="search" type="text" value="';
 			if (isset($search)) {
 				$qa_content['custom'] .= $search;
 			}
 			$qa_content['custom'] .= '" placeholder="Search by Tag..."/>';
-			$qa_content['custom'] .= '<input class="qa-search-button" type="submit">';
+			$qa_content['custom'] .= '<input class="search-button" type="submit">';
             $qa_content['custom'] .= '</form>';
 
 			if (isset($search)) {

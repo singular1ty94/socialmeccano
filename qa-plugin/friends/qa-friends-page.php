@@ -101,9 +101,9 @@
 
                     $qa_content['custom'] .= '<div class="friends-btn-wrapper">';
 
-                    $qa_content['custom'] .= '<div class="chat-button chat-open" data-user="' .  qa_get_logged_in_user_field('handle') . '" data-channel="' . $arr[0] . $arr[1] . '">Chat</div>';
+                    $qa_content['custom'] .= '<div class="button button-chat chat-open" data-user="' .  qa_get_logged_in_user_field('handle') . '" data-channel="' . $arr[0] . $arr[1] . '">Chat</div>';
 
-					$removeRequestButton = 'class="qa-form-wide-button qa-form-tall-button-cancel" type="button" onclick="window.location.href=\'/friend-functions/removeFriend/'.$friend["userid"].'/myFriends/\';"';
+					$removeRequestButton = 'class="button button-negative" type="button" onclick="window.location.href=\'/friend-functions/removeFriend/'.$friend["userid"].'/myFriends/\';"';
 					$qa_content['custom'] .= '<input value="Remove Friend" '.$removeRequestButton.'>';
 
 					$qa_content['custom'] .= '</div><br>';
