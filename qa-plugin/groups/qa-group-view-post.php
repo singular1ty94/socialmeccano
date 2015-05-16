@@ -43,6 +43,7 @@
 			//Includes.
 			include 'qa-group-db.php';
 			include 'qa-group-helper.php';
+            include './qa-plugin/notifications/qa-notifications-db.php';
             
 			$userid = qa_get_logged_in_userid();
 			//If the user is not logged in redirect to main.		
@@ -62,6 +63,10 @@
 			
 			if(isset($_POST["comment"]) && $currentUserIsMember) {
 				createPost($groupid, $userid, '', $_POST["comment"], '', 'C', $postid);
+                //Create and notify the owner of the post - only if it's not a self reply.
+                if($postContent["user_id"] != $userid){
+                    createNotification($postContent["user_id"], "PostComment", $userid, $info1 = 'view-post/'.$postid, $info2 = qa_get_logged_in_user_field("handle"));
+                }
 				qa_redirect('view-post/'.$postid);
 			}
 			
@@ -155,17 +160,17 @@
 			//Provisions for Admin.
             if($currentUserIsAdmin){
                 if(!isset($postContent['is_locked']) || @$postContent['is_locked'] == '0'){
-                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?lock" class="groups-btns groups-lock-btn">Lock Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?lock" class="button button-primary">Lock Discussion</a>';
                 }else{
-                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unlock" class="groups-btns groups-lock-btn">Unlock Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unlock" class="button button-creation">Unlock Discussion</a>';
                 }
                 if(!isset($postContent['is_sticky']) || @$postContent['is_sticky'] == '0'){
-                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?sticky" class="groups-sticky-btn groups-btns">Sticky Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?sticky" class="button button-creation breather">Sticky Discussion</a>';
                 }else{
-                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unsticky" class="groups-sticky-btn groups-btns">Unsticky Discussion</a>';
+                    $qa_content['custom'] .= '<a href="../view-post/'.$postid.'?unsticky" class="button button-negative breather">Unsticky Discussion</a>';
                 }
                 
-                $qa_content['custom'] .= '<a href="?delete" class="groups-delete-btn groups-btns">Delete Thread</a>';
+                $qa_content['custom'] .= '<a href="?delete" class="button button-negative breather">Delete Thread</a>';
             }
 			
 			// Display post comments.

@@ -2721,7 +2721,7 @@ var ajaxChat = {
 		if(p2) {
 			var index = ajaxChat.arraySearch(p2, ajaxChat.emoticonCodes);							
 			return 	ajaxChat.replaceEmoticons(p1)
-				+	'<img src="'
+				+	'<img class="emoticons" src="'
 				+	ajaxChat.dirs['emoticons']
 				+	ajaxChat.emoticonFiles[index]
 				+	'" alt="'

@@ -108,4 +108,16 @@ $(document).ready(function () {
 		});
 	});
 
+    $(".removeMemberBtn").click(function(){
+        me = $(this);
+        vex.dialog.confirm({
+		  message: 'Remove this user?',
+		  callback: function(value) {
+			  if(value == true){
+				window.location.href = "?remove=" + me.data("userid");
+			  }
+		  }
+		});
+	});
+
 });

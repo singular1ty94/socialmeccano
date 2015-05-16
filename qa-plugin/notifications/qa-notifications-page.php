@@ -130,6 +130,13 @@
                             $qa_content['custom'] .= closeNotify($notify["id"]);
                             $qa_content['custom'] .= endWrapper();
                             break;
+                        case "PostComment":
+                            $seenStatus = $notify["seen"];
+                            $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
+                            $qa_content['custom'] .= makeURL($notify["info1"], $notify["info2"] . ' has left a comment on your group post. Click to view.');
+                            $qa_content['custom'] .= closeNotify($notify["id"]);
+                            $qa_content['custom'] .= endWrapper();
+                            break;
                     }
 
                     $wrapper = !$wrapper;

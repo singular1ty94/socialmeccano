@@ -139,7 +139,7 @@ h3.group-list-header{
  * list format.
  */
 .group-member-list{
-    width: 50px;
+    width: 75px;
     font-size: 10px;
     display:inline-block;
     margin: 2px;
@@ -147,6 +147,22 @@ h3.group-list-header{
     
     img{
         display: inline-block;
+        margin-top: -20px;
+    }
+}
+
+.removeMemberBtn{
+    width: 24px;
+    height: 24px;
+    display: block;
+    position: relative;
+    float: right;
+    z-index: 60;
+    background-image: url('images/close-black.png');
+    cursor: pointer;
+
+    &:hover{
+        background-image: url('images/close-red.png');
     }
 }
 
@@ -252,6 +268,10 @@ img.group-sticky{
     }
 }
 
+.breather{
+    margin-left: 10px;
+}
+
 h2.group-list-header{
     display: inline-block;
 }
@@ -260,58 +280,6 @@ h2.group-list-header{
     display: inline-block;
 }
 
-.groups-delete-btn{
-    &:link, &:visited, &:hover, &:active{
-        color: white;
-        text-decoration: none;
-    }
-}
-
-    .groups-sticky-btn{
-        padding: 10px 15px;
-        border: 0px none;
-        font-size: 14px;
-        transition-duration: 0s;
-        background: none repeat scroll 0% 0% $theme-creation;
-        color: #FFF;
-        background-color: $theme-creation;
-        display: inline-block;
-
-        &:link, &:visited, &:hover, &:active{
-            color: white;
-        }
-    }
-    
-    .groups-lock-btn{
-        padding: 10px 15px;
-        border: 0px none;
-        font-size: 14px;
-        transition-duration: 0s;
-        background: none repeat scroll 0% 0% #3498DB;
-        color: #FFF;
-        background-color: #3498DB;
-        display: inline-block;
-
-        &:link, &:visited, &:hover, &:active{
-            color: white;
-        }
-    }
-
-    .groups-update-btn{
-        padding: 10px 15px;
-        border: 0px none;
-        font-size: 14px;
-        margin-left: 10px;
-        transition-duration: 0s;
-        background: none repeat scroll 0% 0% $theme-creation;
-        color: #FFF;
-        background-color: $theme-creation;
-        display: inline-block;
-
-        &:link, &:visited, &:hover, &:active{
-            color: white;
-        }
-    }
 
 
 /*

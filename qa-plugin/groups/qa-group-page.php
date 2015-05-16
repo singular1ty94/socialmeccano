@@ -97,6 +97,12 @@
                 header('Location: ../?qa=groups');
             }
 
+            //If the admin wants to remove a user.
+            if($currentUserIsAdmin && @isset($_GET['remove'])){
+				removeUserFromGroup(intval($_GET['remove']), intval($groupid));
+                header('Location: ../group/'.$groupid);
+            }
+
 			// Set vars from DB result
 			$createdAt = $groupProfile["created_at"];
 			$groupName = qa_post_content_to_text($groupProfile["group_name"], 'html');
@@ -110,12 +116,7 @@
 			$groupCreator = $groupProfile["created_by"];
 			$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $groupProfile["avatarblobid"] . '&amp;qa_size=200" class="qa-avatar-image" alt=""/>';
 			$groupLocation = qa_post_content_to_text($groupProfile["group_location"], 'html');
-			$groupWebsite  = $viewer->get_html($groupProfile["group_website"], '', array(
-				'blockwordspreg' => @$options['blockwordspreg'],
-				'showurllinks' => @$options['showurllinks'] = 1,
-				'linksnewwindow' => @$options['linksnewwindow'] = 1,
-			));
-			
+			$groupWebsite  = $groupProfile["group_website"];
 			$memberCount = getMemberCount($groupid)["COUNT(user_id)"];
 		
 			
@@ -156,7 +157,7 @@
             //Left-hand pane.
             $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', $memberCount == 1 ? 'Member' : 'Members', 'group-member-count-label');
             $qa_content['custom'] .= makeSidePaneField($groupDescription, 'group-desc-field') . makeSidePaneField($groupLocation, 'group-location-field');
-			$qa_content['custom'] .= makeSidePaneField($groupWebsite, 'group-website-field');
+			$qa_content['custom'] .= makeSidePaneURL($groupWebsite, 'group-website-field');
 			
 			if (!empty($groupTags)) {
 				$qa_content['custom'] .= makeSidePaneRaw(getGroupTags($groupTags));
@@ -258,18 +259,22 @@
 				$groupMembersTab = '<div class="group-tabs" id="members">';
 				
 				// Loop through all admins and display them at the top
-				$groupMembersTab .= 'Administrators: <br>';
+				$groupMembersTab .= '<h3 class="MemberHeader">Administrators:</h3>';
 				foreach ($groupAdmins as $admin) {
 					$groupMembersTab .= displayGroupListMember($admin["handle"], $admin["avatarblobid"]);
 				}
 				
 				// Loop through all group members display them next
-				$groupMembersTab .= '<br> Members: <br>';
+				$groupMembersTab .= '<h3 class="MemberHeader">Members:</h3>';
 				if (empty($groupMembers)) {
 					$groupMembersTab .= 'There are no group members to display.';
 				} else {
 					foreach ($groupMembers as $member) {
-						$groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"]);
+                        if($currentUserIsAdmin){
+                            $groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"], $member["userid"]);
+                        }else{
+                            $groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"]);
+                        }
 					}
                     //JSON
                     $qa_content['raw']['group']['members'] = $groupMembers;

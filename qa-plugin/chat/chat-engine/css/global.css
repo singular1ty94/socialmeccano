@@ -156,7 +156,7 @@
 }
 #content #headlineContainer h1 {
 	margin-left:auto;
-	margin-top:12px;
+	margin-top:12px;;
 }
 
 /**
@@ -178,6 +178,12 @@
     text-align: center;
     width: 98%;
 }
+
+.emoticons{
+    width: auto !important;
+    max-width: none !important;
+}
+
 #content #chatList cite {
 	margin-right:5px;
 }

@@ -53,6 +53,16 @@ function makeSidePaneField($data, $dataClass){
 }
 
 /*
+ * Makes a new row for the side pane,
+ * with the provided URL.
+ */
+function makeSidePaneURL($data, $dataClass){
+    if(strlen($data) > 0){
+        return '<tr><td class="qa-form-wide-data '. $dataClass .'"><a href="' . $data .'" target="_blank" rel="nofollow">' . $data . '</a></td></tr>';
+    }
+}
+
+/*
  * Raw output.
  */
 function makeSidePaneRaw($html){
@@ -156,12 +166,21 @@ function getGroupListName($id, $groupName, $groupDescr){
 /*
  * Displays an individual user profile on the members tab of a group.
  */
-function displayGroupListMember($userName, $avatarid) {
+function displayGroupListMember($userName, $avatarid, $userID = -1) {
+    $fullUserName = $userName;
+    if(strlen($userName) > 12){
+        $userName = substr($userName, 0, 10) . "...";
+    }
+
     $html = '<span class="group-member-list">';
     
-	$html .= '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
+    if($userID >= 0){
+        $html .= '<span class="removeMemberBtn" data-userID="' . $userID .'"></span>';
+    }
+
+	$html .= '<a href="/user/' . $userName . '"><img title="' . $fullUserName . '" src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=75" class="qa-avatar-image" alt=""/></a>';
     
-    $html .= '<a href="/user/' . $userName . '">' . $userName . '</a></span>';
+    $html .= '<a title="' . $fullUserName . '" href="/user/' . $userName . '">' . $userName . '</a></span>';
     return $html;
 }
 
@@ -169,8 +188,13 @@ function displayGroupListMember($userName, $avatarid) {
  * Displays an individual user profile next to a post.
  */
 function displayGroupMember($userName, $avatarid) {
-	$avatarHTML = '<a href="/user/' . $userName . '"><img src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
-	return ('<a href="/user/' . $userName . '">' . $userName . '</a>   ' . $avatarHTML);
+    $fullUserName = $userName;
+    if(strlen($userName) > 10){
+        $userName = substr($userName, 0, 8) . "...";
+    }
+
+	$avatarHTML = '<a href="/user/' . $userName . '"><img title="' . $fullUserName . '" src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
+	return ('<a title="' . $fullUserName . '" href="/user/' . $userName . '">' . $userName . '</a>   ' . $avatarHTML);
 }
 
 //Return formatted time stamp.["prefix"]=> string(0) "" ["data"]=> string(8) "45 years" ["suffix"]=> string(4) " ago" 

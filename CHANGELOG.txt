@@ -1,6 +1,19 @@
 CHANGELOG
 
 ------------------------------------------------------------------------------------------
+GROUPS
++ Added ability for admin to remove members from Groups
++ Made website addresses clickable on group pages
++ Users with long names now have them truncated on members page
++ Fixed missing button styles on view post
+% Changed wording for Close button to Dismiss on notifications
++ Leaving a reply on a comment now generates a notification for the posts' creator 
+    except in the case of self-replies.
+
+CHAT
++ Fixed ginormous emoticons issue, while preserving the standard img/gif size constraints (woot!)
+
+------------------------------------------------------------------------------------------
 NITO, LORD OF THE SCSS: AKA, THE SKELETON CSS UPDATE
 Implemented some of the core Skeleton CSS features (NOT the responsive design, sadly)
 
