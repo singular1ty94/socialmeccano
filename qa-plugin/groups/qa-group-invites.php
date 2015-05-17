@@ -30,14 +30,16 @@
 			$this->directory=$directory;
 			$this->urltoroot=$urltoroot;
 		}
+
 		
 		function match_request($request)
 		{
-			if ($request=='group-invites')
+			$requestpart = qa_request_part(0);
+			if ($requestpart=='group-invites')
 				return true;
 
 			return false;
-		}
+		}		
 
 		function process_request($request)
 		{
@@ -55,7 +57,19 @@
                 header('Location: ../');
             }			
 
-			$invitationList = displayGroupInvitations($userid);
+			$intent = qa_request_part(1);
+			$groupid = qa_request_part(2);
+			if (strlen($intent) && strlen($groupid)) {
+				if ($intent == approve_invite && isUserInvitedOrRequested($userid, $groupid, "I")) {
+					addUserToGroup($userid, $groupid, 0);
+				} else if ($intent == remove_invite) {
+					removeGroupRequest($userid, $groupid, "I");
+				}
+				qa_redirect('group-invites/');
+			}
+			
+			
+			$invitationList = displayMyGroupInvitations($userid);
 
             $heads = getJQueryUITabs('tabs');
 			
@@ -64,7 +78,7 @@
 			$qa_content['custom'] .= '<a href="./group-create/" class="button button-creation qa-groups-button">Create Group</a>';
 			
 			
-			if (empty($groupList)) {
+			if (empty($invitationList)) {
 				$qa_content['custom'] .= '<br />You have no outstanding invitations.';
 			}
 			else {
@@ -72,7 +86,7 @@
                 $wrapper = true;
 				$qa_content['raw'] = [];
                 
-				foreach ($groupList as $group) {
+				foreach ($invitationList as $group) {
                     //Output to the raw JSON format.
                     $qa_content['raw'][$group["id"]] = $group;
                     
@@ -89,7 +103,15 @@
 					//Get the Group name.
 					$qa_content['custom'] .= $groupAvatarHTML . getGroupUnit($groupid, $groupName, $groupDescription, $groupTags);
 
-					$qa_content['custom'] .= '<br>';
+						$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
+						
+						$sendInviteButton = 'class="button button-creation" type="button" onclick="window.location.href=\'/group-invites/approve_invite/'.$groupid.'\';"';
+						$qa_content['custom'] .= '<input value="Accept Invite" '.$sendInviteButton.'>';
+
+						$removeInviteButton = 'class="button button-negative" type="button" onclick="window.location.href=\'/group-invites/remove_invite/'.$groupid.'\';"';
+						$qa_content['custom'] .= '<input value="Remove Invite" '.$removeInviteButton.'>';
+
+						$qa_content['custom'] .= '</div><br>';
 
                     //End the wrapper.
                     $qa_content['custom'] .= endGroupListWrapper();

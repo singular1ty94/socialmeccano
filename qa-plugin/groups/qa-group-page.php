@@ -58,7 +58,10 @@
 			$userid = qa_get_logged_in_userid();
 			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			$currentUserIsAdmin = isUserGroupAdmin($userid, $groupid);
-            
+			$groupType = getGroupType($groupid)["privacy_setting"];
+			$userInvited = isUserInvitedOrRequested($userid, $groupid, "I");
+            $userRequestedJoin = isUserInvitedOrRequested($userid, $groupid, "R");
+			
             //If the user is not logged in redirect to main.		
             if(!isset($userid)){
                 header('Location: ../');
@@ -77,17 +80,44 @@
                 header('Location: ../?qa=groups');
             }
 			
+            //If the user is trying to view a secret group, but isn't a member and hasn't been invited.
+            if($groupType == 'S' && !$currentUserIsMember && !$userInvited) {
+                header('Location: ../?qa=groups');
+            }
+			
 			//If the user wants to join the group.
             if(!$currentUserIsMember && @isset($_GET['join_group'])){
 				$is_admin = 0;
-				AddUserToGroup(intval($userid), intval($groupid), $is_admin);
-
-                $allAdmins = getGroupAdmins($groupid);
-                foreach($allAdmins as $admin){
-                    createNotification($admin["userid"], 'NewGroupUser', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
-                }
-
-				$currentUserIsMember = true;
+				
+				// If the group is open, add them immediately.
+				if ($groupType == 'O') {
+					AddUserToGroup(intval($userid), intval($groupid), $is_admin);
+					
+					$allAdmins = getGroupAdmins($groupid);
+					foreach($allAdmins as $admin){
+						createNotification($admin["userid"], 'NewGroupUser', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+					}					
+				}
+				
+				// If the group is closed, create a join request.
+				else if ($groupType == 'C') {
+					sendGroupRequest($userid, $groupid, "R");
+					
+					$allAdmins = getGroupAdmins($groupid);
+					foreach($allAdmins as $admin){
+						createNotification($admin["userid"], 'NewGroupUserRequest', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+					}					
+				}
+				
+				// If the group is secret, and the user has been invited.				
+				else if ($groupType == 'S' && $userInvited) {
+					AddUserToGroup(intval($userid), intval($groupid), $is_admin);
+					
+					$allAdmins = getGroupAdmins($groupid);
+					foreach($allAdmins as $admin){
+						createNotification($admin["userid"], 'NewGroupUser', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+					}
+				}		
                 header('Location: ../group/'.$groupid);
             }
 			
@@ -100,8 +130,24 @@
             //If the admin wants to remove a user.
             if($currentUserIsAdmin && @isset($_GET['remove'])){
 				removeUserFromGroup(intval($_GET['remove']), intval($groupid));
-                header('Location: ../group/'.$groupid);
+                header('Location: ../group/'.$groupid.'#members');
             }
+
+			
+            //If the admin wants to deny a membership request.
+            if($currentUserIsAdmin && @isset($_GET['deny_request'])){
+				removeGroupRequest($_GET['deny_request'], $groupid, "R");
+                header('Location: ../group/'.$groupid.'#members');
+            }
+
+            //If the admin wants to approve a membership request
+            if($currentUserIsAdmin && @isset($_GET['approve_request'])){
+				removeGroupRequest($_GET['approve_request'], $groupid, "R");
+				AddUserToGroup(intval($_GET['approve_request']), $groupid, 0);
+				
+                header('Location: ../group/'.$groupid.'#members');
+            }			
+			
 
 			// Set vars from DB result
 			$createdAt = $groupProfile["created_at"];
@@ -155,7 +201,7 @@
 			$qa_content['custom'] .= $vex;
             
             //Left-hand pane.
-            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', $memberCount == 1 ? 'Member' : 'Members', 'group-member-count-label');
+            $qa_content['custom'] .= getSidePane() . $groupAvatarHTML . makeSidePaneFieldWithLabel($memberCount, 'group-member-count', $memberCount == 1 ? ' Member' : ' Members', 'group-member-count-label');
             $qa_content['custom'] .= makeSidePaneField($groupDescription, 'group-desc-field') . makeSidePaneField($groupLocation, 'group-location-field');
 			$qa_content['custom'] .= makeSidePaneURL($groupWebsite, 'group-website-field');
 			
@@ -168,13 +214,16 @@
 			
 			
             //Group header.
-			$qa_content['custom'] .= getGroupHeader($groupid, $groupName, $currentUserIsMember);
+			$qa_content['custom'] .= getGroupHeader($groupid, $groupName, $currentUserIsMember, $userInvited, $userRequestedJoin);
 
 			
 			//If the user is not a member END here and don't render tabs and group content.
-            if(!$currentUserIsMember){
+            if(!$currentUserIsMember && !$userRequestedJoin){
 				$qa_content['custom'] .= "You are not a member of this group. Please join to see the group content.";
             }
+            else if (!$currentUserIsMember && $userRequestedJoin){
+				$qa_content['custom'] .= "Your membership request is pending admin approval.";
+            }			
 			else {
 			
 				//Tabs Header.            
@@ -258,6 +307,19 @@
 				*/
 				$groupMembersTab = '<div class="group-tabs" id="members">';
 				
+				
+				// Loop through all join requests and show them first. Only to Admins.
+				if ($currentUserIsAdmin) {
+					$pendingRequests = displayGroupJoinRequests($groupid);
+					
+					if (!empty($pendingRequests)) {
+						$groupMembersTab .= '<h3 class="MemberHeader">Pending Membership Requests:</h3>';
+						foreach ($pendingRequests as $request) {
+							$groupMembersTab .= displayGroupListRequest($request["handle"], $request["avatarblobid"], $request["userid"], $groupid);
+						}
+					}
+				}
+
 				// Loop through all admins and display them at the top
 				$groupMembersTab .= '<h3 class="MemberHeader">Administrators:</h3>';
 				foreach ($groupAdmins as $admin) {

@@ -52,6 +52,7 @@
 	qa_register_plugin_module('page', 'qa-grouplist-tag.php', 'qa_grouptag_page', 'Group By Tag');
 	qa_register_plugin_module('page', 'qa-grouplist-search.php', 'qa_group_search_page', 'Search Groups');
 	qa_register_plugin_module('page', 'qa-group-invites.php', 'qa_group_invites_page', 'Group Invitations');
+	qa_register_plugin_module('page', 'qa-group-send-invites.php', 'qa_group_send_invites_page', 'Send Group Invitations');
 	qa_register_plugin_layer('qa-group-layer.php', 'Group Notification and Heads Layer');	
 	qa_register_plugin_phrases('qa-group-lang-default.php', 'groups');
 	

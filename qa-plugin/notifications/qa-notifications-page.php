@@ -106,6 +106,16 @@
                             $qa_content['custom'] .= closeNotify($notify["id"]);
                             $qa_content['custom'] .= endWrapper();
                             break;
+                        case "NewGroupUserRequest":
+                            $userHandle = getUser($notify["target_id"]);
+                            $seenStatus = $notify["seen"];
+                            $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
+                            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
+                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has requested to join your group, ' . $notify["info1"]);
+
+                            $qa_content['custom'] .= closeNotify($notify["id"]);
+                            $qa_content['custom'] .= endWrapper();
+                            break;
                         case "NewGroupPost":
                             $userHandle = getUser($notify["target_id"]);
                             $seenStatus = $notify["seen"];

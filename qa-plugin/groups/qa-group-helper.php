@@ -89,12 +89,16 @@ function endSidePane($currentUserIsMember, $groupName){
 /*
  * Make the group page header.
  */
-function getGroupHeader($groupid, $groupName, $currentUserIsMember){
+function getGroupHeader($groupid, $groupName, $currentUserIsMember, $userInvited, $userRequestedJoin){
 	$groupHeader = '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName;
 	//if not a member display a button to join the group
-	if (!$currentUserIsMember) {
-			$groupHeader .= '<a href="./'. $groupid .'?join_group" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">+Join Group</a>'; 
+	if (!$currentUserIsMember && !$userRequestedJoin) {
+		$groupHeader .= '<a href="./'. $groupid .'?join_group" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Join Group</a>'; 
 	}
+	if ($currentUserIsMember) {
+		$groupHeader .= '<a href="/group-send-invites/'.$groupid.'" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">+ Invite Friends</a>'; 
+	}
+	
     $groupHeader .= '</td></tr></table></div><br/>';
 	return $groupHeader;
 }
@@ -183,6 +187,25 @@ function displayGroupListMember($userName, $avatarid, $userID = -1) {
     $html .= '<a title="' . $fullUserName . '" href="/user/' . $userName . '">' . $userName . '</a></span>';
     return $html;
 }
+
+function displayGroupListRequest($userName, $avatarid, $userID, $groupid) {
+    $fullUserName = $userName;
+    if(strlen($userName) > 12){
+        $userName = substr($userName, 0, 10) . "...";
+    }
+
+    $html = '<span class="group-member-list">';
+
+	$html .= '<a href="/user/' . $userName . '"><img title="' . $fullUserName . '" src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=75" class="qa-avatar-image" alt=""/></a>';
+    $html .= '<a title="' . $fullUserName . '" href="/user/' . $userName . '">' . $userName . '</a></span>';
+	
+	$html .= '<a href="/group/' . $groupid . '?approve_request='.$userID.'"><img src="../qa-plugin/groups/images/approve.png"></img></a>';
+	$html .= '<a href="/group/' . $groupid . '?deny_request='.$userID.'"><img src="../qa-plugin/groups/images/reject.png"></img></a>';
+	
+    return $html;
+}
+
+
 
 /*
  * Displays an individual user profile next to a post.

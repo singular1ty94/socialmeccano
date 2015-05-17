@@ -23,34 +23,6 @@
 		exit;
 	}
 	
-/*
-	Available Functions for brevity...
-	getAllGroups()
-	getMyGroups($userid)
-	addUserToGroup($userid, $groupid, $is_admin)
-	getGroupData($groupid)
-	createNewGroup($groupName, $groupDescription, $groupAvatar, $groupInfo, $groupTags, $userid)
-	updateGroupProfile($groupid, $groupName, $groupDescription, $groupInfo, $groupTags, $userid)
-	removeUserFromGroup($userid, $groupid)
-	isUserGroupAdmin($userid, $groupid)
-	isUserGroupMember($userid, $groupid)
-	makeUserGroupAdmin($userid, $groupid)
-	getMemberCount($groupid)
-	getGroupAvatar($blobid
-	getGroupAdmins($groupid)
-	getGroupMembers($groupid)
-	deleteGroup($groupid)
-	createPost($groupid, $userid, $title, $content, $tags, $type, $parentid)
-	getAllAnnouncements($groupid)
-	getAllDiscussions($groupid)
-	getRecentAnnouncements($groupid)
-	getRecentDiscussions($groupid)
-	getComments($postid)
-*/	
-
-	
-	
-	
 	/*
 	*	Get Group List Functions
 	*/
@@ -101,12 +73,24 @@
 	/*
 	*	Group Member Functions
 	*/	
+
+		// Removes a join group request or invite.
+		function removeGroupRequest($userid, $groupid, $type) {
+			qa_db_query_sub(
+				'DELETE FROM ^group_requests WHERE user_id = $ AND group_id = $ AND type = $',
+				$userid, $groupid, $type
+			);
+		}	
+	
 		function addUserToGroup($userid, $groupid, $is_admin) {
 			qa_db_query_sub(
 				'INSERT INTO ^group_members (joined_at, group_id, user_id, is_admin)'.
 				'VALUES (NOW(), $, $, $)',
 				$groupid, $userid, $is_admin
 			);
+			
+			removeGroupRequest($userid, $groupid, "I");
+			removeGroupRequest($userid, $groupid, "R");
             
             //Register user.
             registerChannelUserByGID($groupid, $userid);
@@ -135,32 +119,45 @@
 			);
 		}	
 
-		// Removes a join group request or invite.
-		function removeGroupRequest($userid, $groupid, $type) {
-			qa_db_query_sub(
-				'DELETE FROM ^group_requests WHERE user_id = $ AND group_id = $ AND type = "$"',
-				$userid, $groupid, $type
-			);
-		}
+
 
 		
-		// Displays group invitations.
-		function displayGroupInvitations($userid) {
+		// Displays my group invitations.
+		function displayMyGroupInvitations($userid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT * FROM ^group_requests WHERE user_id = $ AND type = "I"',
-				$userid), true
+				qa_db_query_sub('SELECT * FROM ^groups INNER JOIN ^group_requests ON ^groups.id = ^group_requests.group_id WHERE user_id = $ AND type = "I"',
+				$userid)
+			);
+			return $result;
+		}
+	
+		// Displays my group invitations.
+		function displayMyGroupJoinRequests($userid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^groups INNER JOIN ^group_requests ON ^groups.id = ^group_requests.group_id WHERE user_id = $ AND type = "R"',
+				$userid)
+			);
+			return $result;
+		}
+		
+		
+		// Displays group invitations.
+		function displayGroupInvitations($groupid) {
+			$result = qa_db_read_all_assoc(
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^group_requests ON ^users.userid = ^group_requests.user_id WHERE group_id = $ AND type = "I"',
+				$groupid)
 			);
 			return $result;
 		}
 	
 		// Displays group invitations.
-		function displayGroupJoinRequests($userid) {
+		function displayGroupJoinRequests($groupid) {
 			$result = qa_db_read_all_assoc(
-				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^group_requests ON ^users.userid = ^group_requests.user_id WHERE user_id = $ AND type = "R"',
-				$userid), true
+				qa_db_query_sub('SELECT * FROM ^users INNER JOIN ^group_requests ON ^users.userid = ^group_requests.user_id WHERE group_id = $ AND type = "R"',
+				$groupid)
 			);
 			return $result;
-		}
+		}		
 			
 			
 		function isUserGroupAdmin($userid, $groupid) {
@@ -202,6 +199,24 @@
 				$userid, $groupid
 			);
 		}	
+		
+		
+		function isUserInvitedOrRequested($userid, $groupid, $type) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT user_id FROM ^group_requests '.
+					'WHERE user_id = $ AND group_id = $ AND type = $',
+					$userid, $groupid, $type
+				), true
+			);
+			if (empty($result)) {
+				return false;
+				}
+			else {
+				return true;
+			}
+		}
+
+		
 			
 			
 	/*
@@ -304,6 +319,13 @@
 			);
 			return $result;
 		}
+	
+		function getGroupType($groupid) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT privacy_setting FROM ^groups WHERE id=$',	$groupid), true
+			);
+			return $result;
+		}	
 		
 		function getMemberCount($groupid) {
 			$result = qa_db_read_one_assoc(
