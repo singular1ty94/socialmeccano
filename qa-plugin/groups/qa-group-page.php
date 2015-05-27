@@ -105,7 +105,7 @@
 					
 					$allAdmins = getGroupAdmins($groupid);
 					foreach($allAdmins as $admin){
-						createNotification($admin["userid"], 'NewGroupUserRequest', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+						createNotification($admin["userid"], 'NewGroupUserRequest', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'), $groupid);
 					}					
 				}
 				
@@ -145,7 +145,7 @@
 				removeGroupRequest($_GET['approve_request'], $groupid, "R");
 				AddUserToGroup(intval($_GET['approve_request']), $groupid, 0);
 				$groupname = getGroupName($groupid);
-				createNotification($_GET['approve_request'], 'NewGroupInviteApproval', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
+				createNotification($_GET['approve_request'], 'NewGroupInviteApproval', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'), $groupid);
                 header('Location: ../group/'.$groupid.'#members');
             }			
 			
@@ -191,8 +191,9 @@
             $qa_content['raw']['group'] = $groupProfile;
 			
 			// Set the browser tab title for the page.
-			$qa_content['title']=$groupName;
+			$qa_content['title'] = $groupName;
 
+			
 			//Get the JQueryUI script fragment.
             $heads = getJQueryUITabs('group-tabs');
 			$qa_content['custom']= $heads;

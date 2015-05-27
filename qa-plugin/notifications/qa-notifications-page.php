@@ -85,7 +85,9 @@
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $friendHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
                             $qa_content['custom'] .= makeURL('./?qa=friend-requests', $friendHandle["handle"] . ' wants to be your friend!');
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "FriendAccept":
@@ -97,8 +99,9 @@
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $friendHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
                             $qa_content['custom'] .= makeURL('./?qa=user/' . $friendHandle["handle"], $friendHandle["handle"] . ' accepted your friend request!');
-
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "NewGroupUser":
@@ -111,7 +114,9 @@
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
                             $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has joined your group, ' . $notify["info1"]);
 
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "NewGroupUserRequest":
@@ -122,9 +127,11 @@
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
-                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has requested to join your group, ' . $notify["info1"]);
+                            $qa_content['custom'] .= makeURL('./?qa=group/' . $notify["info2"] . '#members', $userHandle["handle"] . ' has requested to join your group, ' . $notify["info1"]);
 
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "NewGroupInvite":
@@ -134,9 +141,11 @@
 							}							
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
-                            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
-                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has invited you to join ' . $notify["info1"]);
+                            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';					
+                            $qa_content['custom'] .= makeURL('./?qa=group-invites', $userHandle["handle"] . ' has invited you to join ' . $notify["info1"]);
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "NewGroupInviteApproval":
@@ -147,8 +156,10 @@
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
-                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has approved your request to join ' . $notify["info1"]);
+                            $qa_content['custom'] .= makeURL('./?qa=group/'. $notify["info2"], $userHandle["handle"] . ' has approved your request to join ' . $notify["info1"]);
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;								
                         case "NewGroupPost":
@@ -161,28 +172,36 @@
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
                             $qa_content['custom'] .= makeURL('./group/' . $notify["info1"], $userHandle["handle"] . ' has made a new post in your group, ' . $notify["info2"]);
 
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "ChatMessages":
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= makeChatURL('#', 'Click to read your new chat messages!', $notify["info1"], $notify["info2"]);
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "NewBadge":
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= makeURL('./index.php?qa=user', 'You earned the ' .$notify["info1"] . ' badge! Click to view all your badges.' , $notify["info1"]);
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "PostComment":
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= makeURL($notify["info1"], $notify["info2"] . ' has left a comment on your group post. Click to view.');
+							$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
                             $qa_content['custom'] .= closeNotify($notify["id"]);
+							$qa_content['custom'] .= '</div>';
                             $qa_content['custom'] .= endWrapper();
                             break;
                     }

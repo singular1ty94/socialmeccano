@@ -501,13 +501,13 @@ class qa_html_theme_base
     {
         if($pulse){
             $this->output(
-               '<a href="./?qa=notifications" class="qa-updates-link pulse">' .
+               '<a href="/?qa=notifications" class="qa-updates-link pulse">' .
                '' .
                '</a>'
             );
         }else{
             $this->output(
-               '<a href="./?qa=notifications" class="qa-updates-link">' .
+               '<a href="/?qa=notifications" class="qa-updates-link">' .
                '' .
                '</a>'
             );

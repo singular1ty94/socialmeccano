@@ -61,7 +61,7 @@
 			
 			$qa_content['custom']= $heads;
 			$qa_content['custom'] .= displayGroupListNavBar();
-			$qa_content['custom'] .= '<a href="./group-create/" class="qa-groups-button button button-creation">Create Group</a>';
+			$qa_content['custom'] .= '<a href="./group-create/" class="qa-groups-button button button-creation">Create Group</a></div>';
 			
 			if (empty($groupList)) {
 				$qa_content['custom'] .= '<br />There\'s nothing here!<br />You can help the community grow by <a href="./group-create/">creating your own group.</a>';
@@ -81,13 +81,16 @@
 					$groupDescription = qa_post_content_to_text($group["group_description"], 'html');
 					$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $group["avatarblobid"] . '&amp;qa_size=100" class="qa-avatar-image" alt=""/>';
 					$groupTags = qa_post_content_to_text($group["tags"], 'html');
-										
+
+								
                     //Start the wrapper.
                     $qa_content['custom'] .= getGroupListWrapper($wrapper);
 					
 					//Get the Group name.
-					$qa_content['custom'] .= $groupAvatarHTML . getGroupUnit($groupid, $groupName, $groupDescription, $groupTags);
-
+					$qa_content['custom'] .= $groupAvatarHTML;
+				
+					$qa_content['custom'] .= getGroupUnit($groupid, $groupName, $groupDescription, $groupTags);
+					
 					$qa_content['custom'] .= '<br>';
 
                     //End the wrapper.

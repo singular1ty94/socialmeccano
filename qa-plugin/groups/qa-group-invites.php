@@ -95,15 +95,22 @@
 					$groupid = $group["id"];
 					$groupName = qa_post_content_to_text($group["group_name"], 'html');
 					$groupDescription = qa_post_content_to_text($group["group_description"], 'html');
+					if ($group["avatarblobid"] == null) {
+						$group["avatarblobid"] = qa_opt('avatar_default_blobid');
+					}						
 					$groupAvatarHTML = '<img src="./?qa=image&amp;qa_blobid= ' . $group["avatarblobid"] . '&amp;qa_size=100" class="qa-avatar-image" alt=""/>';
 					$groupTags = qa_post_content_to_text($group["tags"], 'html');
-										
+
+
+					
                     //Start the wrapper.
                     $qa_content['custom'] .= getGroupListWrapper($wrapper);
 					
 					//Get the Group name.
-					$qa_content['custom'] .= $groupAvatarHTML . getGroupUnit($groupid, $groupName, $groupDescription, $groupTags);
+					$qa_content['custom'] .= $groupAvatarHTML . getGroupUnit($groupid, $groupName, $groupDescription, $groupTags, 'invites');
 
+				
+					
 						$qa_content['custom'] .= '<div class="friends-btn-wrapper">';
 						
 						$sendInviteButton = 'class="button button-creation" type="button" onclick="window.location.href=\'/group-invites/approve_invite/'.$groupid.'\';"';

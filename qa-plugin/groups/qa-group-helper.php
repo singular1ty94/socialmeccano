@@ -90,7 +90,12 @@ function endSidePane($currentUserIsMember, $groupName){
  * Make the group page header.
  */
 function getGroupHeader($groupid, $groupName, $currentUserIsMember, $userInvited, $userRequestedJoin){
-	$groupHeader = '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName;
+	$groupType = getGroupType($groupid)["privacy_setting"];
+	if ($groupType == 'S') {
+		$groupHeader = '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . "<img width='35' src='/qa-plugin/groups/images/secret.png'> " . $groupName;
+	} else {
+		$groupHeader = '<div class="group-header-large"><table class="qa-form-wide-table"><tbody><tr><td class="group-name">' . $groupName;
+	}
 	//if not a member display a button to join the group
 	if (!$currentUserIsMember && !$userRequestedJoin) {
 		$groupHeader .= '<a href="./'. $groupid .'?join_group" class="qa-form-wide-button qa-form-wide-button-save qa-groups-button">Join Group</a>'; 
@@ -106,11 +111,11 @@ function getGroupHeader($groupid, $groupName, $currentUserIsMember, $userInvited
 /*
  * Make a complete group unit for the group list.
  */
-function getGroupUnit($id, $groupName, $groupDescr, $taglist){
+function getGroupUnit($id, $groupName, $groupDescr, $taglist, $type = ''){
     $html = '';
     //Add the wrapper.
     $html .= '<div class="group-unit">';
-    
+
     //Add the group header, name and description.
     $html .= getGroupListName($id, $groupName, $groupDescr);
     
@@ -118,8 +123,17 @@ function getGroupUnit($id, $groupName, $groupDescr, $taglist){
 		//Now add the tags.
 		$html .= getGroupTags($taglist);
     }
+	
     //Now end the wrapper.
     $html .= '</div>';
+
+	if ($type != 'invites') {
+		$groupType = getGroupType($id)["privacy_setting"];
+		if ($groupType == 'S') {
+			$html .=  " <img width='55' align='right' hspace='60' vspace='5' src='/qa-plugin/groups/images/secret_black.png'> ";
+		}	
+	}
+	
     return $html;
     
 }
@@ -163,7 +177,7 @@ function displayGroupListNavBar(){
  * Returns the group's name for the grouplist.
  */
 function getGroupListName($id, $groupName, $groupDescr){
-    return '<h3 class="group-list-header"><a href="./group/' . $id . '">' . $groupName . '</a></h3><span class="group-description">'. $groupDescr . '</span><br/>';
+	return '<h3 class="group-list-header"><a href="./group/' . $id . '">' . $groupName . '</a></h3><span class="group-description">'. $groupDescr . '</span><br/>';
 }
 
 

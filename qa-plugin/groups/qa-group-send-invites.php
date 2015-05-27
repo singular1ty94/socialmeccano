@@ -63,7 +63,7 @@
 			$friendid = qa_request_part(2);
 			if (strlen($friendid)) {
 				sendGroupRequest($friendid, $groupid, "I");
-				createNotification($friendid, 'NewGroupInvite', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));				
+				createNotification($friendid, 'NewGroupInvite', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'), $groupid);				
 				qa_redirect('group-send-invites/'.$groupid.'');
 			}
 			
@@ -112,6 +112,10 @@
 						//Start the wrapper.
 						$qa_content['custom'] .= getFriendWrapper($wrapper);
 
+					if ($friend["avatarblobid"] == null) {
+						$friend["avatarblobid"] = qa_opt('avatar_default_blobid');
+					}							
+						
 						$qa_content['custom'] .= '<a href="/user/' . $friend["handle"] . '"><img src="./?qa=image&amp;qa_blobid= ' . $friend["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/></a>';
 
 						$qa_content['custom'] .= getFriendUnit($friend["userid"], $friend["handle"]);
