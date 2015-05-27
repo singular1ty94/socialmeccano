@@ -59,6 +59,8 @@
 
 			$intent = qa_request_part(1);
 			$groupid = qa_request_part(2);
+			$groupname = getGroupName($groupid);
+			
 			if (strlen($intent) && strlen($groupid)) {
 				if ($intent == approve_invite && isUserInvitedOrRequested($userid, $groupid, "I")) {
 					addUserToGroup($userid, $groupid, 0);
@@ -75,7 +77,6 @@
 			
 			$qa_content['custom']= $heads;
 			$qa_content['custom'] .= displayGroupListNavBar();
-			$qa_content['custom'] .= '<a href="./group-create/" class="button button-creation qa-groups-button">Create Group</a>';
 			
 			
 			if (empty($invitationList)) {

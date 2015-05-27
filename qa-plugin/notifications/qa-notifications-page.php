@@ -78,16 +78,21 @@
                     switch($notify["type"]){
                         case "FriendOffer":
                             $friendHandle = getUser($notify["target_id"]);
+							if ($friendHandle["avatarblobid"] == null) {
+								$friendHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $friendHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
                             $qa_content['custom'] .= makeURL('./?qa=friend-requests', $friendHandle["handle"] . ' wants to be your friend!');
-
                             $qa_content['custom'] .= closeNotify($notify["id"]);
                             $qa_content['custom'] .= endWrapper();
                             break;
                         case "FriendAccept":
                             $friendHandle = getUser($notify["target_id"]);
+							if ($friendHandle["avatarblobid"] == null) {
+								$friendHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $friendHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
@@ -98,6 +103,9 @@
                             break;
                         case "NewGroupUser":
                             $userHandle = getUser($notify["target_id"]);
+							if ($userHandle["avatarblobid"] == null) {
+								$userHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}								
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
@@ -108,6 +116,9 @@
                             break;
                         case "NewGroupUserRequest":
                             $userHandle = getUser($notify["target_id"]);
+							if ($userHandle["avatarblobid"] == null) {
+								$userHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
@@ -116,8 +127,35 @@
                             $qa_content['custom'] .= closeNotify($notify["id"]);
                             $qa_content['custom'] .= endWrapper();
                             break;
+                        case "NewGroupInvite":
+                            $userHandle = getUser($notify["target_id"]);
+							if ($userHandle["avatarblobid"] == null) {
+								$userHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
+                            $seenStatus = $notify["seen"];
+                            $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
+                            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
+                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has invited you to join ' . $notify["info1"]);
+                            $qa_content['custom'] .= closeNotify($notify["id"]);
+                            $qa_content['custom'] .= endWrapper();
+                            break;
+                        case "NewGroupInviteApproval":
+                            $userHandle = getUser($notify["target_id"]);
+							if ($userHandle["avatarblobid"] == null) {
+								$userHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
+                            $seenStatus = $notify["seen"];
+                            $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
+                            $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';
+                            $qa_content['custom'] .= makeURL('./?qa=user/' . $userHandle["handle"], $userHandle["handle"] . ' has approved your request to join ' . $notify["info1"]);
+                            $qa_content['custom'] .= closeNotify($notify["id"]);
+                            $qa_content['custom'] .= endWrapper();
+                            break;								
                         case "NewGroupPost":
                             $userHandle = getUser($notify["target_id"]);
+							if ($userHandle["avatarblobid"] == null) {
+								$userHandle["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}							
                             $seenStatus = $notify["seen"];
                             $qa_content['custom'] .= getWrapper($wrapper, $seenStatus);
                             $qa_content['custom'] .= '<img src="./?qa=image&amp;qa_blobid= ' . $userHandle["avatarblobid"]. '&amp;qa_size=80" class="qa-avatar-image" alt=""/>';

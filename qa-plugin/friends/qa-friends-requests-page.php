@@ -77,7 +77,11 @@
                 //Even/odd wrapper color.
                 $wrapper = true;
 				foreach ($incomingRequestList as $friend) {
-
+				
+					if ($friend["avatarblobid"] == null) {
+						$friend["avatarblobid"] = qa_opt('avatar_default_blobid');
+					}
+					
                     //Start the wrapper.
                     $qa_content['custom'] .= getFriendWrapper($wrapper);
 
@@ -107,7 +111,11 @@
                 //Even/odd wrapper color.
                 $wrapper = true;
 				foreach ($outgoingRequestList as $friend) {
-
+				
+					if ($friend["avatarblobid"] == null) {
+						$friend["avatarblobid"] = qa_opt('avatar_default_blobid');
+					}
+				
                     //Start the wrapper.
                     $qa_content['custom'] .= getFriendWrapper($wrapper);
 

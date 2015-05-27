@@ -144,7 +144,8 @@
             if($currentUserIsAdmin && @isset($_GET['approve_request'])){
 				removeGroupRequest($_GET['approve_request'], $groupid, "R");
 				AddUserToGroup(intval($_GET['approve_request']), $groupid, 0);
-				
+				$groupname = getGroupName($groupid);
+				createNotification($_GET['approve_request'], 'NewGroupInviteApproval', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));
                 header('Location: ../group/'.$groupid.'#members');
             }			
 			
@@ -315,6 +316,9 @@
 					if (!empty($pendingRequests)) {
 						$groupMembersTab .= '<h3 class="MemberHeader">Pending Membership Requests:</h3>';
 						foreach ($pendingRequests as $request) {
+							if ($request["avatarblobid"] == null) {
+								$request["avatarblobid"] = qa_opt('avatar_default_blobid');
+							}
 							$groupMembersTab .= displayGroupListRequest($request["handle"], $request["avatarblobid"], $request["userid"], $groupid);
 						}
 					}
@@ -323,6 +327,9 @@
 				// Loop through all admins and display them at the top
 				$groupMembersTab .= '<h3 class="MemberHeader">Administrators:</h3>';
 				foreach ($groupAdmins as $admin) {
+						if ($admin["avatarblobid"] == null) {
+							$admin["avatarblobid"] = qa_opt('avatar_default_blobid');
+						}
 					$groupMembersTab .= displayGroupListMember($admin["handle"], $admin["avatarblobid"]);
 				}
 				
@@ -332,6 +339,9 @@
 					$groupMembersTab .= 'There are no group members to display.';
 				} else {
 					foreach ($groupMembers as $member) {
+						if ($member["avatarblobid"] == null) {
+							$member["avatarblobid"] = qa_opt('avatar_default_blobid');
+						}
                         if($currentUserIsAdmin){
                             $groupMembersTab .= displayGroupListMember($member["handle"], $member["avatarblobid"], $member["userid"]);
                         }else{

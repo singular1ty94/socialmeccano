@@ -83,7 +83,11 @@
                 $wrapper = true;
 
 				foreach ($friendList as $friend) {
-
+				
+					if ($friend["avatarblobid"] == null) {
+						$friend["avatarblobid"] = qa_opt('avatar_default_blobid');
+					}
+				
                     //Start the wrapper.
                     $qa_content['custom'] .= getFriendWrapper($wrapper);
 

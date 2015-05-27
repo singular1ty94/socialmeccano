@@ -319,7 +319,14 @@
 			);
 			return $result;
 		}
-	
+
+		function getGroupName($groupid) {
+			$result = qa_db_read_one_assoc(
+				qa_db_query_sub('SELECT group_name FROM ^groups WHERE id=$', $groupid), true
+			);
+			return $result;
+		}
+		
 		function getGroupType($groupid) {
 			$result = qa_db_read_one_assoc(
 				qa_db_query_sub('SELECT privacy_setting FROM ^groups WHERE id=$',	$groupid), true

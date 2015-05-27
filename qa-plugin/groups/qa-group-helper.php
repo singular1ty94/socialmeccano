@@ -215,6 +215,9 @@ function displayGroupMember($userName, $avatarid) {
     if(strlen($userName) > 10){
         $userName = substr($userName, 0, 8) . "...";
     }
+	if ($avatarid == null) {
+		$avatarid = qa_opt('avatar_default_blobid');
+	}
 
 	$avatarHTML = '<a href="/user/' . $userName . '"><img title="' . $fullUserName . '" src="./?qa=image&amp;qa_blobid= ' . $avatarid . '&amp;qa_size=50" class="qa-avatar-image" alt=""/></a>';
 	return ('<a title="' . $fullUserName . '" href="/user/' . $userName . '">' . $userName . '</a>   ' . $avatarHTML);

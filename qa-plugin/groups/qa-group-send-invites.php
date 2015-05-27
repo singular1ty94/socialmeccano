@@ -48,23 +48,26 @@
             include './qa-plugin/friends/qa-friends-db.php';
             include './qa-plugin/friends/qa-friends-helper.php';	
             include './qa-plugin/notifications/qa-notifications-db.php';		
+
 		
 			// Get the group id from the page request, redirect to groups if no group is set.
 			$groupid = qa_request_part(1);
 			if (!strlen($groupid)) {
 				qa_redirect(isset($groupid) ? 'group/'.$groupid : 'groups');
 			}
+
+			$userid = qa_get_logged_in_userid();
+			$groupProfile = getGroupData($groupid);		
+			$currentUserIsMember = isUserGroupMember($userid, $groupid);
 			
 			$friendid = qa_request_part(2);
 			if (strlen($friendid)) {
 				sendGroupRequest($friendid, $groupid, "I");
+				createNotification($friendid, 'NewGroupInvite', $userid, qa_post_content_to_text($groupProfile["group_name"], 'html'));				
 				qa_redirect('group-send-invites/'.$groupid.'');
 			}
 			
-            $groupProfile = getGroupData($groupid);
-			$userid = qa_get_logged_in_userid();
-			$currentUserIsMember = isUserGroupMember($userid, $groupid);
-			
+	
 			
 			// If the DB returns an empty array, group not found, so redirect to groups page
 			if (empty($groupProfile)) {
