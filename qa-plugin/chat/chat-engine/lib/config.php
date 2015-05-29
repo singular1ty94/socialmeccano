@@ -22,11 +22,11 @@ $config['dbConnection'] = array();
 // Database hostname:
 $config['dbConnection']['host'] = 'localhost';
 // Database username:
-$config['dbConnection']['user'] = 'root';
+$config['dbConnection']['user'] = 'USERNAME';
 // Database password:
-$config['dbConnection']['pass'] = 'root';
+$config['dbConnection']['pass'] = 'PASSWORD';
 // Database name:
-$config['dbConnection']['name'] = 'qa-db';
+$config['dbConnection']['name'] = 'DATABASE';
 // Database type:
 $config['dbConnection']['type'] = null;
 // Database link:
